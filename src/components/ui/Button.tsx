@@ -6,7 +6,8 @@ import { twMerge } from "tailwind-merge";
 const buttonVariants = cva("", {
   variants: {
     variant: {
-      default: "bg-primary",
+      default:
+        "bg-primary shadow border rounded-lg font-medium py-2 px-4 hover:bg-secondary text-white transition-colors text-sm",
       secondary: "",
       link: "",
     },
@@ -23,28 +24,25 @@ const buttonVariants = cva("", {
 });
 
 type ButtonProps = VariantProps<typeof buttonVariants> &
-  ComponentProps<"a"> & {
+  ComponentProps<"button"> & {
     text: string;
-    href: string;
     className?: string;
   };
 
 const Button: React.FC<ButtonProps> = ({
   variant,
   size,
-  href,
   text,
   className,
   ...props
 }) => {
   return (
-    <Link
-      href={href}
+    <button
       {...props}
       className={twMerge(buttonVariants({ variant, size }), className)}
     >
       {text}
-    </Link>
+    </button>
   );
 };
 

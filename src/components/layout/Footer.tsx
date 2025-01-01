@@ -11,19 +11,25 @@ const Footer = () => {
         </div>
 
         <div className="space-x-6">
-          <Link href="/blog">Blog</Link>
-          <Link href="/all-schools">All Schools</Link>
-          <Link href="/about">About</Link>
+          <Link href="/blog" className="hover:underline">
+            Blog
+          </Link>
+          <Link href="/all-schools" className="hover:underline">
+            All Schools
+          </Link>
+          <Link href="/about" className="hover:underline">
+            About
+          </Link>
         </div>
 
         <div className="flex space-x-1 text-xs">
-          <Link href="/terms-and-conditions" className="hover:text-gray-600">
+          <Link href="/terms-and-conditions" className="hover:text-gray-500">
             Terms & Conditions
           </Link>
 
           <span>•</span>
 
-          <Link href="/privacy-policy" className="hover:text-gray-600">
+          <Link href="/privacy-policy" className="hover:text-gray-500">
             Privacy Policy
           </Link>
 

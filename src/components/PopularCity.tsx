@@ -1,15 +1,16 @@
 import Link from "next/link";
 import React from "react";
+import cityImg from "../../public/city-alt.jpg";
 
 const PopularCity: React.FC = () => {
   return (
-    <div className="w-60 h-72 min-w-60">
+    <div className="h-72 w-60 min-w-60">
       <Link href="#">
         <div>
           <img
-            src="#"
+            src={cityImg.src}
             alt="School Picture"
-            className="size-60 border border-green-500 rounded-xl"
+            className="size-60 rounded-xl object-cover"
           />
         </div>
         <div className="mt-1">
