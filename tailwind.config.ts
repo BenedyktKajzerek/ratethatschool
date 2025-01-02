@@ -15,6 +15,7 @@ export default {
         secondary: "#4f9ed2",
         background: "#fafafa",
         "background-dark": "#f5f5f5",
+        link: "#2563eb",
       },
     },
   },

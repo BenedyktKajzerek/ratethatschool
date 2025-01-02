@@ -2,10 +2,10 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-background">
-      <div className="flex flex-col items-center p-16 space-y-4">
+    <footer className="bg-background text-black">
+      <div className="flex flex-col items-center space-y-4 p-16">
         <div className="mb-5">
-          <Link href="/" className="font-bold text-5xl">
+          <Link href="/" className="text-5xl font-bold">
             RateMy<span className="text-primary">Schools</span>
           </Link>
         </div>

@@ -16,7 +16,7 @@ const PopularSchool: React.FC = () => {
         </div>
         <div className="mt-1">
           <h3 className="text-xl">CKZiU Technikum Nr 1</h3>
-          <p className="text-sm">Mysłowice</p>
+          <p className="text-sm">Poland, Mysłowice</p>
           <div className="mt-2 flex space-x-2">
             <div className="flex">
               <span>

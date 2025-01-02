@@ -17,7 +17,7 @@ const navbarIconSize = 24;
 export default function Navbar() {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false); // Toggle between login/sign up
+  const [isSignUp, setIsSignUp] = useState(false); // Toggle between log in/sign up
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -32,7 +32,7 @@ export default function Navbar() {
   return (
     <>
       <header>
-        <nav className="top-0 z-[100] bg-white">
+        <nav className="top-0 z-[100] bg-white text-black">
           <div className="flex items-center justify-between p-6">
             {/* Social Media Icons */}
             <div className="hidden space-x-6 md:flex">
@@ -60,7 +60,7 @@ export default function Navbar() {
                   <Link href={"/dashboard"}>
                     <Button text="Dashboard" />
                   </Link>
-                  <Button onClick={handleLogout} text="Sign out" />
+                  <Button onClick={handleLogout} text="Sign Out" />
                 </>
               ) : (
                 <>
@@ -69,7 +69,7 @@ export default function Navbar() {
                       setIsSignUp(false);
                       setShowModal(true);
                     }}
-                    text="Log in"
+                    text="Log In"
                   />
 
                   <Button
@@ -77,7 +77,7 @@ export default function Navbar() {
                       setIsSignUp(true);
                       setShowModal(true);
                     }}
-                    text="Sign up"
+                    text="Sign Up"
                   />
                 </>
               )}

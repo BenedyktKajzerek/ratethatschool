@@ -14,7 +14,7 @@ const PopularCity: React.FC = () => {
           />
         </div>
         <div className="mt-1">
-          <h3 className="text-xl">Mysłowice</h3>
+          <h3 className="text-xl">Mysłowice, Poland</h3>
           <p className="text-sm">163 reviews</p>
         </div>
       </Link>

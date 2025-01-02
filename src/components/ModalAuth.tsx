@@ -3,6 +3,7 @@
 import { loginUser, registerUser } from "@/utils/auth";
 import { validateEmail, validatePassword } from "@/utils/authValidation";
 import React, { useState } from "react";
+import { Button } from "./ui/Button";
 
 interface ModalAuthProps {
   isOpen: boolean;
@@ -58,17 +59,33 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="w-80 rounded-md bg-white p-6">
-          <h2 className="mb-4 text-lg font-bold">
-            {isSignUp ? "Sign Up" : "Log in"}
+        <div className="flex h-[500px] w-[500px] flex-col items-center rounded-md bg-white px-20 py-6">
+          <h2 className="text-4xl font-bold">
+            {isSignUp ? "Sign Up" : "Log In"}
           </h2>
+
+          {isSignUp && (
+            <>
+              <button className="mt-8 w-full rounded-3xl border border-gray-400 p-2">
+                Sign up with <span className="text-yellow-500">Google</span>
+              </button>
+
+              <div className="mt-8 flex w-full items-center align-middle">
+                <div className="h-[1px] w-full bg-gray-300"></div>
+                <div className="mx-3 text-nowrap text-sm font-medium">
+                  or sign up with email
+                </div>
+                <div className="h-[1px] w-full bg-gray-300"></div>
+              </div>
+            </>
+          )}
 
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="input mb-2"
+            className="mt-8 w-full border border-gray-400 p-2 outline-none"
           />
 
           <input
@@ -76,32 +93,27 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="input mb-4"
+            className="mt-4 w-full border border-gray-400 p-2 outline-none"
           />
 
           {/* Validation error message */}
           {validationError && (
-            <p className="mb-2 text-sm text-red-500">{validationError}</p>
+            <p className="mt-2 text-sm text-red-500">{validationError}</p>
           )}
 
-          <button onClick={handleAuthAction} className="btn mb-2 w-full">
-            {isSignUp ? "Sign Up" : "Login"}
-          </button>
+          <Button
+            onClick={handleAuthAction}
+            text={isSignUp ? "Sign Up" : "Login"}
+            className="btn mt-6"
+          />
 
           {/* Switch between log-in and sign-up modals*/}
-          <p>
+          <p className="mt-10">
             {isSignUp ? "Already have an account? " : "Don't have an account? "}
-            <button
-              onClick={toggleAuthMode}
-              className="text-blue-600 underline"
-            >
+            <button onClick={toggleAuthMode} className="text-link underline">
               {isSignUp ? "Log in" : "Sign up"}
             </button>
           </p>
-
-          <button onClick={onClose} className="btn-secondary w-full">
-            Cancel
-          </button>
         </div>
       </div>
     </>

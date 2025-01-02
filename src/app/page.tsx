@@ -6,6 +6,7 @@ import reviewImg from "../../public/review.svg";
 import searchImg from "../../public/search.svg";
 import schoolImg from "../../public/school-illustration.jpg";
 import Container from "@/components/layout/Container";
+import SchoolSearchInput from "@/components/SchoolSearchInput";
 
 export default function Home() {
   return (
@@ -26,14 +27,7 @@ export default function Home() {
             Your resource for schools reviews
           </h1>
 
-          <input
-            className="mx-auto w-full max-w-[760px] rounded-lg px-6 py-3"
-            type="text"
-            name=""
-            id=""
-            aria-label="School Search Input"
-            placeholder="Search for your school"
-          />
+          <SchoolSearchInput />
 
           <Link href="/all-schools">
             <p className="text-sm">All Schools</p>
@@ -51,7 +45,7 @@ export default function Home() {
                   Search for your school to get started.
                 </p>
               </div>
-              <div className="relative mx-auto w-1/2 md:w-1/3">
+              <div className="mx-auto w-1/2 md:w-1/3">
                 <Image
                   src={searchImg}
                   alt=""
