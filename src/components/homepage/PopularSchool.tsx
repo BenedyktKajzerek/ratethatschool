@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import schoolImg from "../../public/school-alt.jpg";
+import schoolImg from "@/../public/school-alt.jpg";
 
-const PopularSchool: React.FC = () => {
+export const PopularSchool: React.FC = () => {
   return (
     <div className="h-[324px] w-60 min-w-60">
       <Link href="#">
@@ -43,5 +43,3 @@ const PopularSchool: React.FC = () => {
     </div>
   );
 };
-
-export { PopularSchool };

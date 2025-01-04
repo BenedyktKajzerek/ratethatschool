@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Kanit, Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import { Navbar, Footer } from "@/components/layout";
 import { AuthProvider } from "@/context/authContext";
 
 const poppins = Kanit({

@@ -1,6 +1,5 @@
 import React, { ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
 const buttonVariants = cva("", {
@@ -25,14 +24,13 @@ const buttonVariants = cva("", {
 
 type ButtonProps = VariantProps<typeof buttonVariants> &
   ComponentProps<"button"> & {
-    text: string;
     className?: string;
   };
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   variant,
   size,
-  text,
+  children,
   className,
   ...props
 }) => {
@@ -41,9 +39,7 @@ const Button: React.FC<ButtonProps> = ({
       {...props}
       className={twMerge(buttonVariants({ variant, size }), className)}
     >
-      {text}
+      {children}
     </button>
   );
 };
-
-export { Button };

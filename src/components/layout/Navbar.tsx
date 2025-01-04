@@ -5,16 +5,16 @@ import Link from "next/link";
 import { RiTiktokLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { Button } from "../ui/Button";
+import { IoClose } from "react-icons/io5";
+import { LuMenu } from "react-icons/lu";
+import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/context/authContext";
 import { logoutUser } from "@/utils/auth";
-import { ModalAuth } from "../ModalAuth";
-import { LuMenu } from "react-icons/lu";
-import { IoClose } from "react-icons/io5";
+import { ModalAuth } from "./ModalAuth";
 
 const navbarIconSize = 24;
 
-export default function Navbar() {
+export const Navbar: React.FC = () => {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between log in/sign up
@@ -58,9 +58,9 @@ export default function Navbar() {
               {user ? (
                 <>
                   <Link href={"/dashboard"}>
-                    <Button text="Dashboard" />
+                    <Button>Dashboard</Button>
                   </Link>
-                  <Button onClick={handleLogout} text="Sign Out" />
+                  <Button onClick={handleLogout}>Sign Out</Button>
                 </>
               ) : (
                 <>
@@ -69,16 +69,18 @@ export default function Navbar() {
                       setIsSignUp(false);
                       setShowModal(true);
                     }}
-                    text="Log In"
-                  />
+                  >
+                    Log In
+                  </Button>
 
                   <Button
                     onClick={() => {
                       setIsSignUp(true);
                       setShowModal(true);
                     }}
-                    text="Sign Up"
-                  />
+                  >
+                    Sign Up
+                  </Button>
                 </>
               )}
             </div>
@@ -111,4 +113,4 @@ export default function Navbar() {
       />
     </>
   );
-}
+};

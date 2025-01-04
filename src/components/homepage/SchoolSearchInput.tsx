@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
-export default function SchoolSearchInput() {
+export const SchoolSearchInput: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -46,11 +46,11 @@ export default function SchoolSearchInput() {
           <span>Third School</span>
           <span className="ml-2 text-xs">USA, New York</span>
         </Link>
-        <div className="text-link border-gray space-x-4 rounded-b-lg border-t bg-gray-100 px-4 py-2 text-sm">
+        <div className="border-gray space-x-4 rounded-b-lg border-t bg-gray-100 px-4 py-2 text-sm text-link">
           <Link href={"/add-school"}>Add Your School</Link>
           <Link href={"/all-schools"}>View All Schools</Link>
         </div>
       </div>
     </div>
   );
-}
+};

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function NavbarMobile() {
+export const NavbarMobile: React.FC = () => {
   return (
     <>
       <div className="flex h-full flex-col">
@@ -9,4 +9,4 @@ export default function NavbarMobile() {
       </div>
     </>
   );
-}
+};

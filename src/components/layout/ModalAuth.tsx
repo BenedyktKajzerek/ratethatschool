@@ -3,7 +3,7 @@
 import { loginUser, registerUser } from "@/utils/auth";
 import { validateEmail, validatePassword } from "@/utils/authValidation";
 import React, { useState } from "react";
-import { Button } from "./ui/Button";
+import { Button } from "@/components/ui/Button";
 
 interface ModalAuthProps {
   isOpen: boolean;
@@ -101,11 +101,9 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({
             <p className="mt-2 text-sm text-red-500">{validationError}</p>
           )}
 
-          <Button
-            onClick={handleAuthAction}
-            text={isSignUp ? "Sign Up" : "Login"}
-            className="btn mt-6"
-          />
+          <Button onClick={handleAuthAction} className="btn mt-6">
+            {isSignUp ? "Sign Up" : "Login"}
+          </Button>
 
           {/* Switch between log-in and sign-up modals*/}
           <p className="mt-10">

@@ -1,12 +1,14 @@
-import { PopularCity } from "@/components/PopularCity";
-import { PopularSchool } from "@/components/PopularSchool";
 import Link from "next/link";
 import Image from "next/image";
 import reviewImg from "../../public/review.svg";
 import searchImg from "../../public/search.svg";
 import schoolImg from "../../public/school-illustration.jpg";
-import Container from "@/components/layout/Container";
-import SchoolSearchInput from "@/components/SchoolSearchInput";
+import { Container } from "@/components/layout/Container";
+import {
+  PopularCity,
+  PopularSchool,
+  SchoolSearchInput,
+} from "@/components/homepage";
 
 export default function Home() {
   return (
@@ -75,7 +77,7 @@ export default function Home() {
 
         {/* POPULAR SECTION */}
         <Container>
-          <section className="m-auto max-w-[1200px]">
+          <section className="m-auto mb-12 max-w-[1200px]">
             <div className="space-y-8">
               {/* Popular Schools */}
               <div>

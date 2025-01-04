@@ -7,50 +7,58 @@ export interface UserModel {
 export interface ReviewModel {
   id: string;
   approved: boolean;
-  cityID: string;
-  comment: string;
+  cityID: string; // cities/[document]
+  schoolID: string; // schools/[document]
   date: Date;
-  ratingOverall: number;
+  connection: string;
   ratings: {
-    bathroom: number;
+    teachers: number;
+    learning: number;
+    facilities: number;
     building: number;
     location: number;
-    teachers: number;
   };
+  comment: string;
   recommend: boolean;
-  schoolID: string;
+  ratingOverall: number;
 }
 
 export interface AddCityModel {
+  id: string;
   approved: boolean;
   cityName: string;
-  comment: string;
+  schoolName: string;
   date: Date;
-  ratingOverall: number;
+  connection: string;
   ratings: {
-    bathroom: number;
+    teachers: number;
     building: number;
     location: number;
-    teachers: number;
+    facilities: number;
+    administration: number;
   };
+  comment: string;
   recommend: boolean;
-  schoolName: string;
+  ratingOverall: number;
 }
 
 export interface AddSchoolModel {
+  id: string;
   approved: boolean;
-  cityID: string;
-  comment: string;
+  cityID: string; // cities/[document]
+  schoolName: string;
   date: Date;
-  ratingOverall: number;
+  connection: string;
   ratings: {
-    bathroom: number;
+    teachers: number;
     building: number;
     location: number;
-    teachers: number;
+    facilities: number;
+    administration: number;
   };
+  comment: string;
   recommend: boolean;
-  schoolName: string;
+  ratingOverall: number;
 }
 
 export interface CityModel {
@@ -61,5 +69,5 @@ export interface CityModel {
 export interface SchoolModel {
   id: string;
   name: string;
-  cityID: string;
+  cityID: string; // cities/[document]
 }
