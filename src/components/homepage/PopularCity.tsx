@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import cityImg from "../../public/city-alt.jpg";
+import cityImg from "../../../public/city-alt.jpg";
 
 const PopularCity: React.FC = () => {
   return (

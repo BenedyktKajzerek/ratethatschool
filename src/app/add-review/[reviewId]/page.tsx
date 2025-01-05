@@ -1,5 +1,5 @@
 import React from "react";
-import { Steps } from "@/components/add-review/Steps";
+import { Steps } from "@/components/add-review/AddReview";
 
 export default async function AddReview({
   params,

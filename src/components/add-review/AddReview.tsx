@@ -5,18 +5,7 @@ import { Button } from "@/components/ui/Button";
 import useMultistepForm from "@/hooks/useMultistepForm";
 import { RatingForm } from "./RatingForm";
 import { ConnectionForm } from "./ConnectionForm";
-
-const STEPS = [
-  {
-    name: "Rate your school",
-  },
-  {
-    name: "Write a comment and upload photos",
-  },
-  {
-    name: "Confirm your review",
-  },
-];
+import { ProgressBar } from "./ProgressBar";
 
 export const Steps: React.FC = () => {
   const [rating, setRating] = useState({
@@ -31,18 +20,18 @@ export const Steps: React.FC = () => {
     useMultistepForm([
       <RatingForm rating={rating} setRating={setRating} />,
       <ConnectionForm />,
+      <div>nothing</div>,
     ]);
 
-  console.log(rating);
+  // console.log(rating);
+  // console.log(steps);
 
   return (
     <>
-      <div className="relative mx-auto w-full max-w-[1200px]">
+      <div className="relative mx-auto mt-4 w-full max-w-[1200px]">
         <form>
-          {/* Progress bar */}
-          <div className="mt-16">
-            {currentStepIndex + 1} / {steps.length}
-          </div>
+          {/* ProgressBar */}
+          <ProgressBar currentStepIndex={currentStepIndex} />
 
           {/* Form */}
           {step}
