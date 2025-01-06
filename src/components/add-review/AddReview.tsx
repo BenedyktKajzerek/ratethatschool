@@ -3,48 +3,76 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import useMultistepForm from "@/hooks/useMultistepForm";
-import { RatingForm } from "./RatingForm";
-import { ConnectionForm } from "./ConnectionForm";
-import { ProgressBar } from "./ProgressBar";
+import {
+  WriteReviewForm,
+  ProgressBar,
+  RelationshipForm,
+  RateSchoolForm,
+  FinalCheckForm,
+} from "./index";
+import { ReviewModel } from "@/types/firestoreModels";
 
-export const Steps: React.FC = () => {
-  const [rating, setRating] = useState({
+const INITIAL_DATA: ReviewModel = {
+  id: "",
+  approved: false,
+  cityID: "", // cities/[document]
+  schoolID: "", // schools/[document]
+  date: new Date(),
+  relationship: "",
+  ratings: {
     teachers: 0,
     learning: 0,
     facilities: 0,
     building: 0,
     location: 0,
-  });
+  },
+  comment: "",
+  ratingOverall: 0,
+};
 
+export const Steps: React.FC = () => {
+  // Data provided from forms
+  const [connection, setConnection] = useState(INITIAL_DATA.relationship);
+  const [rating, setRating] = useState(INITIAL_DATA.ratings);
+  const [comment, setComment] = useState(INITIAL_DATA.comment);
+
+  // General form logic + all singular forms
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      <RatingForm rating={rating} setRating={setRating} />,
-      <ConnectionForm />,
-      <div>nothing</div>,
+      <RelationshipForm
+        relationship={connection}
+        setRelationship={setConnection}
+      />,
+      <RateSchoolForm rating={rating} setRating={setRating} />,
+      <WriteReviewForm comment={comment} setComment={setComment} />,
+      <FinalCheckForm
+        comment={comment}
+        rating={rating}
+        connection={connection}
+      />,
     ]);
-
-  // console.log(rating);
-  // console.log(steps);
 
   return (
     <>
-      <div className="relative mx-auto mt-4 w-full max-w-[1200px]">
-        <form>
-          {/* ProgressBar */}
-          <ProgressBar currentStepIndex={currentStepIndex} />
+      <div className="relative mx-auto w-full max-w-[1200px] py-8">
+        <ProgressBar currentStepIndex={currentStepIndex} />
 
-          {/* Form */}
+        <form className="mt-16">
           {step}
 
           {/* Back | Next */}
           <div className="mt-16 flex justify-center space-x-4">
             {!isFirstStep && (
-              <Button type="button" onClick={back}>
+              <Button
+                type="button"
+                onClick={back}
+                className="border-gray-400 bg-white text-black shadow-none hover:bg-gray-100"
+              >
                 Back
               </Button>
             )}
             <Button type="button" onClick={next}>
-              {isLastStep ? "Submit" : "Next"}
+              {isLastStep ? "Submit Review" : "Next"}
             </Button>
           </div>
         </form>

@@ -10,7 +10,7 @@ export interface ReviewModel {
   cityID: string; // cities/[document]
   schoolID: string; // schools/[document]
   date: Date;
-  connection: string;
+  relationship: string;
   ratings: {
     teachers: number;
     learning: number;
@@ -19,7 +19,6 @@ export interface ReviewModel {
     location: number;
   };
   comment: string;
-  recommend: boolean;
   ratingOverall: number;
 }
 
@@ -38,7 +37,6 @@ export interface AddCityModel {
     administration: number;
   };
   comment: string;
-  recommend: boolean;
   ratingOverall: number;
 }
 
@@ -57,7 +55,6 @@ export interface AddSchoolModel {
     administration: number;
   };
   comment: string;
-  recommend: boolean;
   ratingOverall: number;
 }
 

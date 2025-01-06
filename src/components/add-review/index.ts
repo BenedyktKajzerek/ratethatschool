@@ -1,3 +1,5 @@
 export { ProgressBar } from "./ProgressBar";
-export { RatingForm } from "./RatingForm";
-export { ConnectionForm } from "./ConnectionForm";
+export { RateSchoolForm } from "./RateSchoolForm";
+export { RelationshipForm } from "./RelationshipForm";
+export { WriteReviewForm } from "./WriteReviewForm";
+export { FinalCheckForm } from "./FinalCheckForm";
