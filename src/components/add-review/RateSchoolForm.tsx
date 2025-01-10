@@ -25,18 +25,32 @@ const RATINGS = [
   },
 ];
 
+// Ratings type based on ReviewModel
+type Ratings = {
+  teachers: number;
+  learning: number;
+  facilities: number;
+  building: number;
+  location: number;
+};
+
+type RateSchoolFormProps = {
+  ratings: Ratings;
+  updateFields: (fields: Partial<{ ratings: Ratings }>) => void;
+};
+
 interface RatingInputProps {
-  label: string;
+  label: keyof Ratings;
   description: string;
   rating: number;
-  setRating: (value: number) => void;
+  updateFields: (fields: Partial<{ ratings: Ratings }>) => void;
 }
 
 const RatingInput: React.FC<RatingInputProps> = ({
   label,
   description,
   rating,
-  setRating,
+  updateFields,
 }) => {
   const [hovered, setHovered] = useState(0);
 
@@ -54,7 +68,9 @@ const RatingInput: React.FC<RatingInputProps> = ({
           <button
             key={star}
             type="button"
-            onClick={() => setRating(star)}
+            onClick={() =>
+              updateFields({ ratings: { ...{ [label]: star } } as Ratings })
+            }
             onMouseEnter={() => setHovered(star)}
             className={
               star <= (hovered || rating) ? "text-yellow-500" : "text-gray-400"
@@ -68,25 +84,25 @@ const RatingInput: React.FC<RatingInputProps> = ({
   );
 };
 
-export const RateSchoolForm: React.FC<{ rating: any; setRating: any }> = ({
-  rating,
-  setRating,
+export const RateSchoolForm: React.FC<RateSchoolFormProps> = ({
+  ratings,
+  updateFields,
 }) => {
   return (
     <div>
-      {RATINGS.map((r) => {
-        return (
-          <RatingInput
-            key={r.label}
-            label={r.label}
-            description={r.description}
-            rating={rating[r.label]} // For coloring stars
-            setRating={(value: number) =>
-              setRating({ ...rating, [r.label]: value })
-            } // For setting rating
-          />
-        );
-      })}
+      {RATINGS.map((r) => (
+        <RatingInput
+          key={r.label}
+          label={r.label as keyof Ratings}
+          description={r.description}
+          rating={ratings[r.label as keyof Ratings]} // Access the rating
+          updateFields={(fields) =>
+            updateFields({
+              ratings: { ...ratings, ...fields.ratings },
+            })
+          }
+        />
+      ))}
     </div>
   );
 };

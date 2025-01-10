@@ -32,51 +32,51 @@ const INITIAL_DATA: ReviewModel = {
 
 export const Steps: React.FC = () => {
   // Data provided from forms
-  const [connection, setConnection] = useState(INITIAL_DATA.relationship);
-  const [rating, setRating] = useState(INITIAL_DATA.ratings);
-  const [comment, setComment] = useState(INITIAL_DATA.comment);
+  const [data, setData] = useState(INITIAL_DATA);
 
-  // General form logic + all singular forms
+  // Updates form fields
+  const updateFields = (fields: Partial<ReviewModel>) =>
+    setData((prev) => {
+      return { ...prev, ...fields };
+    });
+
+  // Multi-step form setup
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      <RelationshipForm
-        relationship={connection}
-        setRelationship={setConnection}
-      />,
-      <RateSchoolForm rating={rating} setRating={setRating} />,
-      <WriteReviewForm comment={comment} setComment={setComment} />,
-      <FinalCheckForm
-        comment={comment}
-        rating={rating}
-        connection={connection}
-      />,
+      <RelationshipForm {...data} updateFields={updateFields} />,
+      <RateSchoolForm {...data} updateFields={updateFields} />,
+      // <WriteReviewForm {...data} updateFields={updateFields} />,
+      // <FinalCheckForm {...data} updateFields={updateFields} />,
     ]);
 
+  // Debugging current data
+  console.log(data);
+
   return (
-    <>
-      <div className="relative mx-auto w-full max-w-[1200px] py-8">
-        <ProgressBar currentStepIndex={currentStepIndex} />
+    <div className="relative mx-auto w-full max-w-[1200px] py-8">
+      {/* Progress Bar */}
+      <ProgressBar currentStepIndex={currentStepIndex} />
 
-        <form className="mt-16">
-          {step}
+      {/* Form */}
+      <form className="mt-16">
+        {step}
 
-          {/* Back | Next */}
-          <div className="mt-16 flex justify-center space-x-4">
-            {!isFirstStep && (
-              <Button
-                type="button"
-                onClick={back}
-                className="border-gray-400 bg-white text-black shadow-none hover:bg-gray-100"
-              >
-                Back
-              </Button>
-            )}
-            <Button type="button" onClick={next}>
-              {isLastStep ? "Submit Review" : "Next"}
+        {/* Navigation Buttons */}
+        <div className="mt-16 flex justify-center space-x-4">
+          {!isFirstStep && (
+            <Button
+              type="button"
+              onClick={back}
+              className="border-gray-400 bg-white text-black shadow-none hover:bg-gray-100"
+            >
+              Back
             </Button>
-          </div>
-        </form>
-      </div>
-    </>
+          )}
+          <Button type="button" onClick={next}>
+            {isLastStep ? "Submit Review" : "Next"}
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };
