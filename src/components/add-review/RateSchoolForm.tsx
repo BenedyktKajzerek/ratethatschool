@@ -1,32 +1,32 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-const RATINGS = [
+const RATING_CATEGORIES = [
   {
-    label: "teachers",
+    category: "teachers",
     description: "Quality, expertise, and engagement of the teaching staff.",
   },
   {
-    label: "learning",
+    category: "learning",
     description: "Effectiveness of the learning environment and culture.",
   },
   {
-    label: "facilities",
+    category: "facilities",
     description:
       "Quality of libraries, labs, sports areas, and other resources.",
   },
   {
-    label: "building",
+    category: "building",
     description: "Condition, cleanliness, and safety of the school premises.",
   },
   {
-    label: "location",
+    category: "location",
     description: "Accessibility and safety of the school's surroundings.",
   },
 ];
 
 // Ratings type based on ReviewModel
-type Ratings = {
+type RatingData = {
   teachers: number;
   learning: number;
   facilities: number;
@@ -35,45 +35,49 @@ type Ratings = {
 };
 
 type RateSchoolFormProps = {
-  ratings: Ratings;
-  updateFields: (fields: Partial<{ ratings: Ratings }>) => void;
+  ratings: RatingData;
+  updateFields: (fields: Partial<{ ratings: RatingData }>) => void;
 };
 
 interface RatingInputProps {
-  label: keyof Ratings;
+  category: keyof RatingData;
   description: string;
-  rating: number;
-  updateFields: (fields: Partial<{ ratings: Ratings }>) => void;
+  currentRating: number;
+  updateFields: (fields: Partial<{ ratings: RatingData }>) => void;
 }
 
 const RatingInput: React.FC<RatingInputProps> = ({
-  label,
+  category,
   description,
-  rating,
+  currentRating,
   updateFields,
 }) => {
-  const [hovered, setHovered] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
 
   return (
     <div className="mt-16 flex items-center justify-between">
       <div>
         <div className="text-3xl font-medium">
-          Rate the <span className="text-primary">{label}</span>
+          Rate the <span className="text-primary">{category}</span>
         </div>
         <div className="mt-1 text-gray-500">{description}</div>
       </div>
 
-      <div className="flex gap-2" onMouseLeave={() => setHovered(0)}>
-        {[1, 2, 3, 4, 5].map((star) => (
+      <div className="flex gap-2" onMouseLeave={() => setHoveredRating(0)}>
+        {[1, 2, 3, 4, 5].map((rating) => (
           <button
-            key={star}
+            key={rating}
             type="button"
             onClick={() =>
-              updateFields({ ratings: { ...{ [label]: star } } as Ratings })
+              updateFields({
+                ratings: { ...{ [category]: rating } } as RatingData,
+              })
             }
-            onMouseEnter={() => setHovered(star)}
+            onMouseEnter={() => setHoveredRating(rating)}
             className={
-              star <= (hovered || rating) ? "text-yellow-500" : "text-gray-400"
+              rating <= (hoveredRating || currentRating)
+                ? "text-yellow-500"
+                : "text-gray-400"
             }
           >
             <FaStar size={32} />
@@ -90,12 +94,12 @@ export const RateSchoolForm: React.FC<RateSchoolFormProps> = ({
 }) => {
   return (
     <div>
-      {RATINGS.map((r) => (
+      {RATING_CATEGORIES.map((category) => (
         <RatingInput
-          key={r.label}
-          label={r.label as keyof Ratings}
-          description={r.description}
-          rating={ratings[r.label as keyof Ratings]} // Access the rating
+          key={category.category}
+          category={category.category as keyof RatingData}
+          description={category.description}
+          currentRating={ratings[category.category as keyof RatingData]} // Access the rating
           updateFields={(fields) =>
             updateFields({
               ratings: { ...ratings, ...fields.ratings },

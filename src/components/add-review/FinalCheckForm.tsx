@@ -1,17 +1,23 @@
-import { ReviewModel } from "@/types/firestoreModels";
-import { comment } from "postcss";
-import React, { useState } from "react";
+import React from "react";
 import { FaStar } from "react-icons/fa";
 
-interface FinalCheckFormProps {
-  connection: string;
-  rating: ReviewModel["ratings"];
+type RatingData = {
+  teachers: number;
+  learning: number;
+  facilities: number;
+  building: number;
+  location: number;
+};
+
+type FinalCheckFormProps = {
+  relationship: string;
+  ratings: RatingData;
   comment: string;
-}
+};
 
 export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
-  connection,
-  rating,
+  relationship,
+  ratings,
   comment,
 }) => {
   return (
@@ -30,12 +36,12 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
         <div className="text-xl">
           {/* School connection */}
           <div className="flex">
-            <div className="w-56">Connection</div>
-            <div className="text-nowrap">{connection}</div>
+            <div className="w-56">Relationship</div>
+            <div className="text-nowrap">{relationship}</div>
           </div>
 
           {/* School rating */}
-          {Object.entries(rating).map(([key, value]) => (
+          {Object.entries(ratings).map(([key, value]) => (
             <div key={key} className="mt-6 flex items-center">
               <p className="w-56 capitalize">{key}</p>
 

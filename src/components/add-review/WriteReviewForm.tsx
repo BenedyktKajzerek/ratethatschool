@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import { FaRegFileImage } from "react-icons/fa";
 
-const LEAST_CHARACTERS_NEEDED = 100;
+const MIN_COMMENT_LENGTH = 100;
 
-interface WriteReviewFormProps {
+// Form data
+type WriteReviewData = {
   comment: string;
-  setComment: (value: string) => void;
-}
+};
+
+type WriteReviewFormProps = WriteReviewData & {
+  // Update any number fo fields
+  updateFields: (fields: Partial<WriteReviewData>) => void;
+};
 
 export const WriteReviewForm: React.FC<WriteReviewFormProps> = ({
   comment,
-  setComment,
+  updateFields,
 }) => {
-  const [charactersCount, setCharactersCount] = useState(0);
-  const isEnoughCharacters = charactersCount >= LEAST_CHARACTERS_NEEDED;
+  const [characterCount, setCharacterCount] = useState(0);
+  const charactersRemaining = MIN_COMMENT_LENGTH - characterCount;
+  const isEnoughCharacters = characterCount >= MIN_COMMENT_LENGTH;
+
+  const handleCommentChange = (text: string) => {
+    updateFields({ comment: text });
+    setCharacterCount(text.length);
+  };
 
   return (
     <div>
@@ -27,21 +38,19 @@ export const WriteReviewForm: React.FC<WriteReviewFormProps> = ({
         </p>
 
         <textarea
-          name=""
-          id=""
+          name="comment"
+          id="comment"
           rows={8}
-          onChange={(e) => {
-            setComment(e.target.value);
-            setCharactersCount(e.target.value.length);
-          }}
+          value={comment}
+          onChange={(e) => handleCommentChange(e.target.value)}
           placeholder="Write a helpful comment that's at least 100 characters."
           className="mt-8 w-full rounded-lg border border-gray-400 p-4 shadow placeholder:text-gray-300"
         />
 
         {/* Show when started typing and less then 100 */}
-        {!isEnoughCharacters && charactersCount !== 0 && (
+        {!isEnoughCharacters && characterCount > 0 && (
           <div className="text-right text-sm text-red-500">
-            {LEAST_CHARACTERS_NEEDED - charactersCount} more characters needed.
+            {charactersRemaining} more characters needed.
           </div>
         )}
       </div>
