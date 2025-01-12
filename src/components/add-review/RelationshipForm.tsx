@@ -11,6 +11,7 @@ const RELATIONSHIPS_TO_CHOOSE = [
 
 // Form data
 type RelationshipData = {
+  schoolName: string;
   relationship: string;
 };
 
@@ -20,6 +21,7 @@ type RelationshipFormProps = RelationshipData & {
 };
 
 export const RelationshipForm: React.FC<RelationshipFormProps> = ({
+  schoolName,
   relationship,
   updateFields,
 }) => {
@@ -28,7 +30,7 @@ export const RelationshipForm: React.FC<RelationshipFormProps> = ({
       <div>
         <h2 className="text-center text-3xl font-medium">
           <p>What is your relationship with</p>
-          <span className="capitalize text-primary">{"some school"}</span>?
+          <span className="capitalize text-primary">{schoolName}</span>?
         </h2>
       </div>
 

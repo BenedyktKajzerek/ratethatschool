@@ -5,7 +5,6 @@ export interface UserModel {
 }
 
 export interface ReviewModel {
-  id: string;
   approved: boolean;
   cityID: string; // cities/[document]
   schoolID: string; // schools/[document]
@@ -23,7 +22,6 @@ export interface ReviewModel {
 }
 
 export interface AddCityModel {
-  id: string;
   approved: boolean;
   cityName: string;
   schoolName: string;
@@ -41,7 +39,6 @@ export interface AddCityModel {
 }
 
 export interface AddSchoolModel {
-  id: string;
   approved: boolean;
   cityID: string; // cities/[document]
   schoolName: string;
@@ -59,12 +56,10 @@ export interface AddSchoolModel {
 }
 
 export interface CityModel {
-  id: string;
   name: string;
 }
 
 export interface SchoolModel {
-  id: string;
   name: string;
   cityID: string; // cities/[document]
 }

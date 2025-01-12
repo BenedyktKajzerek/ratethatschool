@@ -10,12 +10,14 @@ type RatingData = {
 };
 
 type FinalCheckFormProps = {
+  schoolName: string;
   relationship: string;
   ratings: RatingData;
   comment: string;
 };
 
 export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
+  schoolName,
   relationship,
   ratings,
   comment,
@@ -25,7 +27,8 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
       <div>
         <h2 className="text-3xl">
           Confirm your review for{" "}
-          <span className="text-primary">Some School</span> at Some City
+          <span className="capitalize text-primary">{schoolName}</span> at Some
+          City
         </h2>
         <p className="mt-1 text-sm text-gray-600">
           All reviews are subject to approval.
@@ -61,10 +64,10 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
           ))}
         </div>
 
-        <div className="space-y-8">
-          <div>
+        <div className="space-y-8 overflow-x-hidden">
+          <div className="overflow-x-auto">
             <p className="text-xl">Comment</p>
-            <p className="mt-2 text-wrap">{comment}</p>
+            <p className="mt-2">{comment}</p>
           </div>
           <div>
             <p className="text-xl">Photos</p>

@@ -11,30 +11,49 @@ import {
   FinalCheckForm,
 } from "./index";
 import { ReviewModel } from "@/types/firestoreModels";
+import { addReview } from "@/utils/addReview";
 
-interface StepsProps {
-  initialData: ReviewModel;
-  onUpdate: (updateData: ReviewModel) => void;
+const INITIAL_DATA: ReviewModel = {
+  approved: false,
+  cityID: "", // cities/[document]
+  schoolID: "", // schools/[document]
+  date: new Date(),
+  relationship: "",
+  ratings: {
+    teachers: 0,
+    learning: 0,
+    facilities: 0,
+    building: 0,
+    location: 0,
+  },
+  comment: "",
+  ratingOverall: 0,
+};
+
+interface AddReviewProps {
+  schoolName: string;
 }
 
-export const Steps: React.FC<StepsProps> = ({ initialData, onUpdate }) => {
+export const AddReview: React.FC<AddReviewProps> = ({ schoolName }) => {
   // Data provided from forms
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(INITIAL_DATA);
 
   // Updates form fields
   const updateFields = (fields: Partial<ReviewModel>) => {
-    const updatedData = { ...data, ...fields };
-    setData(updatedData);
-    onUpdate(updatedData);
+    setData({ ...data, ...fields });
   };
 
   // Multi-step form setup
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      <RelationshipForm {...data} updateFields={updateFields} />,
+      <RelationshipForm
+        {...data}
+        updateFields={updateFields}
+        schoolName={schoolName}
+      />,
       <RateSchoolForm {...data} updateFields={updateFields} />,
       <WriteReviewForm {...data} updateFields={updateFields} />,
-      <FinalCheckForm {...data} />,
+      <FinalCheckForm {...data} schoolName={schoolName} />,
     ]);
 
   // Validate step before continuing to the next one
@@ -65,8 +84,10 @@ export const Steps: React.FC<StepsProps> = ({ initialData, onUpdate }) => {
     // If form is filled out and it's not the submition
     if (!isNextDisabled && !isLastStep) return next();
 
-    // Submitting review
-    alert("Review submited");
+    // Submit the form data
+    if (isLastStep) {
+      addReview(data);
+    }
   };
 
   return (
