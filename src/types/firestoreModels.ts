@@ -19,40 +19,8 @@ export interface ReviewModel {
   };
   comment: string;
   ratingOverall: number;
-}
-
-export interface AddCityModel {
-  approved: boolean;
   cityName: string;
   schoolName: string;
-  date: Date;
-  connection: string;
-  ratings: {
-    teachers: number;
-    building: number;
-    location: number;
-    facilities: number;
-    administration: number;
-  };
-  comment: string;
-  ratingOverall: number;
-}
-
-export interface AddSchoolModel {
-  approved: boolean;
-  cityID: string; // cities/[document]
-  schoolName: string;
-  date: Date;
-  connection: string;
-  ratings: {
-    teachers: number;
-    building: number;
-    location: number;
-    facilities: number;
-    administration: number;
-  };
-  comment: string;
-  ratingOverall: number;
 }
 
 export interface CityModel {
