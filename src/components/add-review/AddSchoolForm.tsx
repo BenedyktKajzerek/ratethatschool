@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { TextInput } from "./TextInput";
 
 // Form data
 type AddSchoolData = {
@@ -18,13 +19,8 @@ export const AddSchoolForm: React.FC<AddSchoolFormProps> = ({
   schoolNameParam,
   updateFields,
 }) => {
-  const [schoolCharacterCount, setSchoolCharacterCount] = useState(0);
-  const isSchoolCountValid =
-    schoolCharacterCount >= 3 && schoolCharacterCount <= 100;
-
-  const handleTextChange = (text: string) => {
+  const handleSchoolChange = (text: string) => {
     updateFields({ schoolName: text });
-    setSchoolCharacterCount(text.length);
   };
 
   return (
@@ -32,29 +28,22 @@ export const AddSchoolForm: React.FC<AddSchoolFormProps> = ({
       <p className="mt-2">
         Enter the name of the school you want to review. Make sure your school
         is not already in our{" "}
-        <Link href={"#"} className="text-primary">
+        <Link href={"/all-schools"} className="text-primary">
           directory
         </Link>
         .
       </p>
 
       <div className="mt-8">
-        <label htmlFor="school-name">School name</label>
-        <input
-          type="text"
-          name=""
-          id="school-name"
+        <TextInput
+          label="School name"
           value={schoolName}
-          onChange={(e) => handleTextChange(e.target.value)}
           placeholder="School name"
-          className="mt-2 w-full rounded-lg border border-gray-400 px-4 py-2 shadow placeholder:text-gray-300"
+          onChange={handleSchoolChange}
+          charCount={schoolName.length}
+          minLength={3}
+          maxLength={100}
         />
-        {/* Show when started typing and less then 100 */}
-        {!isSchoolCountValid && schoolCharacterCount > 0 && (
-          <div className="text-right text-sm text-red-500">
-            Must be between 3 and 100 characters.
-          </div>
-        )}
       </div>
     </div>
   );

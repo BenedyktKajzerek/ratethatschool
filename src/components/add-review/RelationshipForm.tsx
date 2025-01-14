@@ -25,8 +25,6 @@ export const RelationshipForm: React.FC<RelationshipFormProps> = ({
   relationship,
   updateFields,
 }) => {
-  console.log(schoolNameParam);
-
   return (
     <div className="flex flex-col items-center">
       <div>

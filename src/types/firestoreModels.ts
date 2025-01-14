@@ -6,8 +6,6 @@ export interface UserModel {
 
 export interface ReviewModel {
   approved: boolean;
-  cityID: string; // cities/[document]
-  schoolID: string; // schools/[document]
   date: Date;
   relationship: string;
   ratings: {
@@ -19,15 +17,26 @@ export interface ReviewModel {
   };
   comment: string;
   ratingOverall: number;
-  cityName: string;
+  // Optional depeding on add-city/add-school
   schoolName: string;
-}
-
-export interface CityModel {
-  name: string;
+  cityName: string;
+  countryName: string;
+  schoolRef: string; // schools/[schoolDoc]
+  cityRef: string; // cities/[cityDoc]
+  countryRef: string; // countries/[countryDoc]
 }
 
 export interface SchoolModel {
   name: string;
-  cityID: string; // cities/[document]
+  cityRef: string; // cities/[cityDoc]
+  countryRef: string; // countries/[countryDoc]
+}
+
+export interface CityModel {
+  name: string;
+  countryRef: string; // countries/[countryDoc]
+}
+
+export interface CountryModel {
+  name: string;
 }

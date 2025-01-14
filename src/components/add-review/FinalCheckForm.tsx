@@ -14,6 +14,10 @@ type FinalCheckFormProps = {
   relationship: string;
   ratings: RatingData;
   comment: string;
+  cityName: string;
+  schoolName: string;
+  isAddCity: boolean;
+  isAddSchool: boolean;
 };
 
 export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
@@ -21,14 +25,24 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
   relationship,
   ratings,
   comment,
+  cityName,
+  schoolName,
+  isAddCity,
+  isAddSchool,
 }) => {
   return (
     <div>
       <div>
         <h2 className="text-3xl">
           Confirm your review for{" "}
-          <span className="capitalize text-primary">{schoolNameParam}</span> at
-          Some City
+          <span className="capitalize text-primary">
+            {isAddCity || isAddSchool ? schoolName : schoolNameParam}
+          </span>{" "}
+          at{" "}
+          <span className="capitalize">
+            {/* TODO dynamic based on link */}
+            {isAddCity ? cityName : "Katowice"}
+          </span>
         </h2>
         <p className="mt-1 text-sm text-gray-600">
           All reviews are subject to approval.

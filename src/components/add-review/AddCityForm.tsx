@@ -1,11 +1,14 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { TextInput } from "./TextInput";
+import { countryList } from "@/data/countryList";
 
 // Form data
 type AddCityData = {
   schoolNameParam: string;
-  cityName: string;
   schoolName: string;
+  cityName: string;
+  countryName: string;
 };
 
 type AddCityFormProps = AddCityData & {
@@ -14,26 +17,22 @@ type AddCityFormProps = AddCityData & {
 };
 
 export const AddCityForm: React.FC<AddCityFormProps> = ({
-  cityName,
-  schoolName,
   schoolNameParam,
+  schoolName,
+  cityName,
+  countryName,
   updateFields,
 }) => {
-  const [cityCharacterCount, setCityCharacterCount] = useState(0);
-  const [schoolCharacterCount, setSchoolCharacterCount] = useState(0);
-  const isCityCountValid = cityCharacterCount >= 3 && cityCharacterCount <= 100;
-  const isSchoolCountValid =
-    schoolCharacterCount >= 3 && schoolCharacterCount <= 100;
+  const handleSchoolChange = (text: string) => {
+    updateFields({ schoolName: text });
+  };
 
-  const handleTextChange = (text: string, field: string) => {
-    if (field === "city") {
-      updateFields({ cityName: text });
-      setCityCharacterCount(text.length);
-    }
-    if (field === "school") {
-      updateFields({ schoolName: text });
-      setSchoolCharacterCount(text.length);
-    }
+  const handleCityChange = (text: string) => {
+    updateFields({ cityName: text });
+  };
+
+  const handleCountryChange = (text: string) => {
+    updateFields({ countryName: text });
   };
 
   return (
@@ -41,49 +40,51 @@ export const AddCityForm: React.FC<AddCityFormProps> = ({
       <p className="mt-2">
         Enter the name of the city and the school you want to review. Make sure
         your school is not already in our{" "}
-        <Link href={"#"} className="text-primary">
+        <Link href={"/all-schools"} className="text-primary">
           directory
         </Link>
         .
       </p>
 
-      <div>
-        <label htmlFor="school-name" className="mt-8 block">
-          City name
-        </label>
-        <input
-          type="text"
-          name=""
-          id="city-name"
-          value={cityName}
-          onChange={(e) => handleTextChange(e.target.value, "city")}
-          placeholder="City name"
-          className="mt-2 w-full rounded-lg border border-gray-400 px-4 py-2 shadow placeholder:text-gray-300"
-        />
-        {/* Show when started typing and less then 100 */}
-        {!isCityCountValid && cityCharacterCount > 0 && (
-          <div className="text-right text-sm text-red-500">
-            Must be between 3 and 100 characters.
-          </div>
-        )}
+      <div className="mt-8">
+        <select
+          value={countryName}
+          onChange={(e) => handleCountryChange(e.target.value)}
+          className="mt-2 w-1/4 rounded-lg border border-gray-400 px-4 py-2 shadow placeholder:text-gray-300"
+        >
+          <option value="" disabled hidden>
+            Choose country
+          </option>
+          {countryList.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mt-8">
-        <label htmlFor="school-name">School name</label>
-        <input
-          type="text"
-          name=""
-          id="school-name"
-          value={schoolName}
-          onChange={(e) => handleTextChange(e.target.value, "school")}
-          placeholder="School name"
-          className="mt-2 w-full rounded-lg border border-gray-400 px-4 py-2 shadow placeholder:text-gray-300"
+        <TextInput
+          label="City name"
+          value={cityName}
+          placeholder="City name"
+          onChange={handleCityChange}
+          charCount={cityName.length}
+          minLength={3}
+          maxLength={100}
         />
-        {!isSchoolCountValid && schoolCharacterCount > 0 && (
-          <div className="text-right text-sm text-red-500">
-            Must be between 3 and 100 characters.
-          </div>
-        )}
+      </div>
+
+      <div className="mt-8">
+        <TextInput
+          label="School name"
+          value={schoolName}
+          placeholder="School name"
+          onChange={handleSchoolChange}
+          charCount={schoolName.length}
+          minLength={3}
+          maxLength={100}
+        />
       </div>
     </div>
   );
