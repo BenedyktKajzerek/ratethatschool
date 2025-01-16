@@ -58,8 +58,8 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="flex h-[500px] w-[500px] flex-col items-center rounded-md bg-white px-20 py-6">
+      <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">
+        <div className="flex w-[500px] flex-col items-center rounded-md bg-white px-20 py-10">
           <h2 className="text-4xl font-bold">
             {isSignUp ? "Sign Up" : "Log In"}
           </h2>
