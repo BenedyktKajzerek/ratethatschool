@@ -1,57 +1,46 @@
 "use client";
 
-import { loginUser, registerUser } from "@/utils/auth";
-import { validateEmail, validatePassword } from "@/utils/authValidation";
+// import { loginUser, registerUser } from "@/utils/auth";
 import React, { useState } from "react";
+import { sendEmailLink, signInWithGoogle } from "@/utils/auth";
+import { validateEmail } from "@/utils/authValidation";
 import { Button } from "@/components/ui/Button";
+import { IoClose } from "react-icons/io5";
+import Link from "next/link";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 interface ModalAuthProps {
   isOpen: boolean;
   onClose: () => void;
-  isSignUp: boolean;
-  toggleAuthMode: () => void; // toggles isSignUp in parent component
 }
 
-export const ModalAuth: React.FC<ModalAuthProps> = ({
-  isOpen,
-  onClose,
-  isSignUp,
-  toggleAuthMode,
-}) => {
+export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [validationError, setValidationError] = useState<string | null>(null);
+  const isEmailValid = !validateEmail(email);
+  const [isVerifyYourEmail, setIsVerifyYourEmail] = useState(false);
 
-  const handleAuthAction = async () => {
-    setValidationError(null); // Clear previous errors
-
-    // Email validation
-    if (!validateEmail(email)) {
-      setValidationError("Invalid email address");
-      return;
-    }
-
-    // Password validation
-    if (!validatePassword(password)) {
-      setValidationError(
-        "Password must have at least 8 characters, a capital letter, a lowercase letter, a number, and a special character.",
-      );
-      return;
-    }
-
-    // Register or log in user
+  const handleSignInWithEmailLink = async () => {
     try {
-      if (isSignUp) {
-        await registerUser(email, password);
-        console.log("Signed up successfully");
-      } else {
-        await loginUser(email, password);
-        console.log("Logged in successfully");
-      }
-      onClose(); // Close modal on success
+      // await sendEmailLink(email);
+      setIsVerifyYourEmail(true);
+      // onClose();
     } catch (error) {
-      console.error("Authentication error:", error);
+      console.error("Error sending email link:", error);
     }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    try {
+      await signInWithGoogle();
+      onClose();
+    } catch (error) {
+      console.error("Error singing in with Google:", error);
+    }
+  };
+
+  const handleSignInWithFacebook = async () => {
+    // TODO Sing in with facebook
   };
 
   if (!isOpen) return null;
@@ -59,59 +48,102 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({
   return (
     <>
       <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">
-        <div className="flex w-[500px] flex-col items-center rounded-md bg-white px-20 py-10">
-          <h2 className="text-4xl font-bold">
-            {isSignUp ? "Sign Up" : "Log In"}
-          </h2>
+        <div className="relative flex w-[420px] flex-col items-center space-y-4 rounded-md bg-white px-10 py-4">
+          <div>
+            <h2 className="text-2xl font-medium">
+              {isVerifyYourEmail ? "Verify Your Email" : "Log in or Sign Up"}
+            </h2>
 
-          {isSignUp && (
+            {/* Close btn */}
+            <button
+              onClick={onClose}
+              className="text-grey absolute right-2 top-2 hover:text-black"
+            >
+              <IoClose size={24} />
+            </button>
+          </div>
+
+          {/* Sign in with Google/Facebook */}
+          {!isVerifyYourEmail ? (
             <>
-              <button className="mt-8 w-full rounded-3xl border border-gray-400 p-2">
-                Sign up with <span className="text-yellow-500">Google</span>
-              </button>
+              <div className="w-full space-y-4">
+                <button
+                  onClick={handleSignInWithGoogle}
+                  className="flex w-full items-center justify-center space-x-2 rounded-md border border-gray-400 p-3 hover:border-primary hover:text-primary"
+                >
+                  <FcGoogle size={24} />
+                  <div>Google</div>
+                </button>
 
-              <div className="mt-8 flex w-full items-center align-middle">
+                <button
+                  onClick={handleSignInWithFacebook}
+                  className="flex w-full items-center justify-center space-x-2 rounded-md border border-gray-400 p-3 hover:border-primary hover:text-primary"
+                >
+                  <FaFacebookSquare size={24} className="text-blue-700" />
+                  <div>Facebook</div>
+                </button>
+              </div>
+
+              {/* Divider */}
+              <div className="flex w-full items-center justify-center align-middle">
                 <div className="h-[1px] w-full bg-gray-300"></div>
-                <div className="mx-3 text-nowrap text-sm font-medium">
-                  or sign up with email
-                </div>
+                <div className="text-grey mx-3 text-nowrap text-lg">or</div>
                 <div className="h-[1px] w-full bg-gray-300"></div>
               </div>
+
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="text-grey w-full rounded-md border border-gray-400 p-3"
+              />
+
+              {/* Enable btn only if email is valid */}
+              <Button
+                onClick={handleSignInWithEmailLink}
+                disabled={isEmailValid}
+                className={`w-full p-3 text-base ${isEmailValid && "bg-grey cursor-not-allowed hover:bg-gray-500"}`}
+              >
+                Sign In
+              </Button>
+
+              <button
+                onClick={() => {
+                  // TODO password restoration
+                }}
+                className="text-link"
+              >
+                forgot your password?
+              </button>
+
+              {/* Terms and Policy */}
+              <p className="text-center text-xs font-light text-gray-400">
+                By signing up, I agree to the RateMySchools{" "}
+                <Link
+                  href="terms-and-coditions"
+                  className="text-link hover:underline"
+                >
+                  Terms and Conditions
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="privacy-policy"
+                  className="text-link hover:underline"
+                >
+                  Privacy Policy
+                </Link>
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-grey">
+                Click the link in the email we sent to{" "}
+                <span className="font-medium text-black">{email}</span>
+              </p>
+              {/* <p> Wrong address? Log out to sign in with a different email.</p> */}
             </>
           )}
-
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-8 w-full border border-gray-400 p-2 outline-none"
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-4 w-full border border-gray-400 p-2 outline-none"
-          />
-
-          {/* Validation error message */}
-          {validationError && (
-            <p className="mt-2 text-sm text-red-500">{validationError}</p>
-          )}
-
-          <Button onClick={handleAuthAction} className="btn mt-6">
-            {isSignUp ? "Sign Up" : "Login"}
-          </Button>
-
-          {/* Switch between log-in and sign-up modals*/}
-          <p className="mt-10">
-            {isSignUp ? "Already have an account? " : "Don't have an account? "}
-            <button onClick={toggleAuthMode} className="text-link underline">
-              {isSignUp ? "Log in" : "Sign up"}
-            </button>
-          </p>
         </div>
       </div>
     </>

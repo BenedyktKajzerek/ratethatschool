@@ -1,55 +1,87 @@
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
+  UserCredential,
 } from "firebase/auth";
 import { auth, db } from "../../firebaseConfig";
 import { setDoc, doc } from "firebase/firestore";
 import { UserModel } from "@/types/firestoreModels";
 
-const registerUser = async (email: string, password: string) => {
+const actionCodeSettings = {
+  // URL you want to redirect back to
+  url: "http://localhost:3000/auth/finishSignIn",
+  handleCodeInApp: true,
+};
+
+const sendEmailLink = async (email: string) => {
   try {
-    // Register user
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-
-    // Get user information
-    const user = userCredential.user;
-
-    if (!user.email) {
-      throw new Error("Email is missing for the registered user.");
-    }
-
-    // Set user information
-    const newUser: UserModel = {
-      email: user.email,
-      createdAt: new Date(),
-      role: "user",
-    };
-
-    // Save user data in Firestore
-    await setDoc(doc(db, "users", user.uid), newUser);
-
-    return user;
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    window.localStorage.setItem("emailForSignIn", email);
+    console.log("Email link sent successfully.");
   } catch (error) {
-    console.log("Error registering user:", error);
+    console.error("Error sending email link:", error);
     throw error;
   }
 };
 
-const loginUser = async (email: string, password: string) => {
+const signInWithEmail = async (email: string, emailLink: string) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    return userCredential.user;
+    if (isSignInWithEmailLink(auth, emailLink)) {
+      const result = await signInWithEmailLink(auth, email, emailLink);
+      const user = result.user;
+
+      // Use type assertion for additionalUserInfo
+      const additionalUserInfo = (result as any).additionalUserInfo;
+
+      // Add user to Firestore if it's a new user
+      if (additionalUserInfo?.isNewUser && user.email) {
+        const newUser: UserModel = {
+          email: user.email,
+          createdAt: new Date(),
+          role: "user",
+        };
+
+        await setDoc(doc(db, "users", user.uid), newUser);
+      }
+
+      console.log("Signed in successfully with email link.");
+      return user;
+    } else {
+      throw new Error("Invalid email link.");
+    }
   } catch (error) {
-    console.log("Error logging in user:", error);
+    console.error("Error singing in with email link:", error);
+    throw error;
+  }
+};
+
+const signInWithGoogle = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Use type assertion for additionalUserInfo
+    const additionalUserInfo = (result as any).additionalUserInfo;
+
+    // Add user to Firestore if it's a new user
+    if (additionalUserInfo?.isNewUser && user.email) {
+      const newUser: UserModel = {
+        email: user.email,
+        createdAt: new Date(),
+        role: "user",
+      };
+      await setDoc(doc(db, "users", user.uid), newUser);
+    }
+
+    console.log("Signed in successfully with Google.");
+    return user;
+  } catch (error) {
+    console.error("Error singing in with Google:", error);
     throw error;
   }
 };
@@ -62,4 +94,4 @@ const logoutUser = async () => {
   }
 };
 
-export { registerUser, loginUser, logoutUser };
+export { sendEmailLink, signInWithEmail, signInWithGoogle, logoutUser };

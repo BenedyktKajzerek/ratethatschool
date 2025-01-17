@@ -17,7 +17,6 @@ const navbarIconSize = 24;
 export const Navbar: React.FC = () => {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false); // Toggle between log in/sign up
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -63,25 +62,13 @@ export const Navbar: React.FC = () => {
                   <Button onClick={handleLogout}>Sign Out</Button>
                 </>
               ) : (
-                <>
-                  <Button
-                    onClick={() => {
-                      setIsSignUp(false);
-                      setShowModal(true);
-                    }}
-                  >
-                    Log In
-                  </Button>
-
-                  <Button
-                    onClick={() => {
-                      setIsSignUp(true);
-                      setShowModal(true);
-                    }}
-                  >
-                    Sign Up
-                  </Button>
-                </>
+                <Button
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
+                >
+                  Sign In
+                </Button>
               )}
             </div>
 
@@ -105,12 +92,7 @@ export const Navbar: React.FC = () => {
       </header>
 
       {/* Modal */}
-      <ModalAuth
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        isSignUp={isSignUp}
-        toggleAuthMode={() => setIsSignUp((prev) => !prev)}
-      />
+      <ModalAuth isOpen={showModal} onClose={() => setShowModal(false)} />
     </>
   );
 };
