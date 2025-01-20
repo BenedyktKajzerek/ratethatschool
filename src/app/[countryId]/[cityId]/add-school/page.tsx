@@ -5,21 +5,21 @@ export default async function AddReviewPage({
   params,
 }: Readonly<{
   params: {
-    reviewId: string;
+    cityId: string;
   };
 }>) {
   // Await `params` to access its properties
-  const { reviewId } = await params;
+  const { cityId } = await params;
 
-  const schoolNameParam = reviewId.replace(/-/g, " ");
+  const cityNameParam = cityId.replace(/-/g, " ");
 
   return (
     <>
       <div className="flex h-52 items-center justify-center bg-gray-100 text-3xl font-medium capitalize">
-        <h1 className="">Rate {schoolNameParam}</h1>
+        <h1 className="">Add new school</h1>
       </div>
 
-      <AddReview schoolNameParam={schoolNameParam} isAddSchool={true} />
+      <AddReview isAddSchool={true} />
     </>
   );
 }

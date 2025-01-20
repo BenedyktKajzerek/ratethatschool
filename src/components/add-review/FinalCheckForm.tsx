@@ -10,38 +10,58 @@ type RatingData = {
 };
 
 type FinalCheckFormProps = {
-  schoolNameParam: string;
+  schoolNameParam?: string;
   relationship: string;
   ratings: RatingData;
   comment: string;
-  cityName: string;
-  schoolName: string;
+  city: {
+    name: string;
+    slug: string;
+    english: string | null;
+  };
+  school: {
+    name: string;
+    slug: string;
+  };
   isAddCity: boolean;
   isAddSchool: boolean;
 };
 
+// export default async function AddReviewPage({
+//   params,
+// }: Readonly<{
+//   params: {
+//     reviewId: string;
+//   };
+// }>) {
+
 export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
+  // params,
   schoolNameParam,
   relationship,
   ratings,
   comment,
-  cityName,
-  schoolName,
+  city,
+  school,
   isAddCity,
   isAddSchool,
 }) => {
+  // Await `params` to access its properties
+  // const { cityId } = await params;
+
+  // const schoolNameppp = cityId.replace(/-/g, " ");
   return (
     <div>
       <div>
         <h2 className="text-3xl">
           Confirm your review for{" "}
           <span className="capitalize text-primary">
-            {isAddCity || isAddSchool ? schoolName : schoolNameParam}
+            {isAddCity || isAddSchool ? school.name : schoolNameParam}
           </span>{" "}
           at{" "}
           <span className="capitalize">
             {/* TODO dynamic based on link */}
-            {isAddCity ? cityName : "Katowice"}
+            {isAddCity ? city.name : "Katowice"}
           </span>
         </h2>
         <p className="mt-1 text-sm text-gray-600">

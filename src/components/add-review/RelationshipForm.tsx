@@ -13,6 +13,10 @@ const RELATIONSHIPS_TO_CHOOSE = [
 type RelationshipData = {
   schoolNameParam: string;
   relationship: string;
+  school: {
+    name: string;
+    slug: string;
+  };
 };
 
 type RelationshipFormProps = RelationshipData & {
@@ -23,6 +27,7 @@ type RelationshipFormProps = RelationshipData & {
 export const RelationshipForm: React.FC<RelationshipFormProps> = ({
   schoolNameParam,
   relationship,
+  school,
   updateFields,
 }) => {
   return (
@@ -30,7 +35,7 @@ export const RelationshipForm: React.FC<RelationshipFormProps> = ({
       <div>
         <h2 className="text-center text-3xl font-medium">
           <p>What is your relationship with</p>
-          <span className="capitalize text-primary">{schoolNameParam}</span>?
+          <span className="capitalize text-primary">{school.name}</span>?
         </h2>
       </div>
 

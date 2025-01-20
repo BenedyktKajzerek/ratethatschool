@@ -1,13 +1,20 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { TextInput } from "./TextInput";
 import { countryList } from "@/data/countryList";
 
 // Form data
 type AddCityData = {
   schoolNameParam: string;
-  schoolName: string;
-  cityName: string;
+  city: {
+    name: string;
+    slug: string;
+    english: string | null;
+  };
+  school: {
+    name: string;
+    slug: string;
+  };
   countryName: string;
 };
 
@@ -18,17 +25,17 @@ type AddCityFormProps = AddCityData & {
 
 export const AddCityForm: React.FC<AddCityFormProps> = ({
   schoolNameParam,
-  schoolName,
-  cityName,
+  school = { name: "", slug: "" },
+  city,
   countryName,
   updateFields,
 }) => {
   const handleSchoolChange = (text: string) => {
-    updateFields({ schoolName: text });
+    updateFields({ school: { ...school, name: text } });
   };
 
   const handleCityChange = (text: string) => {
-    updateFields({ cityName: text });
+    updateFields({ city: { ...city, name: text } });
   };
 
   const handleCountryChange = (text: string) => {
@@ -66,10 +73,10 @@ export const AddCityForm: React.FC<AddCityFormProps> = ({
       <div className="mt-8">
         <TextInput
           label="City name"
-          value={cityName}
+          value={city.name}
           placeholder="City name"
           onChange={handleCityChange}
-          charCount={cityName.length}
+          charCount={city.name.length}
           minLength={3}
           maxLength={100}
         />
@@ -78,10 +85,10 @@ export const AddCityForm: React.FC<AddCityFormProps> = ({
       <div className="mt-8">
         <TextInput
           label="School name"
-          value={schoolName}
+          value={school.name}
           placeholder="School name"
           onChange={handleSchoolChange}
-          charCount={schoolName.length}
+          charCount={school.name.length}
           minLength={3}
           maxLength={100}
         />

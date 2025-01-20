@@ -15,13 +15,13 @@ import {
 import { useReviewForm } from "@/hooks/useReviewForm";
 
 interface AddReviewProps {
-  schoolNameParam: string;
+  schoolNameParam?: string;
   isAddCity?: boolean;
   isAddSchool?: boolean;
 }
 
 export const AddReview: React.FC<AddReviewProps> = ({
-  schoolNameParam,
+  schoolNameParam = "",
   isAddCity = false,
   isAddSchool = false,
 }) => {
@@ -46,7 +46,6 @@ export const AddReview: React.FC<AddReviewProps> = ({
             key="addSchoolForm"
             {...data}
             updateFields={updateFields}
-            schoolNameParam={schoolNameParam}
           />
         ),
         <RelationshipForm

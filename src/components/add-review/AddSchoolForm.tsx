@@ -1,12 +1,15 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { TextInput } from "./TextInput";
+import { generateSlug } from "@/utils/generateSlug";
 
 // Form data
 type AddSchoolData = {
-  schoolNameParam: string;
   relationship: string;
-  schoolName: string;
+  school: {
+    name: string;
+    slug: string;
+  };
 };
 
 type AddSchoolFormProps = AddSchoolData & {
@@ -15,12 +18,13 @@ type AddSchoolFormProps = AddSchoolData & {
 };
 
 export const AddSchoolForm: React.FC<AddSchoolFormProps> = ({
-  schoolName,
-  schoolNameParam,
+  school = { name: "", slug: "" },
   updateFields,
 }) => {
   const handleSchoolChange = (text: string) => {
-    updateFields({ schoolName: text });
+    updateFields({
+      school: { ...school, name: text, slug: generateSlug(school.name) },
+    });
   };
 
   return (
@@ -37,10 +41,10 @@ export const AddSchoolForm: React.FC<AddSchoolFormProps> = ({
       <div className="mt-8">
         <TextInput
           label="School name"
-          value={schoolName}
+          value={school.name}
           placeholder="School name"
           onChange={handleSchoolChange}
-          charCount={schoolName.length}
+          charCount={school.name.length}
           minLength={3}
           maxLength={100}
         />
