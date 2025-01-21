@@ -5,10 +5,10 @@ import { generateSlug } from "@/utils/generateSlug";
 
 // Form data
 type AddSchoolData = {
-  relationship: string;
   school: {
     name: string;
     slug: string;
+    reference: string;
   };
 };
 
@@ -22,8 +22,11 @@ export const AddSchoolForm: React.FC<AddSchoolFormProps> = ({
   updateFields,
 }) => {
   const handleSchoolChange = (text: string) => {
+    const slug = generateSlug(school.name);
+    const reference = `schools/${slug}`;
+
     updateFields({
-      school: { ...school, name: text, slug: generateSlug(school.name) },
+      school: { ...school, name: text, slug: slug, reference: reference },
     });
   };
 

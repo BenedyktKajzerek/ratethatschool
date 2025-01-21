@@ -9,16 +9,16 @@ const calculateOverallRating = (ratings: Record<string, number>): number => {
 };
 
 const addDocumentToCollection = async (
-  collectionName: string,
   data: ReviewModel,
+  isAddCity?: boolean,
+  isAddSchool?: boolean,
 ) => {
   const ratingOverall = calculateOverallRating(data.ratings);
 
   try {
     // Reference to db collection
-    const collectionRef = collection(db, collectionName);
+    const collectionRef = collection(db, "pending-reviews");
 
-    // Base document data
     const documentData: any = {
       approved: false,
       date: new Date(),
@@ -32,42 +32,42 @@ const addDocumentToCollection = async (
       },
       comment: data.comment,
       ratingOverall: ratingOverall,
+      city: {
+        name: data.city.name,
+        slug: data.city.slug,
+        reference: data.city.reference,
+      },
+      school: {
+        name: data.school.name,
+        slug: data.school.slug,
+        reference: data.school.reference,
+      },
+      country: {
+        name: data.country.name,
+        slug: data.country.slug,
+        reference: data.country.reference,
+      },
     };
-
-    // Add conditional fields
-    if (collectionName === "reviews") {
-      documentData.schoolRef = data.schoolRef;
-      documentData.cityRef = data.cityRef;
-      documentData.countryRef = data.countryRef;
-    } else if (collectionName === "add-school") {
-      documentData.schoolName = data.schoolName;
-      documentData.cityRef = data.cityRef;
-      documentData.countryRef = data.countryRef;
-    } else if (collectionName === "add-city") {
-      documentData.schoolName = data.schoolName;
-      documentData.cityName = data.cityName;
-      documentData.countryName = data.countryName;
-    }
 
     // Create document inside the collection
     await addDoc(collectionRef, documentData);
-    console.log(`Successfully added to ${collectionName}:`, data);
+    console.log(`Success:`, data);
   } catch (error) {
-    console.error(`Error adding to ${collectionName}:`, error);
+    console.error(`Error:`, error);
   }
 };
 
 // Add a review to the "reviews" collection.
 export const addReview = async (data: ReviewModel) => {
-  await addDocumentToCollection("reviews", data);
+  await addDocumentToCollection(data, false, false);
 };
 
 // Add a school to the "add-school" collection.
 export const addSchool = async (data: ReviewModel) => {
-  await addDocumentToCollection("add-school", data);
+  await addDocumentToCollection(data, false, true);
 };
 
 // Add a city to the "add-city" collection.
 export const addCity = async (data: ReviewModel) => {
-  await addDocumentToCollection("add-city", data);
+  await addDocumentToCollection(data, true, false);
 };

@@ -2,20 +2,25 @@ import Link from "next/link";
 import React from "react";
 import { TextInput } from "./TextInput";
 import { countryList } from "@/data/countryList";
+import { generateSlug } from "@/utils/generateSlug";
 
 // Form data
 type AddCityData = {
-  schoolNameParam: string;
   city: {
     name: string;
     slug: string;
-    english: string | null;
+    reference: string;
   };
   school: {
     name: string;
     slug: string;
+    reference: string;
   };
-  countryName: string;
+  country: {
+    name: string;
+    slug: string;
+    reference: string;
+  };
 };
 
 type AddCityFormProps = AddCityData & {
@@ -24,22 +29,36 @@ type AddCityFormProps = AddCityData & {
 };
 
 export const AddCityForm: React.FC<AddCityFormProps> = ({
-  schoolNameParam,
-  school = { name: "", slug: "" },
-  city,
-  countryName,
+  school = { name: "", slug: "", reference: "" },
+  city = { name: "", slug: "", reference: "" },
+  country = { name: "", slug: "", reference: "" },
   updateFields,
 }) => {
   const handleSchoolChange = (text: string) => {
-    updateFields({ school: { ...school, name: text } });
+    const slug = generateSlug(text);
+    const reference = `schools/${slug}`;
+
+    updateFields({
+      school: { ...school, name: text, slug: slug, reference: reference },
+    });
   };
 
   const handleCityChange = (text: string) => {
-    updateFields({ city: { ...city, name: text } });
+    const slug = generateSlug(text);
+    const reference = `cities/${slug}`;
+
+    updateFields({
+      city: { ...city, name: text, slug: slug, reference: reference },
+    });
   };
 
   const handleCountryChange = (text: string) => {
-    updateFields({ countryName: text });
+    const slug = generateSlug(text);
+    const reference = `countries/${slug}`;
+
+    updateFields({
+      country: { ...country, name: text, slug: slug, reference: reference },
+    });
   };
 
   return (
@@ -55,7 +74,7 @@ export const AddCityForm: React.FC<AddCityFormProps> = ({
 
       <div className="mt-8">
         <select
-          value={countryName}
+          value={country.name}
           onChange={(e) => handleCountryChange(e.target.value)}
           className="mt-2 w-1/4 rounded-lg border border-gray-400 px-4 py-2 shadow placeholder:text-gray-300"
         >

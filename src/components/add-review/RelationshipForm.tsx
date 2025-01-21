@@ -11,11 +11,11 @@ const RELATIONSHIPS_TO_CHOOSE = [
 
 // Form data
 type RelationshipData = {
-  schoolNameParam: string;
   relationship: string;
   school: {
     name: string;
     slug: string;
+    reference: string;
   };
 };
 
@@ -25,7 +25,6 @@ type RelationshipFormProps = RelationshipData & {
 };
 
 export const RelationshipForm: React.FC<RelationshipFormProps> = ({
-  schoolNameParam,
   relationship,
   school,
   updateFields,

@@ -15,18 +15,31 @@ const INITIAL_DATA: ReviewModel = {
   },
   comment: "",
   ratingOverall: 0,
-  // Optional depeding on add-city/add-school
-  schoolName: "",
-  cityName: "",
-  countryName: "",
-  schoolRef: "", // schools/[schoolDoc]
-  cityRef: "", // cities/[cityDoc]
-  countryRef: "", // countries/[countryDoc]
+  isAddCity: false,
+  isAddSchool: false,
+  school: {
+    name: "",
+    slug: "",
+    reference: "",
+  },
+  city: {
+    name: "",
+    slug: "",
+    reference: "",
+  },
+  country: {
+    name: "",
+    slug: "",
+    reference: "",
+  },
 };
 
 export const useReviewForm = (isAddCity: boolean, isAddSchool: boolean) => {
   // Data provided from forms
   const [data, setData] = useState(INITIAL_DATA);
+
+  data.isAddCity = isAddCity;
+  data.isAddSchool = isAddSchool;
 
   // Updates form fields
   const updateFields = (fields: Partial<ReviewModel>) => {
@@ -38,14 +51,14 @@ export const useReviewForm = (isAddCity: boolean, isAddSchool: boolean) => {
     switch (stepKey) {
       case "addCityForm":
         return (
-          data.cityName.length >= 3 &&
-          data.cityName.length <= 100 &&
-          data.schoolName.length >= 3 &&
-          data.schoolName.length <= 100 &&
-          data.countryName !== ""
+          data.city.name.length >= 3 &&
+          data.city.name.length <= 100 &&
+          data.school.name.length >= 3 &&
+          data.school.name.length <= 100 &&
+          data.country.name !== ""
         );
       case "addSchoolForm":
-        return data.schoolName.length >= 3 && data.schoolName.length <= 100;
+        return data.school.name.length >= 3 && data.school.name.length <= 100;
       case "relationshipForm":
         return Boolean(data.relationship);
       case "rateSchoolForm":

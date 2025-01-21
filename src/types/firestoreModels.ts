@@ -17,20 +17,23 @@ export interface ReviewModel {
   };
   comment: string;
   ratingOverall: number;
-  // Optional depeding on add-city/add-school
+  isAddCity: boolean;
+  isAddSchool: boolean;
   city: {
     name: string;
     slug: string;
-    english: string | null;
+    reference: string;
   };
   school: {
     name: string;
     slug: string;
+    reference: string;
   };
-  countryName: string;
-  schoolRef: string; // schools/[schoolDoc]
-  cityRef: string; // cities/[cityDoc]
-  countryRef: string; // countries/[countryDoc]
+  country: {
+    name: string;
+    slug: string;
+    reference: string;
+  };
 }
 
 export interface SchoolModel {

@@ -1,4 +1,3 @@
-import React from "react";
 import slugify from "slugify";
 
 export const generateSlug = (string: string) => {
