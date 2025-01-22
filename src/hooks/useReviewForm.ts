@@ -1,5 +1,5 @@
 import { ReviewModel } from "@/types/firestoreModels";
-import { addCity, addReview, addSchool } from "@/utils/addReview";
+import { addReview } from "@/utils/addReview";
 import { useState } from "react";
 
 const INITIAL_DATA: ReviewModel = {
@@ -38,9 +38,6 @@ export const useReviewForm = (isAddCity: boolean, isAddSchool: boolean) => {
   // Data provided from forms
   const [data, setData] = useState(INITIAL_DATA);
 
-  data.isAddCity = isAddCity;
-  data.isAddSchool = isAddSchool;
-
   // Updates form fields
   const updateFields = (fields: Partial<ReviewModel>) => {
     setData({ ...data, ...fields });
@@ -70,10 +67,9 @@ export const useReviewForm = (isAddCity: boolean, isAddSchool: boolean) => {
     }
   };
 
+  // Update firestore databse
   const handleSubmit = () => {
-    if (isAddCity) addCity(data);
-    else if (isAddSchool) addSchool(data);
-    else addReview(data);
+    addReview(data, isAddCity, isAddSchool);
   };
 
   return { data, updateFields, validateCurrentStep, handleSubmit };

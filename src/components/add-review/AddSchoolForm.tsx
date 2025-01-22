@@ -10,6 +10,16 @@ type AddSchoolData = {
     slug: string;
     reference: string;
   };
+  city: {
+    name: string;
+    slug: string;
+    reference: string;
+  };
+  country: {
+    name: string;
+    slug: string;
+    reference: string;
+  };
 };
 
 type AddSchoolFormProps = AddSchoolData & {
@@ -18,11 +28,13 @@ type AddSchoolFormProps = AddSchoolData & {
 };
 
 export const AddSchoolForm: React.FC<AddSchoolFormProps> = ({
-  school = { name: "", slug: "" },
+  school = { name: "" },
+  city = { name: "" },
+  country = { name: "" },
   updateFields,
 }) => {
   const handleSchoolChange = (text: string) => {
-    const slug = generateSlug(school.name);
+    const slug = generateSlug(text);
     const reference = `schools/${slug}`;
 
     updateFields({

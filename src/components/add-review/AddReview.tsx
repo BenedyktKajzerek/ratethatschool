@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import useMultistepForm from "@/hooks/useMultistepForm";
 import {
@@ -13,6 +13,8 @@ import {
   FinalCheckForm,
 } from "./index";
 import { useReviewForm } from "@/hooks/useReviewForm";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
 
 interface AddReviewProps {
   params?: {
@@ -33,11 +35,6 @@ export const AddReview: React.FC<AddReviewProps> = ({
   // Custom hook for form logic | hooks\useReviewForm.ts
   const { data, updateFields, validateCurrentStep, handleSubmit } =
     useReviewForm(isAddCity, isAddSchool);
-
-  if (isAddSchool && params) {
-    data.country.slug = params?.countryName;
-    data.city.slug = params?.cityName;
-  }
 
   // Multi-step form setup
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
@@ -75,20 +72,34 @@ export const AddReview: React.FC<AddReviewProps> = ({
         <FinalCheckForm
           key="writeReviewForm"
           {...data}
-          params={params}
           isAddCity={isAddCity}
           isAddSchool={isAddSchool}
         />,
       ].filter(Boolean) as React.ReactElement[], // Cast to correct type
     );
 
+  data.isAddCity = isAddCity;
+  data.isAddSchool = isAddSchool;
+
+  // If isAddSchool - create name & slug from url
+  useEffect(() => {
+    if (isAddSchool && params) {
+      fetchSchoolData(params).then((updatedData) => updateFields(updatedData));
+      // updateSchool(data, params);
+    }
+  }, []);
+
   // Enable button only when form is filled out
   const isNextDisabled = !validateCurrentStep(step.key as string);
-  const [displayedSchoolName, setDisplayedSchoolName] = useState(HEADING_TEXT);
+
+  // State for the heading text (school name)
+  const [dynamicSchoolName, setdynamicSchoolName] = useState(HEADING_TEXT);
 
   const handleNext = (e: FormEvent) => {
     e.preventDefault();
+
     if (isNextDisabled) return;
+
     if (isLastStep)
       handleSubmit(); // Submit review
     else {
@@ -97,7 +108,7 @@ export const AddReview: React.FC<AddReviewProps> = ({
         (isAddCity || isAddSchool) &&
         steps[currentStepIndex + 1]?.key === "relationshipForm"
       ) {
-        setDisplayedSchoolName(`Rate ${data.school.name}` || HEADING_TEXT);
+        setdynamicSchoolName(`Rate ${data.school.name}` || HEADING_TEXT);
       }
       next();
     }
@@ -106,11 +117,12 @@ export const AddReview: React.FC<AddReviewProps> = ({
   const handleBack = () => {
     // Change <h1> back
     if (steps[currentStepIndex]?.key === "relationshipForm") {
-      setDisplayedSchoolName(HEADING_TEXT);
+      setdynamicSchoolName(HEADING_TEXT);
     }
     back();
   };
 
+  // Update index if there's additional step (addCity/addSchool)
   let currentStepIndex2 = currentStepIndex;
   if (steps.length > 4) {
     currentStepIndex2 = currentStepIndex - 1;
@@ -119,7 +131,7 @@ export const AddReview: React.FC<AddReviewProps> = ({
   return (
     <>
       <div className="flex h-52 items-center justify-center bg-gray-100 text-3xl font-medium">
-        <h1 className="capitalize">{displayedSchoolName}</h1>
+        <h1 className="capitalize">{dynamicSchoolName}</h1>
       </div>
 
       <div className="relative mx-auto w-full max-w-[1200px] py-8">
@@ -154,4 +166,45 @@ export const AddReview: React.FC<AddReviewProps> = ({
       </div>
     </>
   );
+};
+
+const fetchSchoolData = async (params: {
+  cityName: string;
+  countryName: string;
+}) => {
+  const { cityName, countryName } = params;
+
+  // Create firestore db query
+  const cityQuery = query(
+    collection(db, "cities"),
+    where("slug", "==", cityName),
+  );
+  const countryQuery = query(
+    collection(db, "countries"),
+    where("slug", "==", countryName),
+  );
+
+  // Create snapshot
+  const [citySnapshot, countrySnapshot] = await Promise.all([
+    getDocs(cityQuery),
+    getDocs(countryQuery),
+  ]);
+
+  // Get the data
+  const cityData = citySnapshot.docs[0]?.data() || {};
+  const countryData = countrySnapshot.docs[0]?.data() || {};
+
+  // Return data to updateFields()
+  return {
+    city: {
+      slug: cityName,
+      name: cityData.name,
+      reference: `cities/${cityName}`,
+    },
+    country: {
+      slug: countryName,
+      name: countryData.name,
+      reference: `cities/${countryName}`,
+    },
+  };
 };

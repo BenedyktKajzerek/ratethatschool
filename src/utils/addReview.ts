@@ -8,10 +8,10 @@ const calculateOverallRating = (ratings: Record<string, number>): number => {
   return Math.round((total / count) * 10) / 10;
 };
 
-const addDocumentToCollection = async (
+export const addReview = async (
   data: ReviewModel,
-  isAddCity?: boolean,
-  isAddSchool?: boolean,
+  isAddCity: boolean,
+  isAddSchool: boolean,
 ) => {
   const ratingOverall = calculateOverallRating(data.ratings);
 
@@ -49,25 +49,18 @@ const addDocumentToCollection = async (
       },
     };
 
+    // If isAddSchool - create name & slug from url
+    // if (isAddSchool && params) {
+    //   documentData.city.slug = params?.cityName;
+    //   documentData.country.slug = params?.countryName;
+    //   documentData.city.reference = `cities/${params?.cityName}`;
+    //   documentData.country.reference = `countries/${params?.countryName}`;
+    // }
+
     // Create document inside the collection
     await addDoc(collectionRef, documentData);
     console.log(`Success:`, data);
   } catch (error) {
     console.error(`Error:`, error);
   }
-};
-
-// Add a review to the "reviews" collection.
-export const addReview = async (data: ReviewModel) => {
-  await addDocumentToCollection(data, false, false);
-};
-
-// Add a school to the "add-school" collection.
-export const addSchool = async (data: ReviewModel) => {
-  await addDocumentToCollection(data, false, true);
-};
-
-// Add a city to the "add-city" collection.
-export const addCity = async (data: ReviewModel) => {
-  await addDocumentToCollection(data, true, false);
 };

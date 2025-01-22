@@ -29,11 +29,12 @@ type AddCityFormProps = AddCityData & {
 };
 
 export const AddCityForm: React.FC<AddCityFormProps> = ({
-  school = { name: "", slug: "", reference: "" },
-  city = { name: "", slug: "", reference: "" },
-  country = { name: "", slug: "", reference: "" },
+  school = { name: "" },
+  city = { name: "" },
+  country = { name: "" },
   updateFields,
 }) => {
+  // Create slug & reference from input text
   const handleSchoolChange = (text: string) => {
     const slug = generateSlug(text);
     const reference = `schools/${slug}`;
@@ -43,6 +44,7 @@ export const AddCityForm: React.FC<AddCityFormProps> = ({
     });
   };
 
+  // Create slug & reference from input text
   const handleCityChange = (text: string) => {
     const slug = generateSlug(text);
     const reference = `cities/${slug}`;
@@ -52,6 +54,7 @@ export const AddCityForm: React.FC<AddCityFormProps> = ({
     });
   };
 
+  // Create slug & reference from input text
   const handleCountryChange = (text: string) => {
     const slug = generateSlug(text);
     const reference = `countries/${slug}`;

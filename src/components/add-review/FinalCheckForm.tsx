@@ -21,10 +21,8 @@ type FinalCheckFormProps = {
     name: string;
     slug: string;
   };
-  countryName?: string;
-  params?: {
-    countryName: string;
-    cityName: string;
+  country?: {
+    name: string;
   };
   isAddCity: boolean;
   isAddSchool: boolean;
@@ -34,10 +32,9 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
   relationship,
   ratings,
   comment,
-  city,
-  school,
-  countryName,
-  params,
+  city = { name: "[YourCity]" },
+  school = { name: "[YourSchool]" },
+  country = { name: "[YourCountry]" },
   isAddCity,
   isAddSchool,
 }) => {
@@ -46,21 +43,18 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
       <div>
         <h2 className="text-3xl">
           Confirm your review for{" "}
-          <span className="capitalize text-primary">{school?.name}</span> at{" "}
-          <span className="capitalize">
-            {/* TODO dynamic based on link */}
-            {isAddCity && (
-              <span>
-                {city?.name} <span className="text-sm">{countryName}</span>
-              </span>
-            )}
-            {isAddSchool && (
-              <span>
-                {params?.cityName}{" "}
-                <span className="text-sm">{params?.countryName}</span>
-              </span>
-            )}
-          </span>
+          <span className="capitalize text-primary">{school.name}</span> at{" "}
+          {/* TODO dynamic based on link */}
+          {isAddCity && (
+            <span className="capitalize">
+              {city.name} <span className="text-sm">{country.name}</span>
+            </span>
+          )}
+          {isAddSchool && (
+            <span className="capitalize">
+              {city.name} <span className="text-sm">{country.name}</span>
+            </span>
+          )}
         </h2>
         <p className="mt-1 text-sm text-gray-600">
           All reviews are subject to approval.
