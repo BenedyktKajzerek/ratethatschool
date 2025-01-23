@@ -22,6 +22,8 @@ export const addReview = async (
     const documentData: any = {
       approved: false,
       date: new Date(),
+      isAddCity: isAddCity,
+      isAddSchool: isAddSchool,
       relationship: data.relationship,
       ratings: {
         teachers: data.ratings.teachers,
@@ -30,8 +32,8 @@ export const addReview = async (
         building: data.ratings.building,
         location: data.ratings.location,
       },
-      comment: data.comment,
       ratingOverall: ratingOverall,
+      comment: data.comment,
       city: {
         name: data.city.name,
         slug: data.city.slug,
@@ -49,17 +51,8 @@ export const addReview = async (
       },
     };
 
-    // If isAddSchool - create name & slug from url
-    // if (isAddSchool && params) {
-    //   documentData.city.slug = params?.cityName;
-    //   documentData.country.slug = params?.countryName;
-    //   documentData.city.reference = `cities/${params?.cityName}`;
-    //   documentData.country.reference = `countries/${params?.countryName}`;
-    // }
-
     // Create document inside the collection
     await addDoc(collectionRef, documentData);
-    console.log(`Success:`, data);
   } catch (error) {
     console.error(`Error:`, error);
   }

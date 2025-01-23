@@ -45,6 +45,7 @@ const DashboardPage = () => {
       </div>
 
       <div className="w-full px-8">
+        {/* TODO visible only for admins */}
         {/* Pending Requests Page */}
         {currentDashboardPage === "requests" && <PendingRequests />}
 

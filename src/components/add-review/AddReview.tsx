@@ -26,7 +26,8 @@ interface AddReviewProps {
 }
 
 const HEADING_TEXT = "Add a school";
-
+// TODO addCity & addSchool working, addReview to do
+// TODO redirect to a different page after submitting the review
 export const AddReview: React.FC<AddReviewProps> = ({
   params,
   isAddCity = false,
@@ -77,9 +78,6 @@ export const AddReview: React.FC<AddReviewProps> = ({
         />,
       ].filter(Boolean) as React.ReactElement[], // Cast to correct type
     );
-
-  data.isAddCity = isAddCity;
-  data.isAddSchool = isAddSchool;
 
   // If isAddSchool - create name & slug from url
   useEffect(() => {

@@ -2,24 +2,40 @@
 import { db } from "../../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
-const getDocumentsFromCollection = async (collectionName: string) => {
+export const getReviews = async (isAddCity: boolean, isAddSchool: boolean) => {
   try {
-    const q = query(
-      collection(db, collectionName),
-      where("approved", "==", false),
-    );
+    // Create firestore db query
+    let q;
+    if (isAddCity) {
+      q = query(
+        collection(db, "pending-reviews"),
+        where("isAddCity", "==", true),
+      );
+    } else if (isAddSchool) {
+      q = query(
+        collection(db, "pending-reviews"),
+        where("isAddSchool", "==", true),
+      );
+    } else {
+      q = query(
+        collection(db, "pending-reviews"),
+        where("isAddCity", "==", false),
+        where("isAddSchool", "==", false),
+      );
+    }
+
+    // Create snapshot
     const querySnapshot = await getDocs(q);
+
+    // Get the data
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
+
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];
   }
 };
-
-export const getReviews = async () => getDocumentsFromCollection("reviews");
-export const getSchools = async () => getDocumentsFromCollection("add-school");
-export const getCities = async () => getDocumentsFromCollection("add-city");

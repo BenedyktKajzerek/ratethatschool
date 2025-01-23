@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getReviews, getSchools, getCities } from "@/utils/getReviews";
+import { getReviews } from "@/utils/getReviews";
 import { Review } from "./Review";
+import { handleReviewAction } from "@/utils/handleReviewAction";
 
 const requestsSections = [
   { id: "reviews", label: "Reviews" },
-  { id: "schools", label: "Schools" },
   { id: "cities", label: "Cities" },
+  { id: "schools", label: "Schools" },
   { id: "images", label: "Images" },
 ];
 
@@ -15,17 +16,18 @@ export const PendingRequests: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [currentData, setCurrentData] = useState<any[]>([]);
 
+  // Fetch reviews from firestore based on the section
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         let data;
         if (currentRequestsSection === "reviews") {
-          data = await getReviews();
-        } else if (currentRequestsSection === "schools") {
-          data = await getSchools();
+          data = await getReviews(false, false); // isAddCity, isAddSchool
         } else if (currentRequestsSection === "cities") {
-          data = await getCities();
+          data = await getReviews(true, false);
+        } else if (currentRequestsSection === "schools") {
+          data = await getReviews(false, true);
         }
         setCurrentData(data || []);
       } catch (error) {
@@ -37,8 +39,6 @@ export const PendingRequests: React.FC = () => {
 
     fetchData();
   }, [currentRequestsSection]);
-
-  console.log(currentData);
 
   return (
     <>
@@ -69,33 +69,28 @@ export const PendingRequests: React.FC = () => {
         ) : (
           <>
             {/* Render Pending Reviews */}
-            {currentRequestsSection === "reviews" &&
+            {(currentRequestsSection === "reviews" || "cities" || "schools") &&
               currentData.map((review) => (
-                <Review key={review.id} reviewData={review} />
+                <div key={review.id}>
+                  <Review
+                    reviewData={review}
+                    showActionButtons={true}
+                    onReviewAction={(reviewId, approved) =>
+                      handleReviewAction(
+                        reviewId,
+                        approved,
+                        currentData,
+                        setCurrentData,
+                      )
+                    }
+                  />
+                </div>
               ))}
 
-            {/* Render Placeholder for Schools */}
-            {/* {currentRequestsSection === "schools" && (
-              <div>
-                {currentData.map((review: any) => (
-                  <div key={review.id}>{review.name}</div>
-                ))}
-              </div>
-            )} */}
-
-            {/* Render Placeholder for Cities */}
-            {/* {currentRequestsSection === "cities" && (
-              <div>
-                {currentData.map((review: any) => (
-                  <div key={review.id}>{review.name}</div>
-                ))}
-              </div>
-            )} */}
-
             {/* Render Placeholder for Images */}
-            {/* {currentRequestsSection === "images" && (
+            {currentRequestsSection === "images" && (
               <div>Images content goes here.</div>
-            )} */}
+            )}
           </>
         )}
       </div>
