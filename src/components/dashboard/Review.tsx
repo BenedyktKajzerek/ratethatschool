@@ -101,7 +101,7 @@ export const Review: React.FC<ReviewProps> = ({
             Relationship:{" "}
             <span className="font-medium">{reviewData.relationship}</span>
           </div>
-          <div>{reviewData.comment}</div>
+          <div className="break-all">{reviewData.comment}</div>
           <div className="bottom-0 flex w-fit items-center rounded-full bg-gray-200">
             <button className="rounded-full p-2 hover:bg-gray-300 hover:text-green-500">
               <BiUpvote size={18} />

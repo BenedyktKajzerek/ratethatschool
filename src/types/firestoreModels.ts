@@ -39,17 +39,25 @@ export interface ReviewModel {
 export interface SchoolModel {
   name: string;
   slug: string;
-  cityRef: string; // cities/[cityDoc]
-  countryRef: string; // countries/[countryDoc]
+  city: {
+    name: string;
+    slug: string;
+    reference: string;
+  };
+  country: {
+    name: string;
+    slug: string;
+    reference: string;
+  };
 }
 
 export interface CityModel {
   name: string;
   slug: string;
-  english: string;
-  countryRef: string; // countries/[countryDoc]
+  countryRef: string;
 }
 
 export interface CountryModel {
   name: string;
+  slug: string;
 }

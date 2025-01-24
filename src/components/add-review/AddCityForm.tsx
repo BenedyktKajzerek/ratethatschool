@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { TextInput } from "./TextInput";
+import { TextInput } from "./index";
 import { countryList } from "@/data/countryList";
 import { generateSlug } from "@/utils/generateSlug";
 
@@ -29,9 +29,9 @@ type AddCityFormProps = AddCityData & {
 };
 
 export const AddCityForm: React.FC<AddCityFormProps> = ({
-  school = { name: "" },
-  city = { name: "" },
-  country = { name: "" },
+  school = { name: "", slug: "", reference: "" },
+  city = { name: "", slug: "", reference: "" },
+  country = { name: "", slug: "", reference: "" },
   updateFields,
 }) => {
   // Create slug & reference from input text

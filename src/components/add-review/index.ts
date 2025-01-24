@@ -1,7 +1,9 @@
+export { AddCityForm } from "./AddCityForm";
+export { AddReview } from "./AddReview";
+export { AddSchoolForm } from "./AddSchoolForm";
+export { FinalCheckForm } from "./FinalCheckForm";
 export { ProgressBar } from "./ProgressBar";
 export { RateSchoolForm } from "./RateSchoolForm";
 export { RelationshipForm } from "./RelationshipForm";
+export { TextInput } from "./TextInput";
 export { WriteReviewForm } from "./WriteReviewForm";
-export { FinalCheckForm } from "./FinalCheckForm";
-export { AddSchoolForm } from "./AddSchoolForm";
-export { AddCityForm } from "./AddCityForm";

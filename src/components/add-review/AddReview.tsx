@@ -3,6 +3,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import useMultistepForm from "@/hooks/useMultistepForm";
+import { useReviewForm } from "@/hooks/useReviewForm";
 import {
   ProgressBar,
   AddCityForm,
@@ -12,7 +13,6 @@ import {
   WriteReviewForm,
   FinalCheckForm,
 } from "./index";
-import { useReviewForm } from "@/hooks/useReviewForm";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 
@@ -83,7 +83,6 @@ export const AddReview: React.FC<AddReviewProps> = ({
   useEffect(() => {
     if (isAddSchool && params) {
       fetchSchoolData(params).then((updatedData) => updateFields(updatedData));
-      // updateSchool(data, params);
     }
   }, []);
 
@@ -202,7 +201,7 @@ const fetchSchoolData = async (params: {
     country: {
       slug: countryName,
       name: countryData.name,
-      reference: `cities/${countryName}`,
+      reference: `countries/${countryName}`,
     },
   };
 };

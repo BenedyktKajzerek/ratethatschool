@@ -12,12 +12,9 @@ export default async function AddReviewPage({
   // Await `params` to access its properties
   const { countryId, cityId } = await params;
 
-  const countryNameParam = countryId.replace(/-/g, " ");
-  const cityNameParam = cityId.replace(/-/g, " ");
-
   return (
     <AddReview
-      params={{ countryName: countryNameParam, cityName: cityNameParam }}
+      params={{ countryName: countryId, cityName: cityId }}
       isAddSchool={true}
     />
   );

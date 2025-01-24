@@ -1,6 +1,6 @@
 import { ReviewModel } from "@/types/firestoreModels";
 import { db } from "../../firebaseConfig";
-import { collection, addDoc, DocumentReference } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 const calculateOverallRating = (ratings: Record<string, number>): number => {
   const total = Object.values(ratings).reduce((sum, value) => sum + value, 0);
