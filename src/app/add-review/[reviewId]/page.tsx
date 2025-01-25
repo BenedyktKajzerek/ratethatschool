@@ -19,7 +19,7 @@ export default async function AddReviewPage({
         <h1 className="">Rate {schoolNameParam}</h1>
       </div>
 
-      <AddReview schoolNameParam={schoolNameParam} />
+      <AddReview />
     </>
   );
 }

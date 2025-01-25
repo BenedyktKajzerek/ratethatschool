@@ -68,7 +68,7 @@ export const SchoolSearchInput: React.FC = () => {
           return (
             <Link
               key={slug}
-              href={`schools/${country.slug}/${city.slug}/${slug}`}
+              href={`reviews/${country.slug}/${city.slug}/${slug}`}
               className="border-gray border-t px-4 py-2 hover:bg-gray-100"
             >
               <span className="capitalize">{name}</span>
