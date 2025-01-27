@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getReviews } from "@/utils/getReviews";
-import { Review } from "./Review";
+import { Review } from "./PendingReview";
 import { handleReviewAction } from "@/utils/handleReviewAction";
 
 const requestsSections = [

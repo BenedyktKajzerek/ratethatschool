@@ -1,12 +1,7 @@
 import { ReviewModel } from "@/types/firestoreModels";
-import { db } from "../../firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
-
-const calculateOverallRating = (ratings: Record<string, number>): number => {
-  const total = Object.values(ratings).reduce((sum, value) => sum + value, 0);
-  const count = Object.keys(ratings).length;
-  return Math.round((total / count) * 10) / 10;
-};
+import { auth, db } from "../../firebaseConfig";
+import { collection, addDoc, getDoc, doc } from "firebase/firestore";
+import { calculateOverallRating } from "./calculateOverallRating";
 
 export const addReview = async (
   data: ReviewModel,
@@ -15,12 +10,19 @@ export const addReview = async (
 ) => {
   const ratingOverall = calculateOverallRating(data.ratings);
 
+  let author: string | null = null;
+
+  // Check if a user is logged in
+  const user = auth.currentUser;
+  if (user) author = user.email;
+
   try {
     // Reference to db collection
     const collectionRef = collection(db, "pending-reviews");
 
-    const documentData: any = {
+    const documentData: ReviewModel = {
       approved: false,
+      author: author || null,
       date: new Date(),
       isAddCity: isAddCity,
       isAddSchool: isAddSchool,
@@ -34,6 +36,7 @@ export const addReview = async (
       },
       ratingOverall: ratingOverall,
       comment: data.comment,
+      likes: 0,
       city: {
         name: data.city.name,
         slug: data.city.slug,

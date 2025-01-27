@@ -1,6 +1,20 @@
-import { CityModel, CountryModel, SchoolModel } from "@/types/firestoreModels";
+import {
+  CityModel,
+  CountryModel,
+  ReviewModel,
+  SchoolModel,
+} from "@/types/firestoreModels";
 import { db } from "../../firebaseConfig";
-import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 export const handleReviewAction = async (
   reviewId: string,
@@ -63,8 +77,50 @@ export const handleReviewAction = async (
             slug: review.country.slug,
             reference: review.country.reference,
           },
+          ratingOverall: 0,
+          reviewsCount: 1,
         };
         await setDoc(schoolDocRef, schoolDoc);
+      }
+    }
+
+    if (approved) {
+      // Update schools ratingOverall & totalReviews
+      const schoolDocRef = doc(db, "schools", review.school.slug);
+      const schoolDocSnapshot = await getDoc(schoolDocRef);
+
+      if (schoolDocSnapshot.exists()) {
+        const schoolDocData = schoolDocSnapshot.data() as SchoolModel;
+
+        // Get all reviews for this school
+        const reviewsQuery = query(
+          collection(db, "reviews"),
+          where("school.slug", "==", review.school.slug),
+        );
+        const querySnapShot = await getDocs(reviewsQuery);
+
+        let totalRating = 0;
+        let reviewCount = 0;
+
+        // Get ratings from all reviews to calculate overall school rating
+        querySnapShot.forEach((doc) => {
+          const reviewData = doc.data() as ReviewModel;
+          totalRating += reviewData.ratingOverall;
+          reviewCount++;
+        });
+
+        const ratingOverall =
+          reviewCount > 0
+            ? Math.round((totalRating / reviewCount) * 10) / 10
+            : 0;
+
+        // Update the school doc with new rating
+        const updatedSchoolDoc: SchoolModel = {
+          ...schoolDocData,
+          ratingOverall: ratingOverall,
+          reviewsCount: reviewCount,
+        };
+        await setDoc(schoolDocRef, updatedSchoolDoc);
       }
     }
 

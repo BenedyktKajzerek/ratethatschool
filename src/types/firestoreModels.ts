@@ -6,6 +6,7 @@ export interface UserModel {
 
 export interface ReviewModel {
   approved: boolean;
+  author: string | null;
   date: Date;
   relationship: string;
   ratings: {
@@ -15,8 +16,9 @@ export interface ReviewModel {
     building: number;
     location: number;
   };
-  comment: string;
   ratingOverall: number;
+  comment: string;
+  likes: number;
   isAddCity: boolean;
   isAddSchool: boolean;
   city: {
@@ -49,6 +51,8 @@ export interface SchoolModel {
     slug: string;
     reference: string;
   };
+  ratingOverall: number;
+  reviewsCount: number;
 }
 
 export interface CityModel {
