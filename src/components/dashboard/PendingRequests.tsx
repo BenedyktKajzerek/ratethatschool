@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getReviews } from "@/utils/getReviews";
+import { getPendingReviews } from "@/utils/getPendingReviews";
 import { Review } from "./PendingReview";
 import { handleReviewAction } from "@/utils/handleReviewAction";
 
@@ -23,11 +23,11 @@ export const PendingRequests: React.FC = () => {
       try {
         let data;
         if (currentRequestsSection === "reviews") {
-          data = await getReviews(false, false); // isAddCity, isAddSchool
+          data = await getPendingReviews(false, false); // isAddCity, isAddSchool
         } else if (currentRequestsSection === "cities") {
-          data = await getReviews(true, false);
+          data = await getPendingReviews(true, false);
         } else if (currentRequestsSection === "schools") {
-          data = await getReviews(false, true);
+          data = await getPendingReviews(false, true);
         }
         setCurrentData(data || []);
       } catch (error) {

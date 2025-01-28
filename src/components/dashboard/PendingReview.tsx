@@ -1,5 +1,4 @@
 import React from "react";
-import { BiDownvote, BiUpvote } from "react-icons/bi";
 import { FaStar } from "react-icons/fa";
 import { Button } from "../ui";
 import { ReviewModel } from "@/types/firestoreModels";
@@ -117,14 +116,6 @@ export const Review: React.FC<ReviewProps> = ({
               {reviewData.author || "Anonymous User"}
             </p>
             {reviewData.comment}
-          </div>
-
-          {/* Likes */}
-          <div className="bottom-0 flex w-fit items-center rounded-full bg-gray-200">
-            <button className="rounded-full p-2 hover:bg-gray-300 hover:text-green-500">
-              <BiUpvote size={18} />
-            </button>
-            <div className="mx-1 text-sm">{reviewData.likes}</div>
           </div>
         </div>
       </div>

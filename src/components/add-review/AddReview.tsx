@@ -15,6 +15,7 @@ import {
 } from "./index";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
+import schoolImg from "@/../public/school-illustration-2.jpg";
 
 interface AddReviewProps {
   params?: {
@@ -127,8 +128,17 @@ export const AddReview: React.FC<AddReviewProps> = ({
 
   return (
     <>
-      <div className="flex h-52 items-center justify-center bg-gray-100 text-3xl font-medium">
-        <h1 className="capitalize">{dynamicSchoolName}</h1>
+      <div
+        style={{
+          // linear-gradient for black layer over the img
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url(${schoolImg.src})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="flex h-52 items-center justify-center text-3xl font-medium"
+      >
+        <h1 className="capitalize text-white">{dynamicSchoolName}</h1>
       </div>
 
       <div className="relative mx-auto w-full max-w-[1200px] py-8">

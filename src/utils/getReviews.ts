@@ -1,41 +1,23 @@
-// getReviews.ts
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
 
-export const getReviews = async (isAddCity: boolean, isAddSchool: boolean) => {
-  try {
-    // Create firestore db query
-    let q;
-    if (isAddCity) {
-      q = query(
-        collection(db, "pending-reviews"),
-        where("isAddCity", "==", true),
-      );
-    } else if (isAddSchool) {
-      q = query(
-        collection(db, "pending-reviews"),
-        where("isAddSchool", "==", true),
-      );
-    } else {
-      q = query(
-        collection(db, "pending-reviews"),
-        where("isAddCity", "==", false),
-        where("isAddSchool", "==", false),
-      );
-    }
+export const getReviews = async (
+  countrySlug: string,
+  citySlug: string,
+  schoolSlug: string,
+) => {
+  // // Create firestore db query
+  const reviewsQuery = query(
+    collection(db, "reviews"),
+    where("country.slug", "==", countrySlug),
+    where("city.slug", "==", citySlug),
+    where("school.slug", "==", schoolSlug),
+  );
 
-    // Create snapshot
-    const querySnapshot = await getDocs(q);
+  // Create snapshot
+  const reviewsSnap = await getDocs(reviewsQuery);
 
-    // Get the data
-    const data = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return [];
-  }
+  // Get the data
+  const reviews = reviewsSnap.docs.map((doc) => doc.data());
+  return reviews;
 };

@@ -3,54 +3,75 @@ import { ReviewOverallSummary } from "@/components/reviews/ReviewOverallSummary"
 import Link from "next/link";
 import React from "react";
 import { TiHome } from "react-icons/ti";
+import { getReviews } from "@/utils/getReviews";
+import { ReviewModel } from "@/types/firestoreModels";
+import schoolImg from "@/../public/school-illustration-2.jpg";
 
-const reviewData = {
-  approved: true,
-  author: null,
-  date: new Date(),
-  relationship: "Student",
-  ratings: {
-    teachers: 4,
-    learning: 3,
-    facilities: 5,
-    building: 4,
-    location: 3,
-  },
-  ratingOverall: 4.2,
-  comment:
-    "Amazing school Amazing school Amazing school Amazing school Amazing school Amazing school Amazing school Amazing school Amazing school Amazing school Amazing school",
-  likes: 0,
-  isAddCity: true,
-  isAddSchool: false,
-  city: {
-    name: "mysłowice",
-    slug: "myslowice",
-    reference: "cities/myslowice",
-  },
-  school: {
-    name: "ckziu w mysłowicach technikum nr 1",
-    slug: "ckziu-w-myslowicach-technikum-nr-1",
-    reference: "schools/ckziu-w-myslowicach-technikum-nr-1",
-  },
-  country: {
-    name: "poland",
-    slug: "poland",
-    reference: "countries/poland",
-  },
-};
+export default async function Reviews({
+  params,
+}: Readonly<{
+  params: {
+    countryId: string;
+    cityId: string;
+    schoolId: string;
+  };
+}>) {
+  const { countryId, cityId, schoolId } = await params;
 
-export default function Reviews() {
+  // Get reviews for school
+  const reviews = await getReviews(countryId, cityId, schoolId);
+
+  const countryName = reviews[0].country.name;
+  const cityName = reviews[0].city.name;
+  const schoolName = reviews[0].school.name;
+
+  const reviewsCount = reviews.length;
+
+  let teachersOverall = 0,
+    learningOverall = 0,
+    facilitiesOverall = 0,
+    buildingOverall = 0,
+    locationOverall = 0,
+    overallRating = 0;
+
+  reviews.forEach((review) => {
+    teachersOverall += review.ratings.teachers;
+    learningOverall += review.ratings.learning;
+    facilitiesOverall += review.ratings.facilities;
+    buildingOverall += review.ratings.building;
+    locationOverall += review.ratings.location;
+    overallRating += review.ratingOverall;
+  });
+
+  teachersOverall = teachersOverall / reviewsCount;
+  learningOverall = learningOverall / reviewsCount;
+  facilitiesOverall = facilitiesOverall / reviewsCount;
+  buildingOverall = buildingOverall / reviewsCount;
+  locationOverall = locationOverall / reviewsCount;
+  overallRating = overallRating / reviewsCount;
+
   return (
     <>
       {/* School background */}
-      <div className="flex h-[300px] bg-gray-500">
+      <div
+        style={{
+          // linear-gradient for black layer over the img
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url(${schoolImg.src})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="flex h-[300px]"
+      >
         {/* School name */}
         <div className="mx-auto mb-6 flex w-[1200px] flex-col justify-end space-y-1">
-          <h1 className="text-3xl text-white">{"School Name"} Reviews</h1>
+          <h1 className="text-3xl capitalize text-white">
+            {schoolName} Reviews
+          </h1>
 
-          <p className="text-white">
-            {"Country Name, "}
-            {"City Name"}
+          <p className="capitalize text-white">
+            {`${cityName}, `}
+            {countryName}
           </p>
         </div>
       </div>
@@ -61,15 +82,28 @@ export default function Reviews() {
         <div className="flex items-center space-x-2 text-sm">
           <TiHome size={20} />
           <p>
-            <Link href={"/"} className="hover:underline">
-              {"Mysłowice"}
+            <Link
+              href={`/cities/${cityName}`}
+              className="capitalize hover:underline"
+            >
+              {cityName}
             </Link>{" "}
-            {">"} <span className="underline">{"Poland"}</span>
+            {">"} <span className="capitalize underline">{countryName}</span>
           </p>
         </div>
 
         {/* Review overall ratings */}
-        <ReviewOverallSummary />
+        <ReviewOverallSummary
+          reviewsCount={reviewsCount}
+          overallRating={overallRating}
+          reviewOverallData={{
+            teachersOverall: teachersOverall,
+            learningOverall: learningOverall,
+            facilitiesOverall: facilitiesOverall,
+            buildingOverall: buildingOverall,
+            locationOverall: locationOverall,
+          }}
+        />
 
         {/* Quick note */}
         <div>
@@ -80,8 +114,12 @@ export default function Reviews() {
         </div>
 
         {/* Reviews */}
-        <div>
-          <Review reviewData={reviewData} />
+        <div className="space-y-8">
+          {reviews.map((review) => (
+            <div key={review.id}>
+              <Review reviewData={review as ReviewModel} />
+            </div>
+          ))}
         </div>
       </div>
     </>

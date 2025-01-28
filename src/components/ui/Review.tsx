@@ -27,32 +27,40 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
 
   return (
     <>
-      <div className="rounded-lg border shadow-sm">
+      <div className="space-y-4 rounded-lg border p-4 shadow-sm">
         {/* First row */}
-        <div className="flex">
+        <div className="flex space-x-8">
           {/* Overall rating */}
-          <div className="flex w-full max-w-[158px] flex-col items-center justify-center rounded-br-lg rounded-tl-lg bg-primary text-white">
-            <p className="text-5xl font-medium">{overallRating}</p>
+          <div className="flex items-center">
+            <div className="relative w-10 bg-primary py-1 pl-1 text-center text-2xl font-medium text-white">
+              <span>{overallRating.toFixed(1)}</span>
+              {/* Bigger triangle */}
+              <div className="absolute right-0 top-0 z-10 h-0 w-0 translate-x-[100%] border-y-[20px] border-l-[20px] border-y-transparent border-l-primary" />
+            </div>
 
-            <p className="flex text-yellow-500">
+            <div className="relative flex bg-gray-600 py-2.5 pl-6 pr-1 text-yellow-500">
+              {/* Smaller triangle */}
+              <div className="absolute right-0 top-0 h-0 w-0 translate-x-[100%] border-y-[18px] border-l-[18px] border-y-transparent border-l-gray-600" />
               {[1, 2, 3, 4, 5].map((star) => (
                 <FaStar
                   key={star}
                   size={16}
                   className={
-                    star <= overallRating ? "text-yellow-500" : "text-gray-300"
+                    star <= Math.round(overallRating)
+                      ? "text-yellow-500"
+                      : "text-gray-400"
                   }
                 />
               ))}
-            </p>
+            </div>
           </div>
 
           {/* Particular ratings */}
-          <div className="flex w-full space-x-4 p-4">
+          <div className="flex w-full space-x-4">
             {ratingsOrder.map((key) => (
               <div
                 key={key}
-                className="flex h-fit w-1/5 flex-col items-center rounded-b-lg border-t-4 border-primary px-6 py-2 shadow-md"
+                className="flex h-fit flex-col items-center rounded-b-lg"
               >
                 <p className="capitalize">{key}</p>
 
@@ -77,7 +85,7 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
         </div>
 
         {/* Second row */}
-        <div className="flex flex-col space-y-2 p-4">
+        <div className="flex flex-col space-y-2">
           {/* Relationship & Date */}
           <div className="flex items-center justify-between">
             <div>
@@ -91,15 +99,11 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
 
           {/* Date */}
           <span className="text-xs text-gray-500">
-            {/* {reviewData.date
-                ? formatDistanceToNow(
-                    new Date(reviewData.date.seconds * 1000),
-                    {
-                      addSuffix: true,
-                    },
-                  )
-                : "N/A"} */}
-            2 months ago
+            {reviewData.date
+              ? formatDistanceToNow(new Date(reviewData.date.seconds * 1000), {
+                  addSuffix: true,
+                })
+              : "N/A"}
           </span>
 
           {/* Likes */}
