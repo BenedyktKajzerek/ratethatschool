@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import reviewImg from "../../public/review.svg";
@@ -9,8 +11,28 @@ import {
   PopularSchool,
   SchoolSearchInput,
 } from "@/components/homepage";
+import { useEffect } from "react";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export default function Home() {
+  useEffect(() => {
+    const getPopularSchools = async () => {
+      const q = query(
+        collection(db, "schools"),
+        orderBy("reviewsCount", "desc"),
+        limit(5),
+      );
+
+      const schoolsSnapshot = await getDocs(q);
+
+      const schools = schoolsSnapshot.docs.map((doc) => doc.data());
+      console.log(schools);
+    };
+
+    getPopularSchools();
+  }, []);
+
   return (
     <>
       <div>

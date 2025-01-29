@@ -3,13 +3,22 @@
 import { MyReviews } from "@/components/dashboard/MyReviews";
 import { PendingRequests } from "@/components/dashboard/PendingRequests";
 import { Settings } from "@/components/dashboard/Settings";
-import { useState } from "react";
+import { useAuth } from "@/context/authContext";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
+import { db } from "../../../firebaseConfig";
 
 const dashboardPages = [
-  { id: "requests", label: "Pending Requests", icon: MdOutlinePendingActions },
   { id: "reviews", label: "My Reviews", icon: VscPreview },
   { id: "settings", label: "Settings", icon: IoSettingsOutline },
 ];
@@ -27,12 +36,42 @@ const SidebarButton = ({ icon: Icon, label, active, onClick }: any) => (
 );
 
 const DashboardPage = () => {
-  const [currentDashboardPage, setCurrentDashboardPage] = useState("requests");
+  const [currentDashboardPage, setCurrentDashboardPage] = useState("reviews");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    const checkAdmin = async () => {
+      try {
+        const adminsSnapshot = await getDocs(
+          query(collection(db, "admins"), where("email", "==", user.email)),
+        );
+
+        setIsAdmin(!adminsSnapshot.empty);
+        if (!adminsSnapshot.empty) setCurrentDashboardPage("requests");
+      } catch (error) {
+        console.error("Error checking admin status:", error);
+      }
+    };
+
+    checkAdmin();
+  }, [user?.email]);
 
   return (
     <div className="flex h-full w-full">
       {/* Sidebar */}
       <div className="flex w-[300px] flex-col items-start space-y-2 pl-4 text-lg">
+        {isAdmin && (
+          <SidebarButton
+            key="requests"
+            icon={MdOutlinePendingActions}
+            label="Pending Requests"
+            active={currentDashboardPage === "requests"}
+            onClick={() => setCurrentDashboardPage("requests")}
+          />
+        )}
         {dashboardPages.map((page) => (
           <SidebarButton
             key={page.id}
@@ -45,9 +84,8 @@ const DashboardPage = () => {
       </div>
 
       <div className="w-full px-8">
-        {/* TODO visible only for admins */}
         {/* Pending Requests Page */}
-        {currentDashboardPage === "requests" && <PendingRequests />}
+        {currentDashboardPage === "requests" && isAdmin && <PendingRequests />}
 
         {/* My Reviews Page */}
         {currentDashboardPage === "reviews" && <MyReviews />}

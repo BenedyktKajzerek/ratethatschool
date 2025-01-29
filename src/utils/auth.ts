@@ -5,7 +5,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
-  UserCredential,
+  getAdditionalUserInfo,
 } from "firebase/auth";
 import { auth, db } from "../../firebaseConfig";
 import { setDoc, doc } from "firebase/firestore";
@@ -33,16 +33,13 @@ const signInWithEmail = async (email: string, emailLink: string) => {
     if (isSignInWithEmailLink(auth, emailLink)) {
       const result = await signInWithEmailLink(auth, email, emailLink);
       const user = result.user;
-
-      // Use type assertion for additionalUserInfo
-      const additionalUserInfo = (result as any).additionalUserInfo;
+      const additionalUserInfo = getAdditionalUserInfo(result);
 
       // Add user to Firestore if it's a new user
-      if (additionalUserInfo?.isNewUser && user.email) {
+      if (additionalUserInfo?.isNewUser && user?.uid) {
         const newUser: UserModel = {
-          email: user.email,
+          email: user.email ?? "",
           createdAt: new Date(),
-          role: "user",
         };
 
         await setDoc(doc(db, "users", user.uid), newUser);
@@ -64,16 +61,13 @@ const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-
-    // Use type assertion for additionalUserInfo
-    const additionalUserInfo = (result as any).additionalUserInfo;
+    const additionalUserInfo = getAdditionalUserInfo(result);
 
     // Add user to Firestore if it's a new user
-    if (additionalUserInfo?.isNewUser && user.email) {
+    if (additionalUserInfo?.isNewUser && user?.uid) {
       const newUser: UserModel = {
-        email: user.email,
+        email: user.email ?? "",
         createdAt: new Date(),
-        role: "user",
       };
       await setDoc(doc(db, "users", user.uid), newUser);
     }

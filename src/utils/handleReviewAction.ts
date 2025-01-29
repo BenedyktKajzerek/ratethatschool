@@ -78,14 +78,18 @@ export const handleReviewAction = async (
             reference: review.country.reference,
           },
           ratingOverall: 0,
-          reviewsCount: 1,
+          reviewsCount: 0,
         };
         await setDoc(schoolDocRef, schoolDoc);
       }
     }
 
+    // Add to target collection
+    const reviewDocRef = doc(db, targetCollection, reviewId);
+    await setDoc(reviewDocRef, review);
+
+    // Update schools ratingOverall & totalReviews
     if (approved) {
-      // Update schools ratingOverall & totalReviews
       const schoolDocRef = doc(db, "schools", review.school.slug);
       const schoolDocSnapshot = await getDoc(schoolDocRef);
 
@@ -97,13 +101,13 @@ export const handleReviewAction = async (
           collection(db, "reviews"),
           where("school.slug", "==", review.school.slug),
         );
-        const querySnapShot = await getDocs(reviewsQuery);
+        const reviewsSnapShot = await getDocs(reviewsQuery);
 
         let totalRating = 0;
         let reviewCount = 0;
 
         // Get ratings from all reviews to calculate overall school rating
-        querySnapShot.forEach((doc) => {
+        reviewsSnapShot.forEach((doc) => {
           const reviewData = doc.data() as ReviewModel;
           totalRating += reviewData.ratingOverall;
           reviewCount++;
@@ -123,10 +127,6 @@ export const handleReviewAction = async (
         await setDoc(schoolDocRef, updatedSchoolDoc);
       }
     }
-
-    // Add to target collection
-    const reviewDocRef = doc(db, targetCollection, reviewId);
-    await setDoc(reviewDocRef, review);
 
     // Remove review from 'pending-reviews'
     const deleteDocRef = doc(db, "pending-reviews", reviewId);

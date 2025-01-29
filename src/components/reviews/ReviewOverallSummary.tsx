@@ -61,14 +61,23 @@ export const ReviewOverallSummary: React.FC<ReviewOverallSummaryProps> = ({
             >
               <p className="capitalize">{label}</p>
               <div className="flex items-center space-x-2">
-                <p>{reviewOverallData[key].toFixed(1)}</p>
+                <p>
+                  {reviewOverallData[
+                    key as keyof typeof reviewOverallData
+                  ].toFixed(1)}
+                </p>
 
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
                       key={star}
                       className={
-                        star <= Math.round(reviewOverallData[key])
+                        star <=
+                        Math.round(
+                          reviewOverallData[
+                            key as keyof typeof reviewOverallData
+                          ],
+                        )
                           ? "text-yellow-500"
                           : "text-gray-400"
                       }

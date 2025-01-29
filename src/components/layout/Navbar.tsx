@@ -12,6 +12,21 @@ import { useAuth } from "@/context/authContext";
 import { logoutUser } from "@/utils/auth";
 import { ModalAuth } from "./ModalAuth";
 
+const SOCIAL_MEDIA = [
+  {
+    link: "https://www.instagram.com/",
+    icon: FaInstagram,
+  },
+  {
+    link: "https://x.com/",
+    icon: FaXTwitter,
+  },
+  {
+    link: "https://tiktok.com/",
+    icon: RiTiktokLine,
+  },
+];
+
 const navbarIconSize = 24;
 
 export const Navbar: React.FC = () => {
@@ -22,7 +37,6 @@ export const Navbar: React.FC = () => {
   const handleLogout = async () => {
     try {
       await logoutUser();
-      console.log("Logged out successfully:");
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -35,17 +49,14 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center justify-between p-6">
             {/* Social Media Icons */}
             <div className="hidden space-x-6 md:flex">
-              <Link href="https://www.instagram.com/" target="_blank">
-                <FaInstagram size={navbarIconSize} />
-              </Link>
-
-              <Link href="https://x.com/" target="_blank">
-                <FaXTwitter size={navbarIconSize} />
-              </Link>
-
-              <Link href="https://tiktok.com/" target="_blank">
-                <RiTiktokLine size={navbarIconSize} />
-              </Link>
+              {SOCIAL_MEDIA.map((social, index) => {
+                const Icon = social.icon;
+                return (
+                  <Link key={index} href={social.link} target="_blank">
+                    <Icon size={24} />
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Logo */}

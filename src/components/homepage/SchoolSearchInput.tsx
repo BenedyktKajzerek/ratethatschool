@@ -80,7 +80,7 @@ export const SchoolSearchInput: React.FC = () => {
         })}
 
         <div className="border-gray space-x-4 rounded-b-lg border-t bg-gray-100 px-4 py-2 text-sm text-link">
-          <Link href="/add-city">Add Your City</Link>
+          <Link href="/add-school">Add Your City</Link>
           <Link href="/all-schools">View All Schools</Link>
         </div>
       </div>

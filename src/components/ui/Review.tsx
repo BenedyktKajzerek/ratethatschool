@@ -100,9 +100,12 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
           {/* Date */}
           <span className="text-xs text-gray-500">
             {reviewData.date
-              ? formatDistanceToNow(new Date(reviewData.date.seconds * 1000), {
-                  addSuffix: true,
-                })
+              ? formatDistanceToNow(
+                  new Date((reviewData.date as any).seconds * 1000),
+                  {
+                    addSuffix: true,
+                  },
+                )
               : "N/A"}
           </span>
 

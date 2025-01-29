@@ -1,7 +1,6 @@
 export interface UserModel {
   email: string;
   createdAt: Date | null;
-  role: "user" | "admin";
 }
 
 export interface ReviewModel {

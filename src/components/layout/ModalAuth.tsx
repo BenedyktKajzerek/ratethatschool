@@ -22,9 +22,8 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
 
   const handleSignInWithEmailLink = async () => {
     try {
-      // await sendEmailLink(email);
+      await sendEmailLink(email);
       setIsVerifyYourEmail(true);
-      // onClose();
     } catch (error) {
       console.error("Error sending email link:", error);
     }
@@ -57,7 +56,7 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
             {/* Close btn */}
             <button
               onClick={onClose}
-              className="text-grey absolute right-2 top-2 hover:text-black"
+              className="absolute right-2 top-2 text-grey hover:text-black"
             >
               <IoClose size={24} />
             </button>
@@ -66,7 +65,8 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
           {/* Sign in with Google/Facebook */}
           {!isVerifyYourEmail ? (
             <>
-              <div className="w-full space-y-4">
+              {/* TODO add google & facebook sign up */}
+              {/* <div className="w-full space-y-4">
                 <button
                   onClick={handleSignInWithGoogle}
                   className="flex w-full items-center justify-center space-x-2 rounded-md border border-gray-400 p-3 hover:border-primary hover:text-primary"
@@ -82,28 +82,28 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
                   <FaFacebookSquare size={24} className="text-blue-700" />
                   <div>Facebook</div>
                 </button>
-              </div>
+              </div> */}
 
               {/* Divider */}
-              <div className="flex w-full items-center justify-center align-middle">
+              {/* <div className="flex w-full items-center justify-center align-middle">
                 <div className="h-[1px] w-full bg-gray-300"></div>
                 <div className="text-grey mx-3 text-nowrap text-lg">or</div>
                 <div className="h-[1px] w-full bg-gray-300"></div>
-              </div>
+              </div> */}
 
               <input
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="text-grey w-full rounded-md border border-gray-400 p-3"
+                className="w-full rounded-md border border-gray-400 p-3 text-grey"
               />
 
               {/* Enable btn only if email is valid */}
               <Button
                 onClick={handleSignInWithEmailLink}
                 disabled={isEmailValid}
-                className={`w-full p-3 text-base ${isEmailValid && "bg-grey cursor-not-allowed hover:bg-gray-500"}`}
+                className={`w-full p-3 text-base ${isEmailValid && "cursor-not-allowed bg-grey hover:bg-gray-500"}`}
               >
                 Sign In
               </Button>
