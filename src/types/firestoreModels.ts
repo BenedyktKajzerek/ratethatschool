@@ -57,7 +57,12 @@ export interface SchoolModel {
 export interface CityModel {
   name: string;
   slug: string;
-  countryRef: string;
+  country: {
+    name: string;
+    slug: string;
+    reference: string;
+  };
+  reviewsCount: number;
 }
 
 export interface CountryModel {

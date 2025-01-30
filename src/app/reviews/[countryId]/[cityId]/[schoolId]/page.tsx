@@ -82,13 +82,14 @@ export default async function Reviews({
         <div className="flex items-center space-x-2 text-sm">
           <TiHome size={20} />
           <p>
+            <span className="capitalize underline">{countryName}</span> {">"}{" "}
             <Link
-              href={`/cities/${cityName}`}
-              className="capitalize hover:underline"
+              href={`/cities/${countryId}/${cityId}`}
+              className="capitalize text-primary hover:underline"
             >
               {cityName}
             </Link>{" "}
-            {">"} <span className="capitalize underline">{countryName}</span>
+            {">"} <span className="capitalize underline">{schoolName}</span>
           </p>
         </div>
 
@@ -107,7 +108,7 @@ export default async function Reviews({
 
         {/* Quick note */}
         <div>
-          <h3 className="text-xl">Browse {4} School Reviews</h3>
+          <h3 className="text-xl">Browse {reviewsCount} School Reviews</h3>
           <p className="text-sm">
             Did you find a review helpful? Let others know by giving it a like!
           </p>

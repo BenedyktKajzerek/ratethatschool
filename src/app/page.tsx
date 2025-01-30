@@ -11,26 +11,46 @@ import {
   PopularSchool,
   SchoolSearchInput,
 } from "@/components/homepage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { CityModel, SchoolModel } from "@/types/firestoreModels";
 
 export default function Home() {
+  const [popularCities, setPopularCities] = useState<CityModel[]>([]);
+  const [popularSchools, setPopularSchools] = useState<SchoolModel[]>([]);
+
   useEffect(() => {
+    const getPopularCities = async () => {
+      const q = query(
+        collection(db, "cities"),
+        orderBy("reviewsCount", "desc"),
+        limit(8),
+      );
+
+      const citiesSnapshot = await getDocs(q);
+
+      const cities = citiesSnapshot.docs.map((doc) => doc.data() as CityModel);
+      setPopularCities(cities);
+    };
+
     const getPopularSchools = async () => {
       const q = query(
         collection(db, "schools"),
         orderBy("reviewsCount", "desc"),
-        limit(5),
+        limit(8),
       );
 
       const schoolsSnapshot = await getDocs(q);
 
-      const schools = schoolsSnapshot.docs.map((doc) => doc.data());
-      console.log(schools);
+      const schools = schoolsSnapshot.docs.map(
+        (doc) => doc.data() as SchoolModel,
+      );
+      setPopularSchools(schools);
     };
 
     getPopularSchools();
+    getPopularCities();
   }, []);
 
   return (
@@ -103,39 +123,27 @@ export default function Home() {
             <div className="space-y-8">
               {/* Popular Schools */}
               <div>
-                <h3 className="text-center text-2xl">Popular Cities</h3>
-                <div>
-                  <div className="flex space-x-8 overflow-x-scroll p-4">
-                    <PopularCity />
-                    <PopularCity />
-                    <PopularCity />
-                    <PopularCity />
-                    <PopularCity />
-                    <PopularCity />
-                    <PopularCity />
-                    <PopularCity />
-                  </div>
-                  {/* <button>Left</button> */}
-                  {/* <button>Right</button> */}
+                <h3 className="text-center text-2xl">Popular Schools</h3>
+
+                <div className="flex space-x-8 overflow-x-scroll p-4">
+                  {popularSchools.map((school, index) => (
+                    <div key={index}>
+                      <PopularSchool school={school} />
+                    </div>
+                  ))}
                 </div>
               </div>
 
               {/* Popular Cities */}
               <div>
-                <h3 className="text-center text-2xl">Popular Schools</h3>
-                <div>
-                  <div className="flex space-x-8 overflow-x-scroll p-4">
-                    <PopularSchool />
-                    <PopularSchool />
-                    <PopularSchool />
-                    <PopularSchool />
-                    <PopularSchool />
-                    <PopularSchool />
-                    <PopularSchool />
-                    <PopularSchool />
-                  </div>
-                  {/* <button>Left</button> */}
-                  {/* <button>Right</button> */}
+                <h3 className="text-center text-2xl">Popular Cities</h3>
+
+                <div className="flex space-x-8 overflow-x-scroll p-4">
+                  {popularCities.map((city, index) => (
+                    <div key={index}>
+                      <PopularCity city={city} />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

@@ -1,11 +1,16 @@
 import Link from "next/link";
 import React from "react";
 import cityImg from "../../../public/city-alt.jpg";
+import { CityModel } from "@/types/firestoreModels";
 
-const PopularCity: React.FC = () => {
+interface PopularCityProps {
+  city: CityModel;
+}
+
+const PopularCity: React.FC<PopularCityProps> = ({ city }) => {
   return (
     <div className="h-72 w-60 min-w-60">
-      <Link href="#">
+      <Link href={`cities/${city.country.slug}/${city.slug}`}>
         <div>
           <img
             src={cityImg.src}
@@ -13,9 +18,10 @@ const PopularCity: React.FC = () => {
             className="size-60 rounded-xl object-cover"
           />
         </div>
+
         <div className="mt-1">
-          <h3 className="text-xl">Mysłowice, Poland</h3>
-          <p className="text-sm">163 reviews</p>
+          <h3 className="truncate text-xl capitalize">{`${city.name}, ${city.country.name}`}</h3>
+          <p className="text-sm">{city.reviewsCount} Reviews</p>
         </div>
       </Link>
     </div>

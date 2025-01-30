@@ -51,7 +51,12 @@ export const handleReviewAction = async (
         const cityDoc: CityModel = {
           name: review.city.name,
           slug: review.city.slug,
-          countryRef: review.country.reference,
+          country: {
+            name: review.city.name,
+            slug: review.city.slug,
+            reference: review.city.reference,
+          },
+          reviewsCount: 1,
         };
         await setDoc(cityDocRef, cityDoc);
       }
