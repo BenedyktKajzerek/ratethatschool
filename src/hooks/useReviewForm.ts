@@ -4,6 +4,8 @@ import { useState } from "react";
 
 const INITIAL_DATA: ReviewModel = {
   approved: false,
+  author: "",
+  likes: 0,
   date: new Date(),
   relationship: "",
   ratings: {

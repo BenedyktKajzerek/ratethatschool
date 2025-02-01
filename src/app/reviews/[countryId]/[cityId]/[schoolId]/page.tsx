@@ -104,6 +104,11 @@ export default async function Reviews({
             buildingOverall: buildingOverall,
             locationOverall: locationOverall,
           }}
+          params={{
+            countryId: countryId,
+            cityId: cityId,
+            schoolId: schoolId,
+          }}
         />
 
         {/* Quick note */}

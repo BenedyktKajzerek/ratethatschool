@@ -2,6 +2,7 @@ import React from "react";
 import { FaStar } from "react-icons/fa";
 import { Button } from "../ui";
 import { HiOutlinePencilAlt } from "react-icons/hi";
+import Link from "next/link";
 
 const ratingsOrder = [
   { key: "teachersOverall", label: "Teachers" },
@@ -21,12 +22,18 @@ interface ReviewOverallSummaryProps {
     buildingOverall: number;
     locationOverall: number;
   };
+  params: {
+    countryId: string;
+    cityId: string;
+    schoolId: string;
+  };
 }
 
 export const ReviewOverallSummary: React.FC<ReviewOverallSummaryProps> = ({
   reviewsCount,
   overallRating,
   reviewOverallData,
+  params: { countryId, cityId, schoolId },
 }) => {
   return (
     <div className="flex rounded-lg border shadow-sm">
@@ -92,10 +99,12 @@ export const ReviewOverallSummary: React.FC<ReviewOverallSummaryProps> = ({
         </div>
 
         {/* Write review button */}
-        <Button className="flex w-1/3 justify-center space-x-2 py-2">
-          <HiOutlinePencilAlt size={24} />
-          <span className="text-base">Write a Review</span>
-        </Button>
+        <Link href={`/add-review/${countryId}/${cityId}/${schoolId}`}>
+          <Button className="flex w-1/3 justify-center space-x-2 py-2">
+            <HiOutlinePencilAlt size={24} />
+            <span className="text-base">Write a Review</span>
+          </Button>
+        </Link>
       </div>
     </div>
   );

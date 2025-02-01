@@ -11,8 +11,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  increment,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -131,6 +133,12 @@ export const handleReviewAction = async (
         };
         await setDoc(schoolDocRef, updatedSchoolDoc);
       }
+
+      // Increment city reviews count
+      const cityDocRef = doc(db, "cities", review.city.slug);
+      await updateDoc(cityDocRef, {
+        reviewsCount: increment(1),
+      });
     }
 
     // Remove review from 'pending-reviews'

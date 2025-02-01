@@ -16,6 +16,7 @@ import {
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import schoolImg from "@/../public/school-illustration-2.jpg";
+import { SchoolModel } from "@/types/firestoreModels";
 
 interface AddReviewProps {
   params?: {
@@ -24,6 +25,7 @@ interface AddReviewProps {
   };
   isAddCity?: boolean;
   isAddSchool?: boolean;
+  schoolId?: string;
 }
 
 const HEADING_TEXT = "Add a school";
@@ -33,6 +35,7 @@ export const AddReview: React.FC<AddReviewProps> = ({
   params,
   isAddCity = false,
   isAddSchool = false,
+  schoolId,
 }) => {
   // Custom hook for form logic | hooks\useReviewForm.ts
   const { data, updateFields, validateCurrentStep, handleSubmit } =
@@ -80,10 +83,41 @@ export const AddReview: React.FC<AddReviewProps> = ({
       ].filter(Boolean) as React.ReactElement[], // Cast to correct type
     );
 
-  // If isAddSchool - create name & slug from url
+  // If isAddSchool - update fields based on url
   useEffect(() => {
     if (isAddSchool && params) {
-      fetchSchoolData(params).then((updatedData) => updateFields(updatedData));
+      fetchCityAndCountryData(params).then((updatedData) =>
+        updateFields(updatedData),
+      );
+    }
+
+    // If add-review - update fields based on url
+    if (!isAddCity && !isAddSchool && schoolId) {
+      const getSchoolData = async () => {
+        const schoolData = await fetchSchoolData(schoolId);
+
+        updateFields({
+          school: {
+            name: schoolData.name,
+            slug: schoolData.slug,
+            reference: `schools/${schoolData.slug}`,
+          },
+          city: {
+            name: schoolData.city.name,
+            slug: schoolData.city.slug,
+            reference: `cities/${schoolData.city.slug}`,
+          },
+          country: {
+            name: schoolData.country.name,
+            slug: schoolData.country.slug,
+            reference: `countries/${schoolData.country.slug}`,
+          },
+        });
+
+        setdynamicSchoolName(`Rate ${schoolData.name}`);
+      };
+
+      getSchoolData();
     }
   }, []);
 
@@ -175,7 +209,7 @@ export const AddReview: React.FC<AddReviewProps> = ({
   );
 };
 
-const fetchSchoolData = async (params: {
+const fetchCityAndCountryData = async (params: {
   cityName: string;
   countryName: string;
 }) => {
@@ -214,4 +248,12 @@ const fetchSchoolData = async (params: {
       reference: `countries/${countryName}`,
     },
   };
+};
+
+const fetchSchoolData = async (schoolId: string) => {
+  const q = query(collection(db, "schools"), where("slug", "==", schoolId));
+  const querySnapshot = await getDocs(q);
+  const schoolData = querySnapshot.docs[0]?.data();
+
+  return schoolData;
 };
