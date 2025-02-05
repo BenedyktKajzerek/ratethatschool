@@ -38,9 +38,7 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleSignInWithFacebook = async () => {
-    // TODO Sing in with facebook
-  };
+  const handleSignInWithFacebook = async () => {};
 
   if (!isOpen) return null;
 
@@ -108,14 +106,13 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
                 Sign In
               </Button>
 
-              <button
+              {/* <button
                 onClick={() => {
-                  // TODO password restoration
                 }}
                 className="text-link"
               >
                 forgot your password?
-              </button>
+              </button> */}
 
               {/* Terms and Policy */}
               <p className="text-center text-xs font-light text-gray-400">

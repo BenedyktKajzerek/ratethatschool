@@ -16,7 +16,7 @@ import {
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import schoolImg from "@/../public/school-illustration-2.jpg";
-import { SchoolModel } from "@/types/firestoreModels";
+import { useRouter } from "next/navigation";
 
 interface AddReviewProps {
   params?: {
@@ -29,8 +29,6 @@ interface AddReviewProps {
 }
 
 const HEADING_TEXT = "Add a school";
-// TODO addCity & addSchool working, addReview to do
-// TODO redirect to a different page after submitting the review
 export const AddReview: React.FC<AddReviewProps> = ({
   params,
   isAddCity = false,
@@ -40,6 +38,47 @@ export const AddReview: React.FC<AddReviewProps> = ({
   // Custom hook for form logic | hooks\useReviewForm.ts
   const { data, updateFields, validateCurrentStep, handleSubmit } =
     useReviewForm(isAddCity, isAddSchool);
+
+  // To redirect after submitting
+  const router = useRouter();
+
+  // If isAddSchool - update fields based on url
+  useEffect(() => {
+    if (isAddSchool && params) {
+      fetchCityAndCountryData(params).then((updatedData) =>
+        updateFields(updatedData),
+      );
+    }
+
+    // If add-review - update fields based on url
+    if (!isAddCity && !isAddSchool && schoolId) {
+      const getSchoolData = async () => {
+        const schoolData = await fetchSchoolData(schoolId);
+
+        updateFields({
+          school: {
+            name: schoolData.name,
+            slug: schoolData.slug,
+            reference: `schools/${schoolData.slug}`,
+          },
+          city: {
+            name: schoolData.city.name,
+            slug: schoolData.city.slug,
+            reference: `cities/${schoolData.city.slug}`,
+          },
+          country: {
+            name: schoolData.country.name,
+            slug: schoolData.country.slug,
+            reference: `countries/${schoolData.country.slug}`,
+          },
+        });
+
+        setdynamicSchoolName(`Rate ${schoolData.name}`);
+      };
+
+      getSchoolData();
+    }
+  }, []);
 
   // Multi-step form setup
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
@@ -83,58 +122,26 @@ export const AddReview: React.FC<AddReviewProps> = ({
       ].filter(Boolean) as React.ReactElement[], // Cast to correct type
     );
 
-  // If isAddSchool - update fields based on url
-  useEffect(() => {
-    if (isAddSchool && params) {
-      fetchCityAndCountryData(params).then((updatedData) =>
-        updateFields(updatedData),
-      );
-    }
-
-    // If add-review - update fields based on url
-    if (!isAddCity && !isAddSchool && schoolId) {
-      const getSchoolData = async () => {
-        const schoolData = await fetchSchoolData(schoolId);
-
-        updateFields({
-          school: {
-            name: schoolData.name,
-            slug: schoolData.slug,
-            reference: `schools/${schoolData.slug}`,
-          },
-          city: {
-            name: schoolData.city.name,
-            slug: schoolData.city.slug,
-            reference: `cities/${schoolData.city.slug}`,
-          },
-          country: {
-            name: schoolData.country.name,
-            slug: schoolData.country.slug,
-            reference: `countries/${schoolData.country.slug}`,
-          },
-        });
-
-        setdynamicSchoolName(`Rate ${schoolData.name}`);
-      };
-
-      getSchoolData();
-    }
-  }, []);
-
   // Enable button only when form is filled out
   const isNextDisabled = !validateCurrentStep(step.key as string);
 
   // State for the heading text (school name)
   const [dynamicSchoolName, setdynamicSchoolName] = useState(HEADING_TEXT);
 
-  const handleNext = (e: FormEvent) => {
+  const handleNext = async (e: FormEvent) => {
     e.preventDefault();
 
     if (isNextDisabled) return;
 
-    if (isLastStep)
-      handleSubmit(); // Submit review
-    else {
+    if (isLastStep) {
+      const success = await handleSubmit(); // Submit review
+
+      if (success) {
+        router.push("/");
+      } else {
+        alert("Error submitting the review. Try again later.");
+      }
+    } else {
       // Update <h1> text on second step
       if (
         (isAddCity || isAddSchool) &&

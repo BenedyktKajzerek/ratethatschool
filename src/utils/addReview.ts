@@ -1,15 +1,14 @@
 import { ReviewModel } from "@/types/firestoreModels";
 import { auth, db } from "../../firebaseConfig";
-import { collection, addDoc, getDoc, doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { calculateOverallRating } from "./calculateOverallRating";
 
 export const addReview = async (
   data: ReviewModel,
   isAddCity: boolean,
   isAddSchool: boolean,
-) => {
+): Promise<boolean> => {
   const ratingOverall = calculateOverallRating(data.ratings);
-
   let author: string | null = null;
 
   // Check if a user is logged in
@@ -24,39 +23,24 @@ export const addReview = async (
       approved: false,
       author: author || null,
       date: new Date(),
-      isAddCity: isAddCity,
-      isAddSchool: isAddSchool,
+      isAddCity,
+      isAddSchool,
       relationship: data.relationship,
-      ratings: {
-        teachers: data.ratings.teachers,
-        learning: data.ratings.learning,
-        facilities: data.ratings.facilities,
-        building: data.ratings.building,
-        location: data.ratings.location,
-      },
-      ratingOverall: ratingOverall,
+      ratings: { ...data.ratings },
+      ratingOverall,
       comment: data.comment,
       likes: 0,
-      city: {
-        name: data.city.name,
-        slug: data.city.slug,
-        reference: data.city.reference,
-      },
-      school: {
-        name: data.school.name,
-        slug: data.school.slug,
-        reference: data.school.reference,
-      },
-      country: {
-        name: data.country.name,
-        slug: data.country.slug,
-        reference: data.country.reference,
-      },
+      city: { ...data.city },
+      school: { ...data.school },
+      country: { ...data.country },
     };
 
     // Create document inside the collection
     await addDoc(collectionRef, documentData);
+
+    return true;
   } catch (error) {
-    console.error(`Error:`, error);
+    console.error("Error:", error);
+    return false;
   }
 };

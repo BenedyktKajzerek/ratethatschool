@@ -70,8 +70,8 @@ export const useReviewForm = (isAddCity: boolean, isAddSchool: boolean) => {
   };
 
   // Update firestore databse
-  const handleSubmit = () => {
-    addReview(data, isAddCity, isAddSchool);
+  const handleSubmit = async (): Promise<boolean> => {
+    return await addReview(data, isAddCity, isAddSchool);
   };
 
   return { data, updateFields, validateCurrentStep, handleSubmit };

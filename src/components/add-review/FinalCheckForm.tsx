@@ -44,18 +44,11 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
         <h2 className="text-3xl">
           Confirm your review for{" "}
           <span className="capitalize text-primary">{school.name}</span> at{" "}
-          {/* TODO dynamic based on link */}
-          {isAddCity && (
-            <span className="capitalize">
-              {city.name} <span className="text-sm">{country.name}</span>
-            </span>
-          )}
-          {isAddSchool && (
-            <span className="capitalize">
-              {city.name} <span className="text-sm">{country.name}</span>
-            </span>
-          )}
+          <span className="capitalize">
+            {city.name} <span className="text-sm">{country.name}</span>
+          </span>
         </h2>
+
         <p className="mt-1 text-sm text-gray-600">
           All reviews are subject to approval.
         </p>

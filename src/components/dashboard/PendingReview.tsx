@@ -88,7 +88,6 @@ export const Review: React.FC<ReviewProps> = ({
               </span>
             </div>
 
-            {/* TODO fix/update some things */}
             {/* Date */}
             <span>
               {reviewData.date
