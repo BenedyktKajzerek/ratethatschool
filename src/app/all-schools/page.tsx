@@ -40,7 +40,9 @@ export default function AllSchools() {
               <h3 className="text-xl font-medium">{country.name} Schools</h3>
               {Object.entries(country.cities).map(([citySlug, city]) => (
                 <div key={citySlug} className="ml-4">
-                  <h4 className="capitalize underline">{city.name}</h4>
+                  <Link href={`/cities/${countrySlug}/${citySlug}`}>
+                    <h4 className="capitalize underline">{city.name}</h4>
+                  </Link>
                   <ul>
                     {city.schools.map((school) => (
                       <li key={school.slug} className="ml-4">

@@ -65,12 +65,15 @@ export const WriteReviewForm: React.FC<WriteReviewFormProps> = ({
           more than words do! You can attach up to five photos to your review.
         </p>
 
-        <div className="group mt-8 flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-gray-200">
+        {/* TODO upload photos */}
+        {/* group cursor-pointer */}
+        <div className="relative mt-8 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-gray-200">
           <FaRegFileImage size={32} />
           <p className="mt-2 text-xl font-medium group-hover:text-primary">
             Click to upload files
           </p>
           <span className="mt-1 text-xs font-light">PNG, JPG, JPEG</span>
+          <span className="mt-1 text-xs font-light">(Available soon)</span>
         </div>
       </div>
     </div>

@@ -54,9 +54,9 @@ export const handleReviewAction = async (
           name: review.city.name,
           slug: review.city.slug,
           country: {
-            name: review.city.name,
-            slug: review.city.slug,
-            reference: review.city.reference,
+            name: review.country.name,
+            slug: review.country.slug,
+            reference: review.country.reference,
           },
           reviewsCount: 1,
         };

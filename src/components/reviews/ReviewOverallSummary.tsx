@@ -99,8 +99,11 @@ export const ReviewOverallSummary: React.FC<ReviewOverallSummaryProps> = ({
         </div>
 
         {/* Write review button */}
-        <Link href={`/add-review/${countryId}/${cityId}/${schoolId}`}>
-          <Button className="flex w-1/3 justify-center space-x-2 py-2">
+        <Link
+          href={`/add-review/${countryId}/${cityId}/${schoolId}`}
+          className="w-1/3"
+        >
+          <Button className="flex w-full justify-center space-x-2 py-2">
             <HiOutlinePencilAlt size={24} />
             <span className="text-base">Write a Review</span>
           </Button>

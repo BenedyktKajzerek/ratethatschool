@@ -19,7 +19,6 @@ import { useParams } from "next/navigation";
 import Stars from "@/components/ui/Stars";
 import Link from "next/link";
 
-// TODO improve code and create components
 export default function Reviews() {
   const params = useParams() as { countryId: string; cityId: string };
   const { countryId, cityId } = params;

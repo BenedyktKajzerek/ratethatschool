@@ -8,23 +8,29 @@ import { db } from "../../../firebaseConfig";
 export const SchoolSearchInput: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [sortedSchools, setSortedSchools] = useState<any[]>([]);
+  const [allSchools, setAllSchools] = useState<any[]>([]);
+  const [filteredSchools, setFilteredSchools] = useState<any[]>([]);
 
-  // Fetch and sort all schools
   async function fetchSchools() {
-    // Ensure data wasn't already fetched
-    if (sortedSchools.length === 0) {
-      const schoolsSnap = await getDocs(
-        query(collection(db, "schools"), orderBy("name")),
-      );
-
-      let schools = schoolsSnap.docs.map((doc) => doc.data());
-
-      schools.sort((a, b) => a.name.localeCompare(b.name));
-
-      setSortedSchools(schools);
+    if (allSchools.length === 0) {
+      const schoolsSnap = await getDocs(query(collection(db, "schools")));
+      let data = schoolsSnap.docs.map((doc) => doc.data());
+      setAllSchools(data);
+      setFilteredSchools(data);
     }
   }
+
+  const handleSchoolSearch = (value: string) => {
+    if (value.trim() === "") {
+      setFilteredSchools(allSchools);
+    } else {
+      setFilteredSchools(
+        allSchools.filter((school) =>
+          school.name.toLowerCase().includes(value.toLowerCase()),
+        ),
+      );
+    }
+  };
 
   // Close displaying school when clicked outside
   useEffect(() => {
@@ -54,6 +60,9 @@ export const SchoolSearchInput: React.FC = () => {
           setIsActive(true);
           fetchSchools();
         }}
+        onChange={(e) => {
+          handleSchoolSearch(e.target.value);
+        }}
         type="text"
         aria-label="School Search Input"
         placeholder="Search for your school"
@@ -62,7 +71,7 @@ export const SchoolSearchInput: React.FC = () => {
       <div
         className={`${isActive ? "flex" : "hidden"} absolute max-h-[164px] w-full flex-col overflow-y-scroll rounded-b-lg bg-white`}
       >
-        {sortedSchools.map((school) => {
+        {filteredSchools.map((school) => {
           const { name, slug, country, city } = school;
 
           return (
