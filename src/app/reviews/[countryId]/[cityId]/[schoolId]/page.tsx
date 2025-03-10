@@ -122,7 +122,7 @@ export default async function Reviews({
         {/* Reviews */}
         <div className="space-y-8">
           {reviews.map((review) => (
-            <div key={review.id}>
+            <div key={review.author}>
               <Review reviewData={review as ReviewModel} />
             </div>
           ))}

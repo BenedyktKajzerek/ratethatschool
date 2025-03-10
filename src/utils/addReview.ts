@@ -20,6 +20,7 @@ export const addReview = async (
     const collectionRef = collection(db, "pending-reviews");
 
     const documentData: ReviewModel = {
+      id: "",
       approved: false,
       author: author || null,
       date: new Date(),

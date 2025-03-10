@@ -4,6 +4,7 @@ export interface UserModel {
 }
 
 export interface ReviewModel {
+  id: string;
   approved: boolean;
   author: string | null;
   date: Date;

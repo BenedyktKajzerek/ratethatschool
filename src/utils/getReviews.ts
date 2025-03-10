@@ -1,5 +1,6 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { ReviewModel } from "@/types/firestoreModels";
 
 export const getReviews = async (
   countrySlug: string,
@@ -18,6 +19,15 @@ export const getReviews = async (
   const reviewsSnap = await getDocs(reviewsQuery);
 
   // Get the data
-  const reviews = reviewsSnap.docs.map((doc) => doc.data());
+  const reviews = reviewsSnap.docs.map((doc) => {
+    const data = doc.data();
+
+    // Convert Firestore timestamp to ISO string
+    return {
+      ...data,
+      date: data.date?.seconds ? new Date(data.date.seconds * 1000) : null,
+    } as ReviewModel;
+  });
+
   return reviews;
 };

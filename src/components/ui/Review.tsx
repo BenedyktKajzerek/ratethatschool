@@ -1,8 +1,15 @@
-import React from "react";
-import { FaRegHeart, FaStar } from "react-icons/fa";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { ReviewModel } from "@/types/firestoreModels";
 import { formatDistanceToNow } from "date-fns";
 import { calculateOverallRating } from "@/utils/calculateOverallRating";
+import { useAuth } from "@/context/authContext";
+import { ModalAuth } from "../layout";
+import { toggleLikeReview } from "@/utils/toggleLikeReview";
+import { collection, doc, getDoc } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
 
 const ratingsOrder = [
   "teachers",
@@ -24,6 +31,47 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
   // Calculate overallRating
   const ratings: Ratings = reviewData.ratings;
   const overallRating = calculateOverallRating(ratings);
+
+  const { user } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const [likes, setLikes] = useState(reviewData.likes || 0);
+  const [liked, setLiked] = useState(false);
+  const [loading, setLoading] = useState(false); // Prevent spam liking
+
+  useEffect(() => {
+    if (user) {
+      checkIfUserLiked();
+    }
+  }, [user]);
+
+  const checkIfUserLiked = async () => {
+    if (!user) return;
+
+    const likeRef = doc(
+      collection(doc(db, "reviews", reviewData.id), "likes"),
+      user.uid,
+    );
+    const likeDoc = await getDoc(likeRef);
+
+    setLiked(likeDoc.exists());
+  };
+
+  const handleLikeReview = async () => {
+    if (!user) {
+      setShowModal(true);
+      return;
+    }
+
+    if (loading) return;
+
+    setLoading(true);
+
+    const newLikedStatus = await toggleLikeReview(reviewData.id, user.uid);
+    setLiked(newLikedStatus);
+    setLikes((prev) => (newLikedStatus ? prev + 1 : prev - 1));
+
+    setLoading(false);
+  };
 
   return (
     <>
@@ -100,29 +148,35 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
           {/* Date */}
           <span className="text-xs text-gray-500">
             {reviewData.date
-              ? formatDistanceToNow(
-                  new Date((reviewData.date as any).seconds * 1000),
-                  {
-                    addSuffix: true,
-                  },
-                )
+              ? formatDistanceToNow(reviewData.date, {
+                  addSuffix: true,
+                })
               : "N/A"}
           </span>
 
           {/* Likes */}
-          <button className="group relative -left-2 flex w-fit items-center rounded-full">
+          <button
+            onClick={handleLikeReview}
+            disabled={loading} // Prevent spam liking
+            className={`group relative -left-2 flex w-fit items-center rounded-full transition-colors ${
+              liked ? "text-red-500" : "text-gray-500"
+            }`}
+          >
             <div className="flex items-center justify-center rounded-full p-2 group-hover:bg-red-50">
-              <FaRegHeart
-                size={18}
-                className="text-gray-500 transition-colors group-hover:text-red-500"
-              />
+              {liked ? (
+                <FaHeart size={18} className="text-red-500" />
+              ) : (
+                <FaRegHeart size={18} />
+              )}
             </div>
-            <div className="mx-2 text-sm text-gray-500 transition-colors group-hover:text-red-500">
-              {reviewData.likes || 0}
-            </div>
+
+            <div className="mx-2 text-sm">{likes}</div>
           </button>
         </div>
       </div>
+
+      {/* Modal */}
+      <ModalAuth isOpen={showModal} onClose={() => setShowModal(false)} />
     </>
   );
 };
