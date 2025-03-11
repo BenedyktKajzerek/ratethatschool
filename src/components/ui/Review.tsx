@@ -47,13 +47,13 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
   const checkIfUserLiked = async () => {
     if (!user) return;
 
-    const likeRef = doc(
-      collection(doc(db, "reviews", reviewData.id), "likes"),
-      user.uid,
-    );
-    const likeDoc = await getDoc(likeRef);
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
 
-    setLiked(likeDoc.exists());
+    if (userDoc.exists()) {
+      const likedReviews: string[] = userDoc.data()?.likedReviews || [];
+      setLiked(likedReviews.includes(reviewData.id));
+    }
   };
 
   const handleLikeReview = async () => {
@@ -61,15 +61,14 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
       setShowModal(true);
       return;
     }
-
     if (loading) return;
 
     setLoading(true);
-
     const newLikedStatus = await toggleLikeReview(reviewData.id, user.uid);
-    setLiked(newLikedStatus);
-    setLikes((prev) => (newLikedStatus ? prev + 1 : prev - 1));
-
+    if (newLikedStatus !== null) {
+      setLiked(newLikedStatus);
+      setLikes((prev) => (newLikedStatus ? prev + 1 : prev - 1));
+    }
     setLoading(false);
   };
 
@@ -147,10 +146,8 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
 
           {/* Date */}
           <span className="text-xs text-gray-500">
-            {reviewData.date
-              ? formatDistanceToNow(reviewData.date, {
-                  addSuffix: true,
-                })
+            {reviewData.date instanceof Date
+              ? formatDistanceToNow(reviewData.date, { addSuffix: true })
               : "N/A"}
           </span>
 

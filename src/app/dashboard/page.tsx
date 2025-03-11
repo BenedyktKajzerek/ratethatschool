@@ -17,9 +17,12 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
 import { db } from "../../../firebaseConfig";
+import { FaRegHeart } from "react-icons/fa";
+import { LikedReviews } from "@/components/dashboard/LikedReviews";
 
 const dashboardPages = [
   { id: "reviews", label: "My Reviews", icon: VscPreview },
+  { id: "likes", label: "Liked Reviews", icon: FaRegHeart },
   { id: "settings", label: "Settings", icon: IoSettingsOutline },
 ];
 
@@ -89,6 +92,9 @@ const DashboardPage = () => {
 
         {/* My Reviews Page */}
         {currentDashboardPage === "reviews" && <MyReviews />}
+
+        {/* Liked Reviews Page */}
+        {currentDashboardPage === "likes" && <LikedReviews />}
 
         {/* Settings Page */}
         {currentDashboardPage === "settings" && <Settings />}

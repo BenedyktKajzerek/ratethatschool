@@ -1,8 +1,7 @@
-import { Truculenta } from "next/font/google";
 import { db } from "../../firebaseConfig";
 import {
-  collection,
-  deleteDoc,
+  arrayUnion,
+  arrayRemove,
   doc,
   getDoc,
   increment,
@@ -13,30 +12,43 @@ import {
 export const toggleLikeReview = async (
   reviewId: string,
   userId: string,
-): Promise<boolean> => {
+): Promise<boolean | null> => {
   try {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+
+    const likedReviews = userDoc.exists()
+      ? userDoc.data()?.likedReviews || []
+      : [];
+
     const reviewRef = doc(db, "reviews", reviewId);
-    const likeRef = doc(collection(reviewRef, "likes"), userId); // Subcollection for likes
+    const alreadyLiked = likedReviews.includes(reviewId);
 
-    const likeDoc = await getDoc(likeRef);
-
-    if (likeDoc.exists()) {
-      // If already liked, remove like
-      await deleteDoc(likeRef);
+    if (alreadyLiked) {
+      // Unlike the review
+      await updateDoc(userRef, {
+        likedReviews: arrayRemove(reviewId),
+      });
       await updateDoc(reviewRef, {
         likes: increment(-1),
       });
       return false;
     } else {
-      // If not liked, add like
-      await setDoc(likeRef, { userId });
+      // Like the review
+      await setDoc(
+        userRef,
+        {
+          likedReviews: arrayUnion(reviewId),
+        },
+        { merge: true },
+      );
       await updateDoc(reviewRef, {
         likes: increment(1),
       });
       return true;
     }
   } catch (error) {
-    console.error("Error:", error);
-    return false;
+    console.error("Error toggling like:", error);
+    return null;
   }
 };
