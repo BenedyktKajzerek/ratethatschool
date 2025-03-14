@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaRegFileImage } from "react-icons/fa";
 
-const MIN_COMMENT_LENGTH = 100;
+const MIN_COMMENT_LENGTH = 75;
 
 // Form data
 type WriteReviewData = {
@@ -43,7 +43,7 @@ export const WriteReviewForm: React.FC<WriteReviewFormProps> = ({
           rows={8}
           value={comment}
           onChange={(e) => handleCommentChange(e.target.value)}
-          placeholder="Write a helpful comment that's at least 100 characters."
+          placeholder="Write a helpful comment that's at least 75 characters."
           className="mt-8 w-full rounded-lg border border-gray-400 p-4 shadow placeholder:text-gray-300"
         />
 

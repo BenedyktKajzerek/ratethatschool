@@ -43,12 +43,12 @@ export const PendingRequests: React.FC = () => {
   return (
     <>
       {/* Menu Navigation */}
-      <div className="space-x-4 py-2 text-lg">
+      <div className="flex justify-between pt-4 text-lg sm:space-x-4 md:justify-start md:py-2">
         {requestsSections.map((section) => (
           <button
             key={section.id}
             onClick={() => setCurrentRequestsSection(section.id)}
-            className={`px-4 pb-2 ${
+            className={`pb-2 sm:px-4 ${
               currentRequestsSection === section.id
                 ? "border-b-2 border-primary font-medium text-primary"
                 : "text-gray-600 hover:text-primary"

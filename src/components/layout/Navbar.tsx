@@ -14,15 +14,15 @@ import { ModalAuth } from "./ModalAuth";
 
 const SOCIAL_MEDIA = [
   {
-    link: "https://www.instagram.com/",
+    link: "https://www.instagram.com/benedykt_kajzerek/",
     icon: FaInstagram,
   },
   {
-    link: "https://x.com/",
+    link: "https://x.com/benedykt_",
     icon: FaXTwitter,
   },
   {
-    link: "https://tiktok.com/",
+    link: "https://www.tiktok.com/@benedykt_",
     icon: RiTiktokLine,
   },
 ];

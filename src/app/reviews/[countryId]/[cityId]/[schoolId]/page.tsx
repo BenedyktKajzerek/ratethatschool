@@ -6,6 +6,7 @@ import { TiHome } from "react-icons/ti";
 import { getReviews } from "@/utils/getReviews";
 import { ReviewModel } from "@/types/firestoreModels";
 import schoolImg from "@/../public/school-illustration-2.jpg";
+import { Container } from "@/components/layout";
 
 export default async function Reviews({
   params,
@@ -64,70 +65,75 @@ export default async function Reviews({
         className="flex h-[300px]"
       >
         {/* School name */}
-        <div className="mx-auto mb-6 flex w-[1200px] flex-col justify-end space-y-1">
-          <h1 className="text-3xl capitalize text-white">
-            {schoolName} Reviews
-          </h1>
+        <Container className="mb-6 w-full">
+          <div className="mx-auto flex h-full w-full max-w-[1200px] flex-col justify-end space-y-1">
+            <h1 className="text-3xl capitalize text-white">
+              {schoolName} Reviews
+            </h1>
 
-          <p className="capitalize text-white">
-            {`${cityName}, `}
-            {countryName}
-          </p>
-        </div>
+            <p className="capitalize text-white">
+              {`${cityName}, `}
+              {countryName}
+            </p>
+          </div>
+        </Container>
       </div>
 
       {/* Write Review for that school */}
-      <div className="mx-auto w-[1200px] space-y-8 py-8">
-        {/* Link tree */}
-        <div className="flex items-center space-x-2 text-sm">
-          <TiHome size={20} />
-          <p>
-            <span className="capitalize underline">{countryName}</span> {">"}{" "}
-            <Link
-              href={`/cities/${countryId}/${cityId}`}
-              className="capitalize text-primary hover:underline"
-            >
-              {cityName}
-            </Link>{" "}
-            {">"} <span className="capitalize underline">{schoolName}</span>
-          </p>
-        </div>
+      <Container>
+        <div className="mx-auto w-full max-w-[1200px] space-y-8 py-8">
+          {/* Link tree */}
+          <div className="flex items-center space-x-2 text-sm">
+            <TiHome size={20} />
+            <p>
+              <span className="capitalize underline">{countryName}</span> {">"}{" "}
+              <Link
+                href={`/cities/${countryId}/${cityId}`}
+                className="capitalize text-primary hover:underline"
+              >
+                {cityName}
+              </Link>{" "}
+              {">"} <span className="capitalize underline">{schoolName}</span>
+            </p>
+          </div>
 
-        {/* Review overall ratings */}
-        <ReviewOverallSummary
-          reviewsCount={reviewsCount}
-          overallRating={overallRating}
-          reviewOverallData={{
-            teachersOverall: teachersOverall,
-            learningOverall: learningOverall,
-            facilitiesOverall: facilitiesOverall,
-            buildingOverall: buildingOverall,
-            locationOverall: locationOverall,
-          }}
-          params={{
-            countryId: countryId,
-            cityId: cityId,
-            schoolId: schoolId,
-          }}
-        />
+          {/* Review overall ratings */}
+          <ReviewOverallSummary
+            reviewsCount={reviewsCount}
+            overallRating={overallRating}
+            reviewOverallData={{
+              teachersOverall: teachersOverall,
+              learningOverall: learningOverall,
+              facilitiesOverall: facilitiesOverall,
+              buildingOverall: buildingOverall,
+              locationOverall: locationOverall,
+            }}
+            params={{
+              countryId: countryId,
+              cityId: cityId,
+              schoolId: schoolId,
+            }}
+          />
 
-        {/* Quick note */}
-        <div>
-          <h3 className="text-xl">Browse {reviewsCount} School Reviews</h3>
-          <p className="text-sm">
-            Did you find a review helpful? Let others know by giving it a like!
-          </p>
-        </div>
+          {/* Quick note */}
+          <div>
+            <h3 className="text-xl">Browse {reviewsCount} School Reviews</h3>
+            <p className="text-sm">
+              Did you find a review helpful? Let others know by giving it a
+              like!
+            </p>
+          </div>
 
-        {/* Reviews */}
-        <div className="space-y-8">
-          {reviews.map((review, id) => (
-            <div key={id}>
-              <Review reviewData={review as ReviewModel} />
-            </div>
-          ))}
+          {/* Reviews */}
+          <div className="space-y-8">
+            {reviews.map((review, id) => (
+              <div key={id}>
+                <Review reviewData={review as ReviewModel} />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </Container>
     </>
   );
 }

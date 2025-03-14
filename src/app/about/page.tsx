@@ -1,8 +1,19 @@
+import schoolImg from "@/../public/school-gym-illustration.jpg";
+
 export default function About() {
   return (
     <>
-      <div className="flex h-52 items-center justify-center bg-gray-100 text-3xl font-medium">
-        <h1>About</h1>
+      <div
+        style={{
+          // linear-gradient for black layer over the img
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url(${schoolImg.src})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="flex h-[300px] items-center justify-center"
+      >
+        <h1 className="text-3xl capitalize text-white">About</h1>
       </div>
 
       <div className="mx-auto max-w-[1200px] space-y-6 py-8 text-gray-700">

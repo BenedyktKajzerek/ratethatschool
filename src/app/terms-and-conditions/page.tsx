@@ -1,3 +1,6 @@
+import schoolImg from "@/../public/school-gym-illustration.jpg";
+import { Container } from "@/components/layout";
+
 const termsAndConditionsContent = {
   lastUpdated: "March 11, 2025",
   welcome:
@@ -69,24 +72,37 @@ const termsAndConditionsContent = {
 export default function TermsAndConditions() {
   return (
     <>
-      <div className="flex h-52 items-center justify-center bg-gray-100 text-3xl font-medium">
-        <h1>Terms and Conditions</h1>
+      <div
+        style={{
+          // linear-gradient for black layer over the img
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url(${schoolImg.src})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="flex h-[300px] items-center justify-center"
+      >
+        <h1 className="text-3xl capitalize text-white">Terms and Conditions</h1>
       </div>
 
-      <div className="mx-auto max-w-[1200px] space-y-6 py-8 text-gray-700">
-        <p className="m-0">
-          Last updated: {termsAndConditionsContent.lastUpdated}
-        </p>
+      <Container>
+        <div className="mx-auto max-w-[1200px] space-y-6 py-8 text-gray-700">
+          <p>Last updated: {termsAndConditionsContent.lastUpdated}</p>
 
-        <p>{termsAndConditionsContent.welcome}</p>
+          <p>{termsAndConditionsContent.welcome}</p>
 
-        {termsAndConditionsContent.sections.map((section, index) => (
-          <div key={index}>
-            <h2 className="mt-6 text-lg font-medium">{section.title}</h2>
-            <p className="m-0">{section.content}</p>
-          </div>
-        ))}
-      </div>
+          {termsAndConditionsContent.sections.map((section, index) => (
+            <div key={index}>
+              <h2 className="mt-6 text-lg font-medium">{section.title}</h2>
+              <p className="m-0">{section.content}</p>
+            </div>
+          ))}
+
+          <p>
+            <a href="https://storyset.com/web">Web illustrations by Storyset</a>
+          </p>
+        </div>
+      </Container>
     </>
   );
 }

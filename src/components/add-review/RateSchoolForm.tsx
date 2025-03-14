@@ -55,7 +55,7 @@ const RatingInput: React.FC<RatingInputProps> = ({
   const [hoveredRating, setHoveredRating] = useState(0);
 
   return (
-    <div className="mt-16 flex items-center justify-between">
+    <div className="mt-16 items-center justify-between space-y-4 md:flex md:space-x-0">
       <div>
         <div className="text-3xl font-medium">
           Rate the <span className="text-primary">{category}</span>

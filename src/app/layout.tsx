@@ -25,7 +25,7 @@ export default function RootLayout({
         <body className={`${poppins.className} antialiased`}>
           <Navbar />
 
-          <main>{children}</main>
+          <main className="overflow-hidden">{children}</main>
 
           <Footer />
         </body>
@@ -33,5 +33,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-// <a href="https://storyset.com/web">Web illustrations by Storyset</a>

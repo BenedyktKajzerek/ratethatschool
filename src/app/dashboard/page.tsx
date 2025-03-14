@@ -4,14 +4,7 @@ import { MyReviews } from "@/components/dashboard/MyReviews";
 import { PendingRequests } from "@/components/dashboard/PendingRequests";
 import { Settings } from "@/components/dashboard/Settings";
 import { useAuth } from "@/context/authContext";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlinePendingActions } from "react-icons/md";
@@ -19,24 +12,13 @@ import { VscPreview } from "react-icons/vsc";
 import { db } from "../../../firebaseConfig";
 import { FaRegHeart } from "react-icons/fa";
 import { LikedReviews } from "@/components/dashboard/LikedReviews";
+import { SidebarButton } from "@/components/dashboard/SidebarButton";
 
 const dashboardPages = [
   { id: "reviews", label: "My Reviews", icon: VscPreview },
   { id: "likes", label: "Liked Reviews", icon: FaRegHeart },
   { id: "settings", label: "Settings", icon: IoSettingsOutline },
 ];
-
-const SidebarButton = ({ icon: Icon, label, active, onClick }: any) => (
-  <button
-    onClick={onClick}
-    className={`flex w-full items-center space-x-3 rounded-md p-2 hover:bg-gray-100 ${
-      active ? "font-medium text-primary" : "text-black"
-    }`}
-  >
-    <Icon size={24} className={active ? "text-primary" : "text-gray-500"} />
-    <span>{label}</span>
-  </button>
-);
 
 const DashboardPage = () => {
   const [currentDashboardPage, setCurrentDashboardPage] = useState("reviews");
@@ -63,9 +45,10 @@ const DashboardPage = () => {
   }, [user?.email]);
 
   return (
-    <div className="flex h-full w-full">
+    <div className="flex h-full w-full flex-col md:flex-row">
       {/* Sidebar */}
-      <div className="flex w-[300px] flex-col items-start space-y-2 pl-4 text-lg">
+      <div className="flex w-full max-w-[250px] flex-col items-start space-y-2 pl-4 text-lg">
+        {/* Pending requests section for admins */}
         {isAdmin && (
           <SidebarButton
             key="requests"
@@ -86,7 +69,7 @@ const DashboardPage = () => {
         ))}
       </div>
 
-      <div className="w-full px-8">
+      <div className="w-full min-w-0 max-w-[1200px] px-6">
         {/* Pending Requests Page */}
         {currentDashboardPage === "requests" && isAdmin && <PendingRequests />}
 

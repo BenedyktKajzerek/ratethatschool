@@ -54,18 +54,18 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
         </p>
       </div>
 
-      <div className="mt-8 flex w-full space-x-20 rounded-lg bg-gray-100 p-10">
+      <div className="mt-8 w-full space-y-6 rounded-lg bg-gray-100 p-10 md:flex md:space-x-10 lg:space-x-20">
         <div className="text-xl">
           {/* School connection */}
           <div className="flex">
-            <div className="w-56">Relationship</div>
+            <div className="w-40 lg:w-56">Relationship</div>
             <div className="text-nowrap">{relationship}</div>
           </div>
 
           {/* School rating */}
           {Object.entries(ratings).map(([key, value]) => (
             <div key={key} className="mt-6 flex items-center">
-              <p className="w-56 capitalize">{key}</p>
+              <p className="w-40 capitalize lg:w-56">{key}</p>
 
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -83,7 +83,7 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
           ))}
         </div>
 
-        <div className="space-y-8 overflow-x-hidden">
+        <div className="space-y-4 overflow-x-hidden md:space-y-8">
           <div className="overflow-x-auto">
             <p className="text-xl">Comment</p>
             <p className="mt-2">{comment}</p>

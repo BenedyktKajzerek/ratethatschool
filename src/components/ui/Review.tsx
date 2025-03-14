@@ -76,9 +76,9 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
     <>
       <div className="space-y-4 rounded-lg border p-4 shadow-sm">
         {/* First row */}
-        <div className="flex space-x-8">
+        <div className="flex flex-wrap md:flex-nowrap md:gap-8">
           {/* Overall rating */}
-          <div className="flex items-center">
+          <div className="mb-4 flex items-center md:mb-0">
             <div className="relative w-10 bg-primary py-1 pl-1 text-center text-2xl font-medium text-white">
               <span>{overallRating.toFixed(1)}</span>
               {/* Bigger triangle */}
@@ -103,11 +103,11 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
           </div>
 
           {/* Particular ratings */}
-          <div className="flex w-full space-x-4">
+          <div className="flex w-full flex-wrap gap-4 md:w-auto">
             {ratingsOrder.map((key) => (
               <div
                 key={key}
-                className="flex h-fit flex-col items-center rounded-b-lg"
+                className="flex h-fit flex-1 flex-col items-center md:mb-0"
               >
                 <p className="capitalize">{key}</p>
 

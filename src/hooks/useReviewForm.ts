@@ -63,7 +63,7 @@ export const useReviewForm = (isAddCity: boolean, isAddSchool: boolean) => {
       case "rateSchoolForm":
         return !Object.values(data.ratings).includes(0);
       case "writeReviewForm":
-        return data.comment.length >= 100;
+        return data.comment.length >= 75;
       default:
         return true;
     }

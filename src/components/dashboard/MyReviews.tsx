@@ -29,7 +29,9 @@ export function MyReviews() {
 
   return (
     <div>
-      <h1 className="text-4xl font-medium capitalize">My Reviews</h1>
+      <h1 className="mt-6 text-4xl font-medium capitalize md:mt-0">
+        My Reviews
+      </h1>
 
       <div className="py-6">
         {loading ? (

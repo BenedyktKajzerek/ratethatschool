@@ -17,6 +17,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import schoolImg from "@/../public/school-illustration-2.jpg";
 import { useRouter } from "next/navigation";
+import { Container } from "../layout";
 
 interface AddReviewProps {
   params?: {
@@ -179,38 +180,42 @@ export const AddReview: React.FC<AddReviewProps> = ({
         }}
         className="flex h-52 items-center justify-center text-3xl font-medium"
       >
-        <h1 className="capitalize text-white">{dynamicSchoolName}</h1>
+        <Container>
+          <h1 className="capitalize text-white">{dynamicSchoolName}</h1>
+        </Container>
       </div>
 
       <div className="relative mx-auto w-full max-w-[1200px] py-8">
-        {/* Progress Bar */}
-        <ProgressBar currentStepIndex={currentStepIndex2} />
+        <Container>
+          {/* Progress Bar */}
+          <ProgressBar currentStepIndex={currentStepIndex2} />
 
-        {/* Form */}
-        <form onSubmit={handleNext} className="mt-16">
-          {step}
+          {/* Form */}
+          <form onSubmit={handleNext} className="mt-16">
+            {step}
 
-          {/* Navigation Buttons */}
-          <div className="mt-16 flex justify-center space-x-4">
-            {!isFirstStep && (
+            {/* Navigation Buttons */}
+            <div className="mt-16 flex justify-center space-x-4">
+              {!isFirstStep && (
+                <Button
+                  type="button"
+                  onClick={handleBack}
+                  className="border-gray-400 bg-white text-black shadow-none hover:bg-gray-100"
+                >
+                  Back
+                </Button>
+              )}
+
               <Button
-                type="button"
-                onClick={handleBack}
-                className="border-gray-400 bg-white text-black shadow-none hover:bg-gray-100"
+                type="submit"
+                disabled={isNextDisabled}
+                className={`${isNextDisabled && "cursor-not-allowed bg-gray-500 hover:bg-gray-500"}`}
               >
-                Back
+                {isLastStep ? "Submit Review" : "Next"}
               </Button>
-            )}
-
-            <Button
-              type="submit"
-              disabled={isNextDisabled}
-              className={`${isNextDisabled && "cursor-not-allowed bg-gray-500 hover:bg-gray-500"}`}
-            >
-              {isLastStep ? "Submit Review" : "Next"}
-            </Button>
-          </div>
-        </form>
+            </div>
+          </form>
+        </Container>
       </div>
     </>
   );
