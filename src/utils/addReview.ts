@@ -1,6 +1,6 @@
 import { ReviewModel } from "@/types/firestoreModels";
 import { auth, db } from "../../firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc } from "firebase/firestore";
 import { calculateOverallRating } from "./calculateOverallRating";
 
 export const addReview = async (
@@ -70,7 +70,12 @@ export const addReview = async (
     };
 
     // Create document inside the collection
-    await addDoc(collectionRef, documentData);
+    const docRef = await addDoc(collectionRef, documentData);
+
+    // Update the document with the correct `id` field
+    await updateDoc(docRef, {
+      id: docRef.id, // Set the `id` field to Firestore document ID
+    });
 
     return true;
   } catch (error) {

@@ -58,7 +58,7 @@ export const handleReviewAction = async (
             slug: review.country.slug,
             reference: review.country.reference,
           },
-          reviewsCount: 1,
+          reviewsCount: 0,
         };
         await setDoc(cityDocRef, cityDoc);
       }

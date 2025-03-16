@@ -39,8 +39,6 @@ export const Review: React.FC<ReviewProps> = ({
     }
   };
 
-  console.log(reviewData);
-
   return (
     <div
       id={reviewData.id}

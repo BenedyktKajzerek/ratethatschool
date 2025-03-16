@@ -3,6 +3,7 @@ import { addReview } from "@/utils/addReview";
 import { useState } from "react";
 
 const INITIAL_DATA: ReviewModel = {
+  id: "",
   approved: false,
   author: "",
   likes: 0,

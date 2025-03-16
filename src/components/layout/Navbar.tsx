@@ -85,7 +85,7 @@ export const Navbar: React.FC = () => {
               href="/"
               className="-order-1 text-3xl font-bold md:order-none"
             >
-              RateMy<span className="text-primary">Schools</span>
+              RateThat<span className="text-primary">School</span>
             </Link>
 
             <div
