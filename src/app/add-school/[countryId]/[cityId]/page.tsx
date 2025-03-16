@@ -1,16 +1,12 @@
 import React from "react";
 import { AddReview } from "@/components/add-review/AddReview";
 
-export default async function AddReviewPage({
-  params,
-}: Readonly<{
-  params: {
-    countryId: string;
-    cityId: string;
-  };
-}>) {
-  // Await `params` to access its properties
-  const { countryId, cityId } = await params;
+type Params = Promise<{ countryId: string; cityId: string }>;
+
+export default async function AddReviewPage(props: { params: Params }) {
+  const params = await props.params;
+  const countryId = params.countryId;
+  const cityId = params.cityId;
 
   return (
     <AddReview

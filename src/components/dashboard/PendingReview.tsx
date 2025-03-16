@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa";
 import { Button } from "../ui";
 import { ReviewModel } from "@/types/firestoreModels";
 import Image from "next/image";
+import { formatDistanceToNow } from "date-fns";
 
 const ratingsOrder = [
   "teachers",
@@ -91,15 +92,9 @@ export const Review: React.FC<ReviewProps> = ({
 
             {/* Date */}
             <span>
-              {reviewData.date
-                ? new Date(reviewData.date.seconds * 1000).toLocaleDateString(
-                    "en-US",
-                    {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    },
-                  )
+              {/* TODO fix date */}
+              {reviewData.date instanceof Date
+                ? formatDistanceToNow(reviewData.date, { addSuffix: true })
                 : "N/A"}
             </span>
           </div>

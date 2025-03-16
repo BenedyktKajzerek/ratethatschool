@@ -8,16 +8,13 @@ import { ReviewModel } from "@/types/firestoreModels";
 import schoolImg from "@/../public/school-illustration-2.jpg";
 import { Container } from "@/components/layout";
 
-export default async function Reviews({
-  params,
-}: Readonly<{
-  params: {
-    countryId: string;
-    cityId: string;
-    schoolId: string;
-  };
-}>) {
-  const { countryId, cityId, schoolId } = await params;
+type Params = Promise<{ countryId: string; cityId: string; schoolId: string }>;
+
+export default async function Reviews(props: { params: Params }) {
+  const params = await props.params;
+  const countryId = params.countryId;
+  const cityId = params.cityId;
+  const schoolId = params.schoolId;
 
   // Get reviews for school
   const reviews = await getReviews(countryId, cityId, schoolId);
