@@ -20,7 +20,10 @@ export const PopularSchool: React.FC<PopularSchoolProps> = ({ school }) => {
           <Image
             src={schoolImg.src}
             alt="School Picture"
-            className="h-60 w-60 rounded-xl object-cover"
+            className="aspect-square rounded-xl object-cover"
+            layout="responsive"
+            width={240}
+            height={240}
           />
         </div>
 

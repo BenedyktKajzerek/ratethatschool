@@ -79,7 +79,7 @@ export const AddReview: React.FC<AddReviewProps> = ({
 
       getSchoolData();
     }
-  }, []);
+  }, [params]);
 
   // Multi-step form setup
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =

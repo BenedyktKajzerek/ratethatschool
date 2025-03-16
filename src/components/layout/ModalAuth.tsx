@@ -2,7 +2,7 @@
 
 // import { loginUser, registerUser } from "@/utils/auth";
 import React, { useState } from "react";
-import { sendEmailLink, signInWithGoogle } from "@/utils/auth";
+import { sendEmailLink } from "@/utils/auth";
 import { validateEmail } from "@/utils/authValidation";
 import { Button } from "@/components/ui/Button";
 import { IoClose } from "react-icons/io5";

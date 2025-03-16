@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmail } from "@/utils/auth";
 
 const FinishSignIn = () => {
   const router = useRouter();
@@ -12,14 +11,11 @@ const FinishSignIn = () => {
     const completeSignIn = async () => {
       try {
         const email = window.localStorage.getItem("emailForSignIn");
-        const url = window.location.href;
 
         if (!email) {
           setMessage("No email found for sign-in. Please try again.");
           return;
         }
-
-        // const user = await signInWithEmail(email, url);
 
         setMessage("Sign-in successful! Redirecting...");
         router.push("/"); // Redirect to your home page or dashboard

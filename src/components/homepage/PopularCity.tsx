@@ -15,8 +15,11 @@ const PopularCity: React.FC<PopularCityProps> = ({ city }) => {
         <div>
           <Image
             src={cityImg.src}
-            alt="School Picture"
-            className="size-60 rounded-xl object-cover"
+            alt="City Picture"
+            className="aspect-square rounded-xl object-cover"
+            layout="responsive"
+            width={240}
+            height={240}
           />
         </div>
 

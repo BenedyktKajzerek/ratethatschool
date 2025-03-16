@@ -40,22 +40,20 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
   const [loading, setLoading] = useState(false); // Prevent spam liking
 
   useEffect(() => {
-    if (user) {
-      checkIfUserLiked();
-    }
-  }, [user]);
-
-  const checkIfUserLiked = async () => {
     if (!user) return;
 
-    const userRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userRef);
+    const checkIfUserLiked = async () => {
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
 
-    if (userDoc.exists()) {
-      const likedReviews: string[] = userDoc.data()?.likedReviews || [];
-      setLiked(likedReviews.includes(reviewData.id));
-    }
-  };
+      if (userDoc.exists()) {
+        const likedReviews: string[] = userDoc.data()?.likedReviews || [];
+        setLiked(likedReviews.includes(reviewData.id));
+      }
+    };
+
+    checkIfUserLiked();
+  }, [user, reviewData.id]); // Added reviewData.id as it is used inside the function
 
   const handleLikeReview = async () => {
     if (!user) {
