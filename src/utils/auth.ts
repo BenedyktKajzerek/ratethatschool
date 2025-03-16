@@ -13,7 +13,7 @@ import { UserModel } from "@/types/firestoreModels";
 
 const actionCodeSettings = {
   // URL you want to redirect back to
-  url: "http://localhost:3000/auth/finishSignIn",
+  url: "https://ratethatschool.com/auth/finishSignIn",
   handleCodeInApp: true,
 };
 
