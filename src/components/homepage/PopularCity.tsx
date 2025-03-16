@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import cityImg from "../../../public/city-alt.jpg";
 import { CityModel } from "@/types/firestoreModels";
+import Image from "next/image";
 
 interface PopularCityProps {
   city: CityModel;
@@ -12,7 +13,7 @@ const PopularCity: React.FC<PopularCityProps> = ({ city }) => {
     <div className="h-72 w-60 min-w-60">
       <Link href={`cities/${city.country.slug}/${city.slug}`}>
         <div>
-          <img
+          <Image
             src={cityImg.src}
             alt="School Picture"
             className="size-60 rounded-xl object-cover"

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kanit, Poppins } from "next/font/google";
+import { Kanit } from "next/font/google";
 import "./globals.css";
 import { Navbar, Footer } from "@/components/layout";
 import { AuthProvider } from "@/context/authContext";

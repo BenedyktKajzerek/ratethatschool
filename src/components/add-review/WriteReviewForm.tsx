@@ -1,6 +1,6 @@
 import Image from "next/image";
-import React, { FormEvent, useState } from "react";
-import { FaRegFileImage, FaTimes, FaTimesCircle } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaRegFileImage, FaTimesCircle } from "react-icons/fa";
 
 const MIN_COMMENT_LENGTH = 75;
 

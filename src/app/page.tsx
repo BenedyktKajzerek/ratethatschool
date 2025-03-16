@@ -84,8 +84,8 @@ export default function Home() {
             <div className="w-full space-y-4 md:w-1/4">
               <h3 className="text-2xl">Find your school</h3>
               <p>
-                We've collected dorm reviews from over 2+ schools world wide.
-                Search for your school to get started.
+                We&apos;ve collected dorm reviews from over 2+ schools world
+                wide. Search for your school to get started.
               </p>
             </div>
             <div className="mx-auto w-1/2 md:w-1/3">

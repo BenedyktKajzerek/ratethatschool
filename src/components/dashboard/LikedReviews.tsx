@@ -12,10 +12,11 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../firebaseConfig";
 import { useAuth } from "@/context/authContext";
 import { Review } from "../ui";
+import { ReviewModel } from "@/types/firestoreModels";
 
 export function LikedReviews() {
   const { user } = useAuth();
-  const [likedReviews, setLikedReviews] = useState<any[]>([]);
+  const [likedReviews, setLikedReviews] = useState<ReviewModel[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export function LikedReviews() {
             ))}
           </div>
         ) : (
-          <div>You currently don't have any liked reviews.</div>
+          <div>You currently don&apos;t have any liked reviews.</div>
         )}
       </div>
     </div>
@@ -81,8 +82,22 @@ const getLikedReviews = async (userId: string) => {
       const reviewData = docSnapshot.data();
       return {
         id: docSnapshot.id,
-        ...reviewData,
-        date: reviewData.date ? new Date(reviewData.date.seconds * 1000) : null, // Ensure date is a Date object
+        approved: reviewData.approved ?? false,
+        author: reviewData.author ?? null,
+        date: reviewData.date
+          ? new Date(reviewData.date.seconds * 1000)
+          : new Date(),
+        isAddCity: reviewData.isAddCity ?? false,
+        isAddSchool: reviewData.isAddSchool ?? false,
+        relationship: reviewData.relationship ?? "",
+        ratings: reviewData.ratings ?? {},
+        ratingOverall: reviewData.ratingOverall ?? 0,
+        comment: reviewData.comment ?? "",
+        likes: reviewData.likes ?? 0,
+        city: reviewData.city ?? {},
+        school: reviewData.school ?? {},
+        country: reviewData.country ?? {},
+        images: reviewData.images ?? [],
       };
     });
     return likedReviews;

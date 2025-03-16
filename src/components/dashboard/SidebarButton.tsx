@@ -1,4 +1,18 @@
-export const SidebarButton = ({ icon: Icon, label, active, onClick }: any) => (
+import { IconType } from "react-icons";
+
+interface SidebarButtonProps {
+  icon: IconType; // Type for React Icons
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}
+
+export const SidebarButton: React.FC<SidebarButtonProps> = ({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+}) => (
   <button
     onClick={onClick}
     className={`flex w-full items-center space-x-3 rounded-md p-2 hover:bg-gray-100 ${

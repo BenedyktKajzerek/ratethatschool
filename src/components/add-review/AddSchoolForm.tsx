@@ -29,8 +29,6 @@ type AddSchoolFormProps = AddSchoolData & {
 
 export const AddSchoolForm: React.FC<AddSchoolFormProps> = ({
   school = { name: "", slug: "", reference: "" },
-  city = { name: "", slug: "", reference: "" },
-  country = { name: "", slug: "", reference: "" },
   updateFields,
 }) => {
   const handleSchoolChange = (text: string) => {

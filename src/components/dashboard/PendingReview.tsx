@@ -2,6 +2,7 @@ import React from "react";
 import { FaStar } from "react-icons/fa";
 import { Button } from "../ui";
 import { ReviewModel } from "@/types/firestoreModels";
+import Image from "next/image";
 
 const ratingsOrder = [
   "teachers",
@@ -120,7 +121,7 @@ export const Review: React.FC<ReviewProps> = ({
           <div className="mt-4 flex flex-wrap gap-4">
             {reviewData.images.map((src, index) => (
               <div key={index} className="relative">
-                <img
+                <Image
                   src={src}
                   alt="Image"
                   className="h-24 w-24 rounded-lg object-cover"

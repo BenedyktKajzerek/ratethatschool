@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const STEPS = [
@@ -44,8 +45,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
                 {/* Image with description */}
                 <span className="flex items-center p-4 text-sm font-medium">
                   <span className="flex-shrink-0">
-                    <img
+                    <Image
                       src={imgPath}
+                      alt="Progress Image"
                       className="flex h-[70px] w-[70px] items-center justify-center object-contain"
                     />
                   </span>

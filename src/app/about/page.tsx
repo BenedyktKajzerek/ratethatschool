@@ -21,19 +21,20 @@ export default function About() {
 
         <p>
           At RateMySchools, we know that which school you choose plays a big
-          role in shaping your life experience. That's why we've built a
-          platform where students can share honest reviews and real opinions
-          about schools. Whether you're picking your middle-school, high-school
-          or college, these reviews come directly from students like you, giving
-          you valuable insights before you make a decision.
+          role in shaping your life experience. That&apos;s why we&apos;ve built
+          a platform where students can share honest reviews and real opinions
+          about schools. Whether you&apos;re picking your middle-school,
+          high-school or college, these reviews come directly from students like
+          you, giving you valuable insights before you make a decision.
         </p>
 
         <p>
-          But RateMySchools isn't just about reviews—it's about creating a
-          community where students help each other navigate school life. By
-          contributing your own school ratings and experiences, you're providing
-          real value to future students. Together, we're building a network of
-          authentic feedback that can make school living better for everyone.
+          But RateMySchools isn&apos;t just about reviews—it&apos;s about
+          creating a community where students help each other navigate school
+          life. By contributing your own school ratings and experiences,
+          you&apos;re providing real value to future students. Together,
+          we&apos;re building a network of authentic feedback that can make
+          school living better for everyone.
         </p>
       </div>
     </>

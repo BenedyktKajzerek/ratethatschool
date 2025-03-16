@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getPendingReviews } from "@/utils/getPendingReviews";
 import { Review } from "./PendingReview";
 import { handleReviewAction } from "@/utils/handleReviewAction";
+import { ReviewModel } from "@/types/firestoreModels";
 
 const requestsSections = [
   { id: "reviews", label: "Reviews" },
@@ -14,7 +15,7 @@ export const PendingRequests: React.FC = () => {
   const [currentRequestsSection, setCurrentRequestsSection] =
     useState("reviews");
   const [loading, setLoading] = useState(false);
-  const [currentData, setCurrentData] = useState<any[]>([]);
+  const [currentData, setCurrentData] = useState<ReviewModel[]>([]);
 
   // Fetch reviews from firestore based on the section
   useEffect(() => {

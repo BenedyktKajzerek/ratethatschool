@@ -19,7 +19,7 @@ const FinishSignIn = () => {
           return;
         }
 
-        const user = await signInWithEmail(email, url);
+        // const user = await signInWithEmail(email, url);
 
         setMessage("Sign-in successful! Redirecting...");
         router.push("/"); // Redirect to your home page or dashboard

@@ -38,8 +38,6 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
   school = { name: "[YourSchool]" },
   country = { name: "[YourCountry]" },
   images,
-  isAddCity,
-  isAddSchool,
 }) => {
   return (
     <div>

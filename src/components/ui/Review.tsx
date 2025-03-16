@@ -8,8 +8,9 @@ import { calculateOverallRating } from "@/utils/calculateOverallRating";
 import { useAuth } from "@/context/authContext";
 import { ModalAuth } from "../layout";
 import { toggleLikeReview } from "@/utils/toggleLikeReview";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
+import Image from "next/image";
 
 const ratingsOrder = [
   "teachers",
@@ -147,7 +148,7 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
           <div className="mt-4 flex flex-wrap gap-4">
             {reviewData.images.map((src, index) => (
               <div key={index} className="relative">
-                <img
+                <Image
                   src={src}
                   alt="Image"
                   className="h-24 w-24 rounded-lg object-cover"

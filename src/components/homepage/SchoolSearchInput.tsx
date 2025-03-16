@@ -1,20 +1,27 @@
 "use client";
 
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { db } from "../../../firebaseConfig";
 
+interface School {
+  name: string;
+  slug: string;
+  country: { name: string; slug: string };
+  city: { name: string; slug: string };
+}
+
 export const SchoolSearchInput: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [allSchools, setAllSchools] = useState<any[]>([]);
-  const [filteredSchools, setFilteredSchools] = useState<any[]>([]);
+  const [allSchools, setAllSchools] = useState<School[]>([]);
+  const [filteredSchools, setFilteredSchools] = useState<School[]>([]);
 
   async function fetchSchools() {
     if (allSchools.length === 0) {
       const schoolsSnap = await getDocs(query(collection(db, "schools")));
-      let data = schoolsSnap.docs.map((doc) => doc.data());
+      const data = schoolsSnap.docs.map((doc) => doc.data() as School); // Explicitly cast Firestore data to `School`
       setAllSchools(data);
       setFilteredSchools(data);
     }

@@ -3,6 +3,7 @@ import React from "react";
 import { FaStar } from "react-icons/fa";
 import schoolImg from "@/../public/school-alt.jpg";
 import { SchoolModel } from "@/types/firestoreModels";
+import Image from "next/image";
 
 interface PopularSchoolProps {
   school: SchoolModel;
@@ -16,7 +17,7 @@ export const PopularSchool: React.FC<PopularSchoolProps> = ({ school }) => {
       >
         {/* School image */}
         <div>
-          <img
+          <Image
             src={schoolImg.src}
             alt="School Picture"
             className="h-60 w-60 rounded-xl object-cover"

@@ -1,10 +1,11 @@
+import { ReviewModel } from "@/types/firestoreModels";
 import { db } from "../../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 export const getPendingReviews = async (
   isAddCity: boolean,
   isAddSchool: boolean,
-) => {
+): Promise<ReviewModel[]> => {
   try {
     // Create firestore db query
     let q;
@@ -30,12 +31,10 @@ export const getPendingReviews = async (
     const querySnapshot = await getDocs(q);
 
     // Get the data
-    const data = querySnapshot.docs.map((doc) => ({
+    return querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    }));
-
-    return data;
+    })) as ReviewModel[];
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];

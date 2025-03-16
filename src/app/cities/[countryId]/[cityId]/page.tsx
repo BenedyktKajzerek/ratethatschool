@@ -139,10 +139,10 @@ export default function Reviews() {
           {/* Add a school if you can't find yours. */}
           <div className="space-y-2 rounded-lg border p-8 shadow-sm">
             <h3 className="text-4xl font-semibold">
-              Can't find your <span className="text-primary">school</span>?
+              Can&apos;t find your <span className="text-primary">school</span>?
             </h3>
 
-            <p>Write a review for a school that's not listed.</p>
+            <p>Write a review for a school that&apos;s not listed.</p>
 
             <Link
               href={`/add-school/${countryId}/${cityId}`}

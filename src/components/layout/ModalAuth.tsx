@@ -7,8 +7,6 @@ import { validateEmail } from "@/utils/authValidation";
 import { Button } from "@/components/ui/Button";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
-import { FaFacebookSquare } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 
 interface ModalAuthProps {
   isOpen: boolean;
@@ -29,16 +27,16 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleSignInWithGoogle = async () => {
-    try {
-      await signInWithGoogle();
-      onClose();
-    } catch (error) {
-      console.error("Error singing in with Google:", error);
-    }
-  };
+  // const handleSignInWithGoogle = async () => {
+  //   try {
+  //     await signInWithGoogle();
+  //     onClose();
+  //   } catch (error) {
+  //     console.error("Error singing in with Google:", error);
+  //   }
+  // };
 
-  const handleSignInWithFacebook = async () => {};
+  // const handleSignInWithFacebook = async () => {};
 
   if (!isOpen) return null;
 

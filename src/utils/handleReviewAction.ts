@@ -21,8 +21,8 @@ import {
 export const handleReviewAction = async (
   reviewId: string,
   approved: boolean,
-  currentData: any[],
-  setCurrentData: React.Dispatch<React.SetStateAction<any[]>>,
+  currentData: ReviewModel[],
+  setCurrentData: React.Dispatch<React.SetStateAction<ReviewModel[]>>,
 ) => {
   try {
     const review = currentData.find((review) => review.id === reviewId);
