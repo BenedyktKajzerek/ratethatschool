@@ -48,7 +48,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
                     <Image
                       src={imgPath}
                       alt="Progress Image"
-                      className="flex h-[70px] w-[70px] items-center justify-center object-contain"
+                      className="flex items-center justify-center object-contain"
+                      width={70}
+                      height={70}
                     />
                   </span>
 

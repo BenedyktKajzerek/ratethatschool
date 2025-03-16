@@ -9,7 +9,7 @@ export default async function AddReviewPage({
   };
 }>) {
   // Await `params` to access its properties
-  const { schoolId } = await params;
+  const { schoolId } = params;
 
   return (
     <>
