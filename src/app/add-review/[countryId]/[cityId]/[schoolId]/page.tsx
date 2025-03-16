@@ -1,7 +1,7 @@
 import React from "react";
 import { AddReview } from "@/components/add-review/AddReview";
 
-export default async function AddReviewPage({
+export default function AddReviewPage({
   params,
 }: Readonly<{
   params: {
