@@ -4,7 +4,7 @@ import { Container } from "@/components/layout";
 const privacyPolicyContent = {
   lastUpdated: "March 11, 2025",
   welcome:
-    "Thank you for using RateMySchools.com. This Privacy Policy explains how we collect, use, and disclose your information when you use our website.",
+    "Thank you for using RateThatSchool.com. This Privacy Policy explains how we collect, use, and disclose your information when you use our website.",
   sections: [
     {
       title: "1. Information We Collect",

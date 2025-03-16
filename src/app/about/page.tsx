@@ -17,7 +17,7 @@ export default function About() {
       </div>
 
       <div className="mx-auto max-w-[1200px] space-y-6 py-8 text-gray-700">
-        <h1 className="text-3xl font-medium">RateMySchools</h1>
+        <h1 className="text-3xl font-medium">RateThatSchool</h1>
 
         <p>
           At RateMySchools, we know that which school you choose plays a big

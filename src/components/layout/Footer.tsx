@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
       <div className="flex flex-col items-center space-y-4 p-8 sm:p-16">
         <div className="mb-5">
           <Link href="/" className="text-4xl font-bold sm:text-5xl">
-            RateMy<span className="text-primary">Schools</span>
+            RateThat<span className="text-primary">School</span>
           </Link>
         </div>
 

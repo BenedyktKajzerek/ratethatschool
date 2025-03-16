@@ -4,57 +4,57 @@ import { Container } from "@/components/layout";
 const termsAndConditionsContent = {
   lastUpdated: "March 11, 2025",
   welcome:
-    'Welcome to RateMySchools! By accessing or using our website (the "Service"), you agree to comply with and be bound by the following terms and conditions ("Terms"). Please read these Terms carefully before using our Service.',
+    'Welcome to RateThatSchool! By accessing or using our website (the "Service"), you agree to comply with and be bound by the following terms and conditions ("Terms"). Please read these Terms carefully before using our Service.',
   sections: [
     {
       title: "1. Description of Service",
       content:
-        "RateMySchools is a platform where people can rate and review their schools to provide valuable information to others in their school search. Users can submit reviews and photos anonymously or by signing in with their email for verification.",
+        "RateThatSchool is a platform where people can rate and review their schools to provide valuable information to others in their school search. Users can submit reviews and photos anonymously or by signing in with their email for verification.",
     },
     {
       title: "2. User-Generated Content",
       content:
-        "Users are solely responsible for the content they upload to RateMySchools. All content must comply with our guidelines. Content uploaded will be reviewed before. We reserve the right to remove or modify any user-generated content at our discretion.",
+        "Users are solely responsible for the content they upload to RateThatSchool. All content must comply with our guidelines. Content uploaded will be reviewed before. We reserve the right to remove or modify any user-generated content at our discretion.",
     },
     {
       title: "3. Privacy",
       content:
-        "RateMySchools respects user privacy. We collect minimal personal information, such as your email address if voluntarily provided. By using the Service, you agree to our Privacy Policy.",
+        "RateThatSchool respects user privacy. We collect minimal personal information, such as your email address if voluntarily provided. By using the Service, you agree to our Privacy Policy.",
     },
     {
       title: "4. Content Guidelines",
       content:
-        "All content uploaded to RateMySchools must be safe for work (SFW) and not infringe on the intellectual property rights of others. Users may not upload copyrighted material without permission. By uploading any content, including images, you represent and warrant that you own the rights to the content or have explicit permission to share it.",
+        "All content uploaded to RateThatSchool must be safe for work (SFW) and not infringe on the intellectual property rights of others. Users may not upload copyrighted material without permission. By uploading any content, including images, you represent and warrant that you own the rights to the content or have explicit permission to share it.",
     },
     {
       title: "5. Copyright Infringement & DMCA Policy",
       content:
-        "If you believe that any content on RateMySchools infringes on your copyright, you may request its removal by submitting a takedown request to the owner of the website",
+        "If you believe that any content on RateThatSchool infringes on your copyright, you may request its removal by submitting a takedown request to the owner of the website",
     },
     {
       title: "6. Liability Waiver for Third-Party Copyright Claims",
       content:
-        "RateMySchools is not responsible for any copyright claims or legal actions resulting from user-uploaded content. Users who upload infringing material assume full liability for any claims, damages, or legal disputes that may arise.",
+        "RateThatSchool is not responsible for any copyright claims or legal actions resulting from user-uploaded content. Users who upload infringing material assume full liability for any claims, damages, or legal disputes that may arise.",
     },
     {
       title: "7. Age Requirement",
       content:
-        "By using RateMySchools, you confirm that you are at least 18 years of age, or, if you are under 18, you have obtained parental consent to use the Service.",
+        "By using RateThatSchool, you confirm that you are at least 18 years of age, or, if you are under 18, you have obtained parental consent to use the Service.",
     },
     {
       title: "8. Dispute Resolution",
       content:
-        "In the event of disputes or complaints regarding content on RateMySchools, the admin will review and take appropriate action. We encourage users to report inappropriate content.",
+        "In the event of disputes or complaints regarding content on RateThatSchool, the admin will review and take appropriate action. We encourage users to report inappropriate content.",
     },
     {
       title: "9. Limitation of Liability",
       content:
-        "RateMySchools is provided 'as is' and without warranties of any kind. We do not guarantee the accuracy, completeness, or availability of the Service. Under no circumstances shall RateMySchools or its affiliates be liable for any damages arising from the use or inability to use the Service.",
+        "RateThatSchool is provided 'as is' and without warranties of any kind. We do not guarantee the accuracy, completeness, or availability of the Service. Under no circumstances shall RateThatSchool or its affiliates be liable for any damages arising from the use or inability to use the Service.",
     },
     {
       title: "10. Termination of Accounts",
       content:
-        "RateMySchools reserves the right to suspend or terminate user accounts that violate these Terms, without prior notice. Termination may result from content violations, fraudulent activity, or misuse of the Service.",
+        "RateThatSchool reserves the right to suspend or terminate user accounts that violate these Terms, without prior notice. Termination may result from content violations, fraudulent activity, or misuse of the Service.",
     },
     {
       title: "11. Modifications to Terms",
