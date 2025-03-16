@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { RiTiktokLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
@@ -42,13 +42,34 @@ export const Navbar: React.FC = () => {
     }
   };
 
+  // Close mobile navbar when screen size >= 768
+  useEffect(() => {
+    const handler = () => {
+      if (!isScreenSmall()) setIsNavbarOpen(false);
+    };
+
+    window.addEventListener("resize", handler);
+
+    return () => {
+      removeEventListener("resize", handler);
+    };
+  }, []);
+
+  function isScreenSmall() {
+    return window.innerWidth < 768;
+  }
+
   return (
     <>
       <header>
         <nav className="top-0 z-[100] bg-white text-black">
-          <div className="flex items-center justify-between p-6">
+          <div
+            className={`${isNavbarOpen ? "flex-col" : "flex-row"} relative flex items-center justify-between p-6`}
+          >
             {/* Social Media Icons */}
-            <div className="hidden space-x-6 md:flex">
+            <div
+              className={`${isNavbarOpen ? "my-6 flex" : "hidden"} space-x-6 md:flex`}
+            >
               {SOCIAL_MEDIA.map((social, index) => {
                 const Icon = social.icon;
                 return (
@@ -60,11 +81,16 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Logo */}
-            <Link href="/" className="text-3xl font-bold">
+            <Link
+              href="/"
+              className="-order-1 text-3xl font-bold md:order-none"
+            >
               RateMy<span className="text-primary">Schools</span>
             </Link>
 
-            <div className="hidden space-x-2 md:flex">
+            <div
+              className={`${isNavbarOpen ? "block" : "hidden"} space-x-2 md:flex`}
+            >
               {user ? (
                 <>
                   <Link href={"/dashboard"}>
@@ -83,14 +109,12 @@ export const Navbar: React.FC = () => {
               )}
             </div>
 
-            {isNavbarOpen && <div>Mobile Navbar</div>}
-
             {/* Navbar hamburger */}
             <button
               onClick={() => {
                 setIsNavbarOpen((prev) => !prev);
               }}
-              className="z-[999] block md:hidden"
+              className="absolute right-6 z-[999] block md:hidden"
             >
               {isNavbarOpen ? (
                 <IoClose size={navbarIconSize} />

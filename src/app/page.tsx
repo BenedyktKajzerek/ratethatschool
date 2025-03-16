@@ -93,6 +93,7 @@ export default function Home() {
                 src={searchImg}
                 alt=""
                 className="max-h-60 w-full md:w-80"
+                priority
               />
             </div>
           </div>

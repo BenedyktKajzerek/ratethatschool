@@ -39,6 +39,8 @@ export const Review: React.FC<ReviewProps> = ({
     }
   };
 
+  console.log(reviewData);
+
   return (
     <div
       id={reviewData.id}
@@ -115,6 +117,18 @@ export const Review: React.FC<ReviewProps> = ({
               {reviewData.author || "Anonymous User"}
             </p>
             {reviewData.comment}
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-4">
+            {reviewData.images.map((src, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={src}
+                  alt="Image"
+                  className="h-24 w-24 rounded-lg object-cover"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

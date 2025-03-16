@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { FaStar } from "react-icons/fa";
 
@@ -24,6 +25,7 @@ type FinalCheckFormProps = {
   country?: {
     name: string;
   };
+  images: string[];
   isAddCity: boolean;
   isAddSchool: boolean;
 };
@@ -35,6 +37,7 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
   city = { name: "[YourCity]" },
   school = { name: "[YourSchool]" },
   country = { name: "[YourCountry]" },
+  images,
   isAddCity,
   isAddSchool,
 }) => {
@@ -90,7 +93,16 @@ export const FinalCheckForm: React.FC<FinalCheckFormProps> = ({
           </div>
           <div>
             <p className="text-xl">Photos</p>
-            <p className="mt-2">{comment}</p>
+            <div className="mt-2 flex flex-wrap gap-4">
+              {images.map((src, index) => (
+                <Image
+                  key={index}
+                  src={src}
+                  alt="Preview"
+                  className="h-24 w-24 rounded-lg object-cover"
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -144,6 +144,18 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
           {/* Comment */}
           <p className="break-words text-gray-700">{reviewData.comment}</p>
 
+          <div className="mt-4 flex flex-wrap gap-4">
+            {reviewData.images.map((src, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={src}
+                  alt="Image"
+                  className="h-24 w-24 rounded-lg object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
           {/* Date */}
           <span className="text-xs text-gray-500">
             {reviewData.date instanceof Date

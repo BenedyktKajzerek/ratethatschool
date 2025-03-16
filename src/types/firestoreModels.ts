@@ -36,6 +36,7 @@ export interface ReviewModel {
     slug: string;
     reference: string;
   };
+  images: string[];
 }
 
 export interface SchoolModel {

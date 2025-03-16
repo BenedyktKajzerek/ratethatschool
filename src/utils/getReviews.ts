@@ -29,5 +29,8 @@ export const getReviews = async (
     } as ReviewModel;
   });
 
-  return reviews;
+  // Sort reviews from latest to oldest
+  return reviews.sort(
+    (a, b) => (b.date?.getTime() || 0) - (a.date?.getTime() || 0),
+  );
 };

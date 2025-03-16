@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { FaRegFileImage } from "react-icons/fa";
+import Image from "next/image";
+import React, { FormEvent, useState } from "react";
+import { FaRegFileImage, FaTimes, FaTimesCircle } from "react-icons/fa";
 
 const MIN_COMMENT_LENGTH = 75;
 
 // Form data
 type WriteReviewData = {
   comment: string;
+  images: string[];
 };
 
 type WriteReviewFormProps = WriteReviewData & {
@@ -15,15 +17,48 @@ type WriteReviewFormProps = WriteReviewData & {
 
 export const WriteReviewForm: React.FC<WriteReviewFormProps> = ({
   comment,
+  images,
   updateFields,
 }) => {
   const [characterCount, setCharacterCount] = useState(0);
+  const [imagePreviews, setImagePreviews] = useState<string[]>(images);
+
   const charactersRemaining = MIN_COMMENT_LENGTH - characterCount;
   const isEnoughCharacters = characterCount >= MIN_COMMENT_LENGTH;
 
   const handleCommentChange = (text: string) => {
     updateFields({ comment: text });
     setCharacterCount(text.length);
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const fileArray = Array.from(files).slice(0, 5); // Max 5 images
+    const base64Images = await Promise.all(
+      fileArray.map((file) => convertToBase64(file)),
+    );
+
+    setImagePreviews(base64Images);
+    updateFields({ images: base64Images });
+  };
+
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // Function to delete image from preview
+  const handleDeleteImage = (index: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    const updatedImages = imagePreviews.filter((_, i) => i !== index);
+    setImagePreviews(updatedImages);
+    updateFields({ images: updatedImages });
   };
 
   return (
@@ -60,21 +95,52 @@ export const WriteReviewForm: React.FC<WriteReviewFormProps> = ({
         <h2 className="text-3xl font-medium">
           Upload <span className="text-primary">photos</span>
         </h2>
+
         <p className="mt-2 text-gray-500">
           Show us what your school looks like. Photos help prospective students
           more than words do! You can attach up to five photos to your review.
         </p>
 
-        {/* TODO upload photos */}
-        {/* group cursor-pointer */}
-        <div className="relative mt-8 flex h-48 w-full flex-col items-center justify-center rounded-lg bg-gray-200">
-          <FaRegFileImage size={32} />
-          <p className="mt-2 text-xl font-medium group-hover:text-primary">
-            Click to upload files
-          </p>
-          <span className="mt-1 text-xs font-light">PNG, JPG, JPEG</span>
-          <span className="mt-1 text-xs font-light">(Available soon)</span>
+        {/* Image Previews */}
+        <div className="mt-4 flex flex-wrap gap-4">
+          {imagePreviews.map((src, index) => (
+            <div key={index} className="relative">
+              <Image
+                src={src}
+                alt="Preview Image"
+                className="h-24 w-24 rounded-lg object-cover"
+              />
+
+              {/* Delete image btn */}
+              <button
+                onClick={(e) => handleDeleteImage(index, e)}
+                className="absolute -right-[10px] -top-[10px]"
+                aria-label="Delete image"
+              >
+                <FaTimesCircle size={18} />
+              </button>
+            </div>
+          ))}
         </div>
+
+        {/* Photos input */}
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          multiple
+          onChange={handleFileChange}
+          id="imageUpload"
+          className="hidden"
+        />
+        <label htmlFor="imageUpload" className="cursor-pointer">
+          <div className="group relative mt-8 flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-gray-200">
+            <FaRegFileImage size={32} />
+            <p className="mt-2 text-xl font-medium group-hover:text-primary">
+              Click to upload photos
+            </p>
+            <span className="mt-1 text-xs font-light">PNG, JPG, JPEG</span>
+          </div>
+        </label>
       </div>
     </div>
   );

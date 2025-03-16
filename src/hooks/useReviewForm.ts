@@ -34,6 +34,7 @@ const INITIAL_DATA: ReviewModel = {
     slug: "",
     reference: "",
   },
+  images: [],
 };
 
 export const useReviewForm = (isAddCity: boolean, isAddSchool: boolean) => {
