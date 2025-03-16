@@ -149,7 +149,9 @@ export const Review: React.FC<ReviewProps> = ({ reviewData }) => {
                 <Image
                   src={src}
                   alt="Image"
-                  className="h-24 w-24 rounded-lg object-cover"
+                  className="aspect-square rounded-lg object-cover"
+                  width={96}
+                  height={96}
                 />
               </div>
             ))}
