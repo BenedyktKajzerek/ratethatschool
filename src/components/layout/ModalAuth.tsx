@@ -116,14 +116,14 @@ export const ModalAuth: React.FC<ModalAuthProps> = ({ isOpen, onClose }) => {
               <p className="text-center text-xs font-light text-gray-400">
                 By signing up, I agree to the RateMySchools{" "}
                 <Link
-                  href="terms-and-coditions"
+                  href="/terms-and-conditions"
                   className="text-link hover:underline"
                 >
                   Terms and Conditions
                 </Link>{" "}
                 and{" "}
                 <Link
-                  href="privacy-policy"
+                  href="/privacy-policy"
                   className="text-link hover:underline"
                 >
                   Privacy Policy
