@@ -47,6 +47,18 @@ export default function AllSchools() {
 
           {/* Render nested structure [countryName, cities] => [cityName, schools] => schoolName */}
           <div className="mt-6 space-y-4">
+            {Object.keys(groupedSchools).length === 0 && (
+              <div className="space-y-1">
+                <h3 className="text-xl font-medium">Loading Schools...</h3>
+                <div className="ml-4 text-gray-500">
+                  <h4 className="capitalize underline">Fetching data...</h4>
+                  <ul>
+                    <li className="ml-4">Please wait</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {Object.entries(groupedSchools).map(([countrySlug, country]) => (
               <div key={countrySlug} className="space-y-1">
                 <h3 className="text-xl font-medium">{country.name} Schools</h3>
