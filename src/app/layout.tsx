@@ -3,6 +3,7 @@ import { Kanit } from "next/font/google";
 import "./globals.css";
 import { Navbar, Footer } from "@/components/layout";
 import { AuthProvider } from "@/context/authContext";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = Kanit({
   subsets: ["latin"],
@@ -84,6 +85,7 @@ export default function RootLayout({
           <main className="overflow-hidden">{children}</main>
 
           <Footer />
+          <SpeedInsights />
         </body>
       </AuthProvider>
     </html>

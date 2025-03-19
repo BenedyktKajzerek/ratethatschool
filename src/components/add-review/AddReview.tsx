@@ -135,13 +135,11 @@ export const AddReview: React.FC<AddReviewProps> = ({
     if (isNextDisabled) return;
 
     if (isLastStep) {
+      router.push("/");
+
       const success = await handleSubmit(); // Submit review
 
-      if (success) {
-        router.push("/");
-      } else {
-        alert("Error submitting the review. Try again later.");
-      }
+      if (!success) alert("Error submitting the review. Try again later.");
     } else {
       // Update <h1> text on second step
       if (

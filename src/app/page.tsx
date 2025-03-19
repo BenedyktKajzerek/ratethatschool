@@ -12,15 +12,24 @@ import {
   SchoolSearchInput,
 } from "@/components/homepage";
 import { useEffect, useState } from "react";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  getCountFromServer,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { CityModel, SchoolModel } from "@/types/firestoreModels";
 
 export default function Home() {
   const [popularCities, setPopularCities] = useState<CityModel[]>([]);
   const [popularSchools, setPopularSchools] = useState<SchoolModel[]>([]);
+  const [AllSchoolsCount, setAllSchoolsCount] = useState<number>(0);
 
   useEffect(() => {
+    // Get 8 most popular cities
     const getPopularCities = async () => {
       const q = query(
         collection(db, "cities"),
@@ -34,6 +43,7 @@ export default function Home() {
       setPopularCities(cities);
     };
 
+    // Get 8 most popular schools
     const getPopularSchools = async () => {
       const q = query(
         collection(db, "schools"),
@@ -49,6 +59,17 @@ export default function Home() {
       setPopularSchools(schools);
     };
 
+    // Get all schools count
+    const getAllSchoolsCount = async () => {
+      const q = collection(db, "schools");
+
+      const schoolsSnapshot = await getCountFromServer(q);
+
+      const schools = schoolsSnapshot.data().count;
+      setAllSchoolsCount(schools);
+    };
+
+    getAllSchoolsCount();
     getPopularSchools();
     getPopularCities();
   }, []);
@@ -84,8 +105,8 @@ export default function Home() {
             <div className="w-full space-y-4 md:w-1/4">
               <h3 className="text-2xl">Find your school</h3>
               <p>
-                We&apos;ve collected dorm reviews from over 2+ schools world
-                wide. Search for your school to get started.
+                We&apos;ve collected reviews from {AllSchoolsCount} schools
+                world wide. Search for your school to get started.
               </p>
             </div>
             <div className="mx-auto w-1/2 md:w-1/3">
