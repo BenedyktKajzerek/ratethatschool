@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { RiTiktokLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
@@ -33,6 +33,7 @@ export const Navbar: React.FC = () => {
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const navbarRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
     try {
@@ -44,16 +45,29 @@ export const Navbar: React.FC = () => {
 
   // Close mobile navbar when screen size >= 768
   useEffect(() => {
-    const handler = () => {
+    const handleResize = () => {
       if (!isScreenSmall()) setIsNavbarOpen(false);
     };
 
-    window.addEventListener("resize", handler);
+    // Close navbar when clicked outsuide
+    // const handleClickOutside = (event: MouseEvent) => {
+    //   if (
+    //     isNavbarOpen &&
+    //     navbarRef.current &&
+    //     !navbarRef.current.contains(event.target as Node)
+    //   ) {
+    //     setIsNavbarOpen(false);
+    //   }
+    // };
+
+    window.addEventListener("resize", handleResize);
+    // document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      removeEventListener("resize", handler);
+      window.removeEventListener("resize", handleResize);
+      // document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, []); // [isNavbarOpen]
 
   function isScreenSmall() {
     return window.innerWidth < 768;
@@ -61,9 +75,12 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
+      {/* classname for sticky navbar */}
+      {/* className="sticky left-0 top-0 z-[100]" */}
       <header>
         <nav className="top-0 z-[100] bg-white text-black">
           <div
+            ref={navbarRef}
             className={`${isNavbarOpen ? "flex-col" : "flex-row"} relative flex items-center justify-between p-6`}
           >
             {/* Social Media Icons */}
