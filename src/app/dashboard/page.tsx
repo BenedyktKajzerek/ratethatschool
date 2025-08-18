@@ -13,6 +13,7 @@ import { db } from "../../../firebaseConfig";
 import { FaRegHeart } from "react-icons/fa";
 import { LikedReviews } from "@/components/dashboard/LikedReviews";
 import { SidebarButton } from "@/components/dashboard/SidebarButton";
+import { redirect, useRouter } from "next/navigation";
 
 const dashboardPages = [
   { id: "reviews", label: "My Reviews", icon: VscPreview },
@@ -24,6 +25,15 @@ const DashboardPage = () => {
   const [currentDashboardPage, setCurrentDashboardPage] = useState("reviews");
   const [isAdmin, setIsAdmin] = useState(false);
   const { user } = useAuth();
+  const router = useRouter();
+
+  // Redirect meant for server-side auth check
+  // #TODO Ideally should use router
+  if (!user) redirect(`/`);
+
+  // useEffect(() => {
+  //   router.push("/");
+  // }, [user, router]);
 
   useEffect(() => {
     if (!user?.email) return;
