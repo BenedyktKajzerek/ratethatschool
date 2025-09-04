@@ -72,6 +72,19 @@ export const addReview = async (
     // Create document inside the collection
     const docRef = await addDoc(collectionRef, documentData);
 
+    // Call Nodemailer API to send a notification to gmail
+    await fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        author: author ?? "Anonymous",
+        countryName: data.country.name,
+        cityName: data.city.name,
+        schoolName: data.school.name,
+        reviewText: data.comment,
+      }),
+    });
+
     // Update the document with the correct `id` field
     await updateDoc(docRef, {
       id: docRef.id, // Set the `id` field to Firestore document ID
