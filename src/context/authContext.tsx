@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
